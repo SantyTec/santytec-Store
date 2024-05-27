@@ -17,6 +17,9 @@ const config = {
 			},
 		},
 		extend: {
+			animation: {
+				animate: 'animate 25s linear infinite',
+			},
 			colors: {
 				txt: {
 					DEFAULT: 'hsl(var(--text-100) / <alpha-value>)',
@@ -90,6 +93,18 @@ const config = {
 				},
 			},
 			keyframes: {
+				animate: {
+					'0% 30%': {
+						transform: 'translateY(0) rotate(0deg)',
+						opacity: '1',
+						'border-radius': '0',
+					},
+					'100%': {
+						transform: 'translateY(-1000px) rotate(720deg) skew(50deg)',
+						opacity: '0',
+						'border-radius': '8px',
+					},
+				},
 				shimmer: {
 					'100%': {
 						transform: 'translateX(100%)',
@@ -99,7 +114,7 @@ const config = {
 			fontFamily: {
 				base: ['var(--font-onest)'],
 				accent: ['var(--font-geist-sans)'],
-			}
+			},
 		},
 	},
 	plugins: [require('tailwindcss-animate')],
