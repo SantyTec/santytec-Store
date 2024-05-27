@@ -1,9 +1,14 @@
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
+
 import './globals.css';
 
-const onest = Onest({ subsets: ['latin'], variable: '--font-onest' });
+const onest = Onest({
+	display: 'swap',
+	subsets: ['latin'],
+	variable: '--font-onest',
+});
 
 export const metadata: Metadata = {
 	title: 'RomaTechnology',
