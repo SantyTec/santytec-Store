@@ -5,18 +5,18 @@ import MouseAnimation from '@/components/home/hero/mouse-animation';
 
 export default function HeroSection() {
 	return (
-		<section className="flex flex-col items-center justify-center h-screen text-center group">
+		<section className="absolute flex flex-col items-center justify-center w-full h-screen text-center group">
 			<BgAnimation />
 			<MouseAnimation />
 			<p className="text-xl text-accent-800">
 				Encontrá los mejores productos en...
 			</p>
-			<h1 className="mb-12 text-8xl lg:text-9xl text-accent font-bold">
+			<h1 className="mb-12 font-bold text-7xl md:text-9xl text-accent">
 				Roma <br /> Technology
 			</h1>
 			<Link
 				href="/products"
-				className="btn bg-accent text-bg hover:bg-accent/80 z-10"
+				className="z-10 btn bg-accent text-bg hover:bg-accent/80"
 			>
 				Comprar ahora
 			</Link>
