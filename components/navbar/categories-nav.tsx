@@ -1,6 +1,6 @@
 import { Category } from '@prisma/client';
 
-import Navlink from '@/components/navlink';
+import Navlink from '@/components/navbar/navlink';
 import { MegaMenu, MegaMenuDropdown } from 'flowbite-react';
 
 export default function CategoriesNav({

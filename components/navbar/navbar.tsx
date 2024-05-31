@@ -5,7 +5,7 @@ import { Category } from '@prisma/client';
 import { getRootCategories } from '@/lib/data/categories';
 
 import CategoriesNav from '@/components/navbar/categories-nav';
-import Navlink from '@/components/navlink';
+import Navlink from '@/components/navbar/navlink';
 import {
 	Navbar as FlowbiteNavbar,
 	NavbarBrand,
