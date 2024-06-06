@@ -1,8 +1,6 @@
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
-import { Category } from '@prisma/client';
 
-import { getRootCategories } from '@/lib/data/categories';
+import { Suspense } from 'react';
 
 import CategoriesNav from '@/components/navbar/categories-nav';
 import Navlink from '@/components/navbar/navlink';
@@ -11,18 +9,15 @@ import {
 	NavbarBrand,
 	NavbarCollapse,
 	NavbarToggle,
-} from 'flowbite-react';
+	} from 'flowbite-react';
+import { ShoppingCart } from 'lucide-react';
 
 const links = [
 	{ href: '/', label: 'Inicio' },
 	{ href: '/products', label: 'Productos' },
 ];
 
-export default async function Navbar() {
-	const categories = await getRootCategories().then((res) => {
-		return res.data as Category[];
-	});
-
+export default function Navbar() {
 	return (
 		<FlowbiteNavbar className="bg-secondary text-txt-950" fluid>
 			<NavbarBrand as={Link} href="/">
@@ -43,7 +38,15 @@ export default async function Navbar() {
 					{links.map((link) => (
 						<Navlink route={link} key={link.href} />
 					))}
-					<CategoriesNav categories={categories} />
+					<Suspense
+						fallback={
+							<span className="text-sm font-medium text-txt-600">
+								Categorías
+							</span>
+						}
+					>
+						<CategoriesNav />
+					</Suspense>
 				</ul>
 			</NavbarCollapse>
 		</FlowbiteNavbar>
