@@ -1,5 +1,4 @@
-import { Category, Image, Prisma } from '@prisma/client';
-import { getProductsByName } from "./data/products";
+import { Category, Image } from '@prisma/client';
 
 export type DataResponse = {
 	success: boolean;
