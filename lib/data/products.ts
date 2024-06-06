@@ -55,3 +55,40 @@ export async function getProductsPages() {
 		console.log(error, 'Error en la base de datos.');
 	}
 }
+
+export async function getProduct(id: string) {
+	noStore();
+
+	try {
+		const product = await prisma.product.findUnique({
+			where: { id },
+			include: { images: true, category: true },
+		});
+
+		return product;
+	} catch (error) {
+		const message = 'Error al obtener el producto.';
+		console.error(message, error);
+
+		return;
+	}
+}
+
+export async function getRecommendedProducts(categoryId: string) {
+	noStore();
+
+	try {
+		const products = await prisma.product.findMany({
+			where: { categoryId, isArchived: false },
+			take: 12,
+			orderBy: { isFeatured: 'desc' },
+			include: { images: true, category: true },
+		});
+
+		return products;
+	} catch (error) {
+		console.error('Error al obtener los productos');
+
+		return
+	}
+}
