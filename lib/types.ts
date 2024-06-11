@@ -17,3 +17,7 @@ export type FullProduct = {
 	category: Category;
 	categoryId: string;
 };
+
+export type CartProduct = FullProduct & {
+	quantity: number
+}

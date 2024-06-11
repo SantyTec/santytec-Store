@@ -9,8 +9,8 @@ import {
 	NavbarBrand,
 	NavbarCollapse,
 	NavbarToggle,
-	} from 'flowbite-react';
-import { ShoppingCart } from 'lucide-react';
+} from 'flowbite-react';
+import CartButton from '@/components/cart-button';
 
 const links = [
 	{ href: '/', label: 'Inicio' },
@@ -19,18 +19,12 @@ const links = [
 
 export default function Navbar() {
 	return (
-		<FlowbiteNavbar className="bg-secondary text-txt-950" fluid>
+		<FlowbiteNavbar className="bg-secondary text-txt-950 absolute w-full z-[99]" fluid>
 			<NavbarBrand as={Link} href="/">
 				<span>RomaTechnology</span>
 			</NavbarBrand>
 			<div className="flex justify-between gap-5 md:order-2">
-				<Link
-					href="/cart"
-					className="flex items-center rounded-full bg-bg btn text-secondary shrink hover:bg-secondary hover:text-bg"
-				>
-					<ShoppingCart className="size-6" />
-					<span className="sr-only">Mi Carrito</span>
-				</Link>
+				<CartButton />
 				<NavbarToggle />
 			</div>
 			<NavbarCollapse>
