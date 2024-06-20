@@ -19,7 +19,7 @@ const links = [
 
 export default function Navbar() {
 	return (
-		<FlowbiteNavbar className="bg-secondary text-txt-950 absolute w-full z-[99]" fluid>
+		<FlowbiteNavbar className="bg-secondary text-txt-950 relative" fluid>
 			<NavbarBrand as={Link} href="/">
 				<span>RomaTechnology</span>
 			</NavbarBrand>
