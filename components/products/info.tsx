@@ -1,10 +1,8 @@
-import { ShoppingCart } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 import { getProduct } from '@/lib/data/products';
 
-import { Button } from '@/components/ui/button';
-
+import { AddToCart } from '@/components/cart/cart-buttons';
 
 interface Props {
 	id: string;
@@ -38,27 +36,12 @@ export default async function Info({ id }: Props) {
 						Lo sentimos. En este momento no tenemos stock de este producto
 					</p>
 				) : (
-					<div className="flex flex-col w-full gap-y-4">
-						<div className="flex items-center justify-between">
-							<label htmlFor="quantity" className="font-semibold">
-								Cantidad
-							</label>
-							<input
-								type="number"
-								name="quantity"
-								className="block p-2.5 w-36 border-none text-txt-300 text-center rounded-md bg-primary-50/10"
-								min={1}
-								defaultValue={1}
-							/>
-						</div>
-						<Button
-							className="inline-flex text-xl text-black rounded-md bg-gradient-to-br from-accent-300 to-accent-500 gap-x-3 hover:to-accent-300 hover:shadow-[0px_22px_43px_-25px] hover:shadow-accent-800"
-							variant="accent"
-						>
-							<ShoppingCart size={24} />
-							Añadir al carrito
-						</Button>
-					</div>
+					<AddToCart
+						item={{
+							...product,
+							price: product.price.toNumber(),
+						}}
+					/>
 				)}
 			</div>
 			<div className="flex flex-col items-start mt-4">
