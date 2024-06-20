@@ -4,6 +4,7 @@ import { Onest } from 'next/font/google';
 
 import './globals.css';
 import { CartStoreProvider } from '@/providers/cart-store-provider';
+import ToastProvider from '@/providers/toast-provider';
 
 import Navbar from '@/components/navbar/navbar';
 
@@ -28,6 +29,7 @@ export default function RootLayout({
 			<body className={`${GeistSans.variable} ${onest.variable}`}>
 				<CartStoreProvider>
 					<Navbar />
+					<ToastProvider />
 					{children}
 				</CartStoreProvider>
 			</body>
