@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { useCartStore } from '@/providers/cart-store-provider';
 
 import CartCard from '@/components/cart/cart-card';
+import CheckoutForm from '@/components/cart/checkout-form';
 
 export default function CartList() {
-	const cart = useCartStore((state) => state);
-	const isCartEmpty = cart.items.length === 0;
+	const { items, removeAll } = useCartStore((state) => state);
+	const isCartEmpty = items.length === 0;
 
 	return (
 		<main>
@@ -27,11 +28,11 @@ export default function CartList() {
 			) : (
 				<div className="grid grid-cols-1 md:grid-cols-[1fr_450px] gap-x-6 gap-y-8">
 					<section>
-						{cart.items.map((item) => (
+						{items.map((item) => (
 							<CartCard product={item} key={item.id} />
 						))}
 					</section>
-					{/* TODO: Checkout Form */}
+					<CheckoutForm items={items} clearCart={removeAll} />
 				</div>
 			)}
 		</main>
