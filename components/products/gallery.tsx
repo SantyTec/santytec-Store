@@ -1,4 +1,7 @@
 import NextImage from 'next/image';
+import { notFound } from 'next/navigation';
+
+import { getImagesByProductId } from '@/lib/model/images';
 
 import {
 	Carousel,
@@ -7,8 +10,6 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel';
-import { getImagesByProductId } from '@/lib/data/images';
-import { notFound } from 'next/navigation';
 
 interface Props {
 	id: string;

@@ -1,6 +1,6 @@
 import { Category } from '@prisma/client';
 
-import { getRootCategories } from '@/lib/data/categories';
+import { getRootCategories } from '@/lib/model/categories';
 
 import Navlink from '@/components/navbar/navlink';
 import { MegaMenu, MegaMenuDropdown } from 'flowbite-react';

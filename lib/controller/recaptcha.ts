@@ -1,6 +1,6 @@
 'use server';
 
-import { RECAPTCHA_SECRET_KEY } from '@/lib/config';
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 if (!RECAPTCHA_SECRET_KEY) {
 	throw new Error('RECAPTCHA_SECRET_KEY is not defined');

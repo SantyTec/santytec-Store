@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getRecommendedProducts } from '@/lib/data/products';
+import { getRecommendedProducts } from '@/lib/model/products';
 
 import NoResults from '@/components/no-results';
 import ProductCard from '@/components/product-card';
