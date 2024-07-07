@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getProduct } from '@/lib/data/products';
+import { getProduct } from '@/lib/model/products';
 
 import { AddToCart } from '@/components/cart/cart-buttons';
 

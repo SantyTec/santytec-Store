@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getFilteredProducts, getProductsPages } from '@/lib/data/products';
+import { getFilteredProducts, getProductsPages } from '@/lib/model/products';
 import { FullProduct } from '@/lib/types';
 
 import NoResults from '@/components/no-results';

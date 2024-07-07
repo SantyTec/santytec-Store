@@ -77,9 +77,9 @@ export function DeleteFromCart({
 }
 
 export function EmptyCart({ className }: { className?: string }) {
-	const { removeAll } = useCartStore((state) => state);
+	const { removeAll, items } = useCartStore((state) => state);
 
-	return (
+	return items.length > 0 ? (
 		<Button
 			onClick={removeAll}
 			variant="outline"
@@ -92,7 +92,7 @@ export function EmptyCart({ className }: { className?: string }) {
 			<Trash2 className="size-4" />
 			Vaciar carrito
 		</Button>
-	);
+	) : null;
 }
 
 export function InputHandler({
