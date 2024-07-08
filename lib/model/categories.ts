@@ -23,3 +23,22 @@ export async function getRootCategories(): Promise<DataResponse> {
 		return { message, success: false };
 	}
 }
+
+export async function getCategoryName(id: string) {
+	noStore();
+
+	try {
+		const category = await prisma.category.findUnique({
+			where: { id },
+			select: { name: true },
+		});
+
+		if (!category) throw new Error('No se encontró la categoría');
+
+		return { error: null, data: category.name };
+	} catch (error: any) {
+		console.error('No se encontró la categoría.', error.message);
+
+		return { error: 'No se encontró la categoría', data: null };
+	}
+}

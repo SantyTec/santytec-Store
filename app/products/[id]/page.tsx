@@ -3,9 +3,9 @@ import { Suspense } from 'react';
 
 import { prisma } from '@/lib/client';
 
+import ProductsGrid from '@/components/products-grid';
 import Gallery from '@/components/products/gallery';
 import Info from '@/components/products/info';
-import RecommendedProducts from '@/components/products/recommended-products';
 import { ProductCardSkeleton, ProductSkeleton } from '@/components/skeletons';
 
 interface Props {
@@ -52,7 +52,10 @@ export default async function ProductPage({ params }: Props) {
 						</div>
 					}
 				>
-					<RecommendedProducts categoryId={product.categoryId} />
+					<ProductsGrid
+						categoryId={product.categoryId}
+						fetchType="recommended"
+					/>
 				</Suspense>
 			</div>
 		</section>

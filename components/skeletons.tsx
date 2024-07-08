@@ -40,3 +40,11 @@ export function ProductCardSkeleton() {
 		</Card>
 	);
 }
+
+export function TitleSkeleton() {
+	return (
+		<h2 className="my-6 text-4xl font-semibold text-center uppercase font-accent text-accent-600">
+			Cargando...
+		</h2>
+	);
+}
