@@ -19,9 +19,9 @@ const links = [
 
 export default function Navbar() {
 	return (
-		<FlowbiteNavbar className="bg-secondary text-txt-950 relative" fluid>
-			<NavbarBrand as={Link} href="/">
-				<span>RomaTechnology</span>
+		<FlowbiteNavbar className="relative bg-secondary text-txt-950" fluid>
+			<NavbarBrand as={Link} href="/" className="font-bold font-accent hover:text-accent-800">
+				<span>Santy Tec</span>
 			</NavbarBrand>
 			<div className="flex justify-between gap-5 md:order-2">
 				<CartButton />

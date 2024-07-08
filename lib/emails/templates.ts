@@ -124,7 +124,7 @@ const styles = `
 const emailSignature = `
   <br />
   <p class="text-sm font-bold mb-2">
-    El equipo de <span class="text-accent">Roma Technology</span>
+    El equipo de <span class="text-accent">Santy Tec</span>
   </p>
   <a href="#" class="btn bg-accent hover:bg-accent/80 text-bg">Visitanos</a>
 `;
@@ -134,7 +134,7 @@ export function customerNotification(name: string, email: string): MailOptions {
 		from: process.env.GMAIL_USER,
 		to: email,
 		text: '',
-		subject: 'Roma Technology - Pedido recibido',
+		subject: 'Santy Tec - Pedido recibido',
     html: `
     <!DOCTYPE html>
 <html lang="es">
@@ -142,7 +142,7 @@ export function customerNotification(name: string, email: string): MailOptions {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correo RomaTechnology</title>
+    <title>Correo Santy Tec</title>
 </head>
 <body>
      ${styles}
@@ -171,7 +171,7 @@ export function adminNotification(
 		from: process.env.GMAIL_USER,
 		to: process.env.GMAIL_USER,
 		text: '',
-		subject: 'Roma Technology - Nueva orden',
+		subject: 'Santy Tec - Nueva orden',
     html: `
         <!DOCTYPE html>
 <html lang="es">
@@ -179,7 +179,7 @@ export function adminNotification(
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Correo RomaTechnology</title>
+    <title>Correo Santy Tec</title>
 </head>
 <body>
      ${styles}

@@ -13,7 +13,7 @@ export default function SuccessPage() {
 				<p>
 					Gracias por confiar en{' '}
 					<span className="text-2xl font-semibold font-accent text-accent">
-						Roma Technology
+						Santy Tec
 					</span>
 					.
 				</p>

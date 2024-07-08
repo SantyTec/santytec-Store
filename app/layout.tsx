@@ -8,6 +8,7 @@ import GReCaptchaProvider from '@/providers/g-recaptcha-provider';
 import ToastProvider from '@/providers/toast-provider';
 
 import Navbar from '@/components/navbar/navbar';
+import Footer from '@/components/footer';
 
 const onest = Onest({
 	display: 'swap',
@@ -16,8 +17,8 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-	title: 'RomaTechnology',
-	description: 'En RomaTechnology encontrarás los mejores productos.',
+	title: 'Santy Tec',
+	description: 'En Santy Tec encontrarás los mejores productos.',
 };
 
 export default function RootLayout({
@@ -33,6 +34,7 @@ export default function RootLayout({
 						<Navbar />
 						<ToastProvider />
 						{children}
+						<Footer />
 					</CartStoreProvider>
 				</GReCaptchaProvider>
 			</body>
