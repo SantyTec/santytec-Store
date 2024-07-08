@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Category {
+  id               String     @id @default(uuid())
+  name             String
+  parentCategoryId String?
+  parentCategory   Category?  @relation("Category to Subcategories", fields: [parentCategoryId], references: [id], onUpdate: SetNull)
+  subcategories    Category[] @relation("Category to Subcategories")
+  products         Product[]
+
+  @@index([parentCategoryId])
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  email      String      @default("")
+  isPaid     Boolean     @default(false)
+  name       String      @default("")
+  phone      String      @default("")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id              String   @id @default(uuid())
+  orderId         Int
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId       String?
+  product         Product? @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  quantity        Int
+  selectedVariant String?
+  priceAtOrder    Decimal  @default(1.99)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Product {
+  id          String      @id @unique @default(uuid())
+  categoryId  String
+  description String?
+  name        String
+  price       Decimal
+  stock       Int
+  isArchived  Boolean     @default(false)
+  isFeatured  Boolean     @default(false)
+  images      Image[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  url       String
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
