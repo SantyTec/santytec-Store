@@ -18,7 +18,7 @@ export default function Redirecter({ href, children, className }: Props) {
 	}
 
 	return (
-		<div className={cn('w-full h-full', className)} onClick={redirect}>
+		<div className={cn('pointer-events-none lg:pointer-events-auto w-full h-full', className)} onClick={redirect}>
 			{children}
 		</div>
 	);
