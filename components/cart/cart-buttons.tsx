@@ -10,9 +10,21 @@ import { useCartStore } from '@/providers/cart-store-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-export function AddToCart({ item }: { item: FullProduct }) {
+export function AddToCart({
+	item,
+	showQuantityInput = false,
+	className,
+	text,
+}: {
+	item: FullProduct;
+	showQuantityInput?: boolean;
+	className?: string;
+	text?: string;
+}) {
 	const [quantity, setQuantity] = useState(1);
 	const { addItem } = useCartStore((state) => state);
+
+	const outOfStock = item.stock === 0;
 
 	function onAdd(event: React.MouseEvent<HTMLButtonElement>) {
 		event.stopPropagation();
@@ -26,25 +38,31 @@ export function AddToCart({ item }: { item: FullProduct }) {
 
 	return (
 		<div className="flex flex-col w-full gap-y-4">
-			<div className="flex items-center justify-between">
-				<label htmlFor="quantity" className="font-semibold">
-					Cantidad
-				</label>
-				<Input
-					className="block p-2.5 w-36 border-none text-txt-300 text-center rounded-md bg-primary-50/10"
-					defaultValue={1}
-					min={1}
-					name="quantity"
-					onChange={handleInput}
-					type="number"
-				/>
-			</div>
+			{showQuantityInput && (
+				<div className="flex items-center justify-between">
+					<label htmlFor="quantity" className="font-semibold">
+						Cantidad
+					</label>
+					<Input
+						className="block p-2.5 w-36 border-none text-txt-300 text-center rounded-md bg-primary-50/10"
+						defaultValue={1}
+						min={1}
+						name="quantity"
+						onChange={handleInput}
+						type="number"
+					/>
+				</div>
+			)}
 			<Button
 				onClick={onAdd}
-				className="inline-flex text-xl text-black rounded-md bg-gradient-to-br from-accent-300 to-accent-500 gap-x-3 hover:to-accent-300 hover:shadow-[0px_22px_43px_-25px] hover:shadow-accent-800"
+				className={cn(
+					'inline-flex text-xl text-black rounded-md bg-gradient-to-br from-accent-300 to-accent-500 gap-x-3 hover:to-accent-300 hover:shadow-[0px_22px_43px_-25px] hover:shadow-accent-800',
+					outOfStock && 'cursor-not-allowed bg-accent-700',
+					className
+				)}
 			>
 				<ShoppingCart className="size-6" />
-				Añadir al carrito
+				{text ?? 'Añadir al carrito'}
 			</Button>
 		</div>
 	);

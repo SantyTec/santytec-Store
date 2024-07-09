@@ -41,6 +41,7 @@ export default async function Info({ id }: Props) {
 							...product,
 							price: product.price.toNumber(),
 						}}
+						showQuantityInput
 					/>
 				)}
 			</div>

@@ -31,7 +31,7 @@ export default function MouseAnimation() {
 		<div
 			id="trailer"
 			ref={trailerRef}
-			className="fixed top-0 left-0 z-50 transition-opacity ease-linear rounded-full backdrop-filter blur-lg opacity-0 pointer-events-none group-hover:opacity-100 size-12 bg-gradient-to-tr from-bg-50 to-primary-300"
+			className="fixed top-0 left-0 z-50 hidden transition-opacity ease-linear rounded-full opacity-0 pointer-events-none lg:block backdrop-filter blur-lg group-hover:opacity-100 size-12 bg-gradient-to-tr from-bg-50 to-primary-300"
 		/>
 	);
 }

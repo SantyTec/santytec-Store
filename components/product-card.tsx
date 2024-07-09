@@ -11,6 +11,7 @@ import {
 	CardFooter,
 	CardHeader,
 } from '@/components/ui/card';
+import { AddToCart } from './cart/cart-buttons';
 
 interface Props {
 	product: FullProduct;
@@ -25,7 +26,7 @@ export default function ProductCard({ product }: Props) {
 			href={`/products/${product.id}`}
 			className={cn(outOfStock && 'pointer-events-none cursor-not-allowed')}
 		>
-			<Card className="border-bg-800 border-2 hover:shadow-sm hover:shadow-accent cursor-pointer max-h-[400px] h-full">
+			<Card className="h-full border-2 cursor-pointer border-bg-800 hover:shadow-sm hover:shadow-accent">
 				<CardHeader className="h-full max-h-24">
 					<p className="font-semibold text-primary-100">{product.name}</p>
 				</CardHeader>
@@ -44,17 +45,19 @@ export default function ProductCard({ product }: Props) {
 						)}
 					</div>
 				</CardContent>
-				<CardFooter className="flex items-center justify-between">
+				<CardFooter className="flex flex-col gap-y-3">
 					<p className="text-xl font-bold text-accent">${product.price}</p>
-					<Link
-						href={`/products/${product.id}`}
-						className={cn(
-							'btn bg-accent text-bg hover:bg-accent/70',
-							outOfStock && 'cursor-not-allowed bg-accent-700'
-						)}
-					>
-						Comprar
-					</Link>
+					<div className="flex mb-6 pointer-events-auto gap-x-3">
+						<AddToCart item={product} className="text-base" text="Añadir" />
+						<Link
+							href={`/products/${product.id}`}
+							className={cn(
+								'btn border border-bg-800 bg-bg hover:bg-accent-900'
+							)}
+						>
+							Más info
+						</Link>
+					</div>
 				</CardFooter>
 			</Card>
 		</Redirecter>
