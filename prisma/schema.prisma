@@ -37,7 +37,6 @@ model OrderItem {
   productId       String?
   product         Product? @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   quantity        Int
-  selectedVariant String?
   priceAtOrder    Decimal  @default(1.99)
 
   @@index([orderId])
