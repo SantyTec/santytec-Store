@@ -34,25 +34,29 @@ export async function getFilteredProducts(
 			skip,
 		});
 
-		return products;
+		return { data: products, error: null };
 	} catch (error) {
 		const message = 'Error al obtener los productos.';
 		console.log(message, error);
 
-		return;
+		return { data: null, error: message };
 	}
 }
 
-export async function getProductsPages() {
+export async function fetchProductsCount() {
 	noStore();
 
 	try {
 		const count = await prisma.product.count();
-		const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
 
-		return totalPages;
+		return { data: count, error: null };
 	} catch (error) {
 		console.log(error, 'Error en la base de datos.');
+
+		return {
+			data: null,
+			error: 'Error al obtener el número de páginas de los productos.',
+		};
 	}
 }
 
