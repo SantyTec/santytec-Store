@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { Suspense } from 'react';
 
+import CartButton from '@/components/cart-button';
 import CategoriesNav from '@/components/navbar/categories-nav';
 import Navlink from '@/components/navbar/navlink';
 import {
@@ -10,7 +11,7 @@ import {
 	NavbarCollapse,
 	NavbarToggle,
 } from 'flowbite-react';
-import CartButton from '@/components/cart-button';
+import Search from '@/components/navbar/search';
 
 const links = [
 	{ href: '/', label: 'Inicio' },
@@ -20,10 +21,15 @@ const links = [
 export default function Navbar() {
 	return (
 		<FlowbiteNavbar className="relative bg-secondary text-txt-950" fluid>
-			<NavbarBrand as={Link} href="/" className="font-bold font-accent hover:text-accent-800">
+			<NavbarBrand
+				as={Link}
+				href="/"
+				className="font-bold font-accent hover:text-accent-800"
+			>
 				<span>Santy Tec</span>
 			</NavbarBrand>
 			<div className="flex justify-between gap-5 md:order-2">
+				<Search />
 				<CartButton />
 				<NavbarToggle />
 			</div>
