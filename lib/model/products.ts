@@ -102,15 +102,33 @@ export async function getProductsByCategory(categoryId: string) {
 
 	try {
 		const products = await prisma.product.findMany({
-			where: { categoryId, isArchived: false }, 
+			where: { categoryId, isArchived: false },
 			orderBy: { isFeatured: 'desc' },
 			include: { images: true, category: true },
 		});
 
-		return products
+		return products;
 	} catch (error) {
 		console.error('Error al obtener los productos en base a su categoría.');
 
 		return;
+	}
+}
+
+export async function fetchFeaturedProducts() {
+	noStore();
+
+	try {
+		const products = await prisma.product.findMany({
+			where: { isFeatured: true },
+			include: { images: true, category: true },
+		});
+
+		return { data: products, error: null };
+	} catch (error) {
+		const message = 'Error al obtener los productos destacados.';
+		console.error(message, error);
+
+		return { data: null, error: message };
 	}
 }

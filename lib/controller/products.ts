@@ -1,4 +1,8 @@
-import { fetchProductsCount, getFilteredProducts } from '@/lib/model/products';
+import {
+	fetchFeaturedProducts,
+	fetchProductsCount,
+	getFilteredProducts,
+} from '@/lib/model/products';
 import { FullProduct } from '@/lib/types';
 
 export async function getFormattedProducts(
@@ -31,4 +35,17 @@ export async function getTotalPages(itemsPerPage: number) {
 	const totalPages = Math.ceil(pages / itemsPerPage);
 
 	return totalPages;
+}
+
+export async function getFeaturedProducts() {
+	const { data: products, error } = await fetchFeaturedProducts();
+
+	if (error || !products) return [];
+
+	const formattedProducts = products.map((item) => ({
+		...item,
+		price: item.price.toNumber(),
+	}));
+
+	return formattedProducts;
 }
