@@ -47,7 +47,7 @@ export default function ProductCard({ product }: Props) {
 				</CardContent>
 				<CardFooter className="flex flex-col gap-y-3">
 					<p className="text-xl font-bold text-accent">${product.price}</p>
-					<div className="flex mb-6 pointer-events-auto gap-x-3">
+					<div className="flex flex-wrap md:flex-nowrap w-full sm:w-auto mb-6 pointer-events-auto gap-3">
 						<AddToCart item={product} className="text-base" text="Añadir" />
 						<Link
 							href={`/products/${product.id}`}

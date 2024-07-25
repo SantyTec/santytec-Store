@@ -29,7 +29,7 @@ export default function Navbar() {
 				<span>Santy Tec</span>
 			</NavbarBrand>
 			<div className="flex justify-between gap-5 md:order-2">
-				<Search />
+				<Search className="!flex-shrink w-full" />
 				<CartButton />
 				<NavbarToggle />
 			</div>
