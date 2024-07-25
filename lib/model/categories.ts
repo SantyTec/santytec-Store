@@ -1,9 +1,8 @@
 import { unstable_noStore as noStore } from 'next/cache';
 
 import { prisma } from '@/lib/client';
-import { DataResponse } from '@/lib/types';
 
-export async function getRootCategories(): Promise<DataResponse> {
+export async function fetchRootCategories() {
 	noStore();
 
 	try {
@@ -13,14 +12,12 @@ export async function getRootCategories(): Promise<DataResponse> {
 
 		return {
 			data: categories,
-			message: 'Categorías padre obtenidas correctamente',
-			success: true,
+			error: null,
 		};
 	} catch (error) {
-		const message = 'Error al obtener categorías raíz:';
-		console.error(message, error);
+		console.error('Error al obtener categorías raíz:', error);
 
-		return { message, success: false };
+		return { data: null, error };
 	}
 }
 
