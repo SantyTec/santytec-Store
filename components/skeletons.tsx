@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils';
+
 import {
 	Card,
 	CardContent,
@@ -46,5 +48,36 @@ export function TitleSkeleton() {
 		<h2 className="my-6 text-4xl font-semibold text-center uppercase font-accent text-accent-600">
 			Cargando...
 		</h2>
+	);
+}
+
+const Skeleton = ({
+	className,
+	...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+	<div className={cn('overflow-hidden bg-gray-600', className)} {...props} />
+);
+
+export function CarouselSkeleton() {
+	return (
+		<div className="relative w-full">
+			<div className="overflow-hidden">
+				<div className="flex -ml-4">
+					{[...Array(4)].map((_, index) => (
+						<div
+							key={index}
+							className="min-w-0 relative overflow-hidden shrink-0 grow-0 basis-full pl-4 md:basis-1/3 lg:basis-1/4"
+						>
+							<ProductCardSkeleton />
+						</div>
+					))}
+				</div>
+			</div>
+			<Skeleton className="overflow-hidden absolute h-8 w-8 rounded-full -left-12 top-1/2 -translate-y-1/2" />
+			<Skeleton className="overflow-hidden absolute h-8 w-8 rounded-full -right-12 top-1/2 -translate-y-1/2" />
+			<div className="py-2 text-sm text-center overflow-hidden text-muted-foreground">
+				<Skeleton className="w-1/4 h-4 mx-auto" />
+			</div>
+		</div>
 	);
 }

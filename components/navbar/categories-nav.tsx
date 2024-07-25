@@ -1,14 +1,11 @@
-import { Category } from '@prisma/client';
-
-import { getRootCategories } from '@/lib/model/categories';
-
-import Navlink from '@/components/navbar/navlink';
 import { MegaMenu, MegaMenuDropdown } from 'flowbite-react';
 
+import { getRootCategories } from '@/lib/controller/categories';
+
+import Navlink from '@/components/navbar/navlink';
+
 export default async function CategoriesNav() {
-	const categories = await getRootCategories().then((res) => {
-		return res.data as Category[];
-	});
+	const { data: categories } = await getRootCategories();
 
 	return (
 		<MegaMenu className="md:!p-0 m-0 md:!px-0 bg-secondary text-txt-600">

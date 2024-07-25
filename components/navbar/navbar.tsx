@@ -30,7 +30,7 @@ export default function Navbar() {
 			</NavbarBrand>
 			<div className="flex justify-between gap-5 md:order-2">
 				<Suspense>
-					<Search />
+					<Search className="!flex-shrink w-full" />
 				</Suspense>
 				<CartButton />
 				<NavbarToggle />
