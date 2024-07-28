@@ -1,12 +1,13 @@
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
+import { AnchorHTMLAttributes } from "react";
 
 export function FooterHeader({
 	title,
 	className,
 }: {
 	title: string;
-	className?: string;
+		className?: string;
 }) {
 	return (
 		<h4
@@ -21,7 +22,8 @@ export function FooterLink({
 	href,
 	title,
 	className,
-}: {
+	...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & {
 	href: string;
 	title: string;
 	className?: string;
@@ -33,6 +35,7 @@ export function FooterLink({
 				className
 			)}
 			href={href}
+			{...props}
 		>
 			{title}
 		</Link>

@@ -27,9 +27,19 @@ const Footer = () => {
 						<div>
 							<FooterHeader title="Contacto" className="mb-4" />
 							<nav className="flex flex-col gap-y-2">
-								<FooterLink href="#" title="WhatsApp" />
-								<FooterLink href="#" title="Instagram" />
-								<FooterLink href="#" title="Correo" />
+								<FooterLink
+									href="https://wa.link/7d1e5z"
+									target="_blank"
+									rel="noopener"
+									title="WhatsApp"
+								/>
+								{/* <FooterLink
+									href="#"
+									target="_blank"
+									rel="noopener"
+									title="Instagram"
+								/> */}
+								<FooterLink href="mailto:santytec2@gmail.com" title="Correo" />
 							</nav>
 						</div>
 						<div>
@@ -57,10 +67,15 @@ const Footer = () => {
 						{new Date().getFullYear()} <Link href="/">Santy Tec</Link>
 					</span>
 					<div className="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
-						<a href="#" className="text-gray-300 hover:text-accent-800">
+						{/* <a
+							href="#"
+							target="_blank"
+							rel="noopener"
+							className="text-gray-300 hover:text-accent-800"
+						>
 							<Instagram className="size-5" />
 							<span className="sr-only">Página de Instagram</span>
-						</a>
+						</a> */}
 					</div>
 				</div>
 			</div>
