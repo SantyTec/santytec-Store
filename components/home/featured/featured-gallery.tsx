@@ -46,7 +46,7 @@ export default function FeaturedGallery({
 							align: 'start',
 						}}
 						setApi={setApi}
-						className="w-full min-h-screen"
+						className="w-full"
 					>
 						<CarouselContent>
 							{products.map((product) => (
