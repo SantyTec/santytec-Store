@@ -10,6 +10,10 @@ import ToastProvider from '@/providers/toast-provider';
 import Navbar from '@/components/navbar/navbar';
 import Footer from '@/components/footer';
 
+if (!process.env.FRONTEND_STORE_URL) {
+	throw new Error('FRONTEND_STORE_URL is not defined');
+}
+
 const onest = Onest({
 	display: 'swap',
 	subsets: ['latin'],
@@ -17,11 +21,17 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
+	metadataBase: new URL(process.env.FRONTEND_STORE_URL),
 	title: 'Santy Tec - Accesorios de Tecnología y Electrónica',
 	description:
 		'Santy Tec - Tienda online de accesorios de tecnología y electrónica. Encuentra auriculares manos libres, cables USB, cargadores, iluminación para fiestas, adaptadores, artículos para camping, electrodomésticos, juegos y entretenimiento, parlantes Bluetooth, memorias SD, y mucho más.',
 	keywords:
-		'Santy Tec, accesorios tecnología, accesorios electrónicos, auriculares, cables USB, cargadores, iluminación, adaptadores, camping, electrodomésticos, juegos, parlantes Bluetooth, memorias SD, pilas, baterías',
+		'Santy Tec, accesorios tecnología, accesorios electrónicos, auriculares, cables USB, cargadores, iluminación, adaptadores, camping, electrodomésticos, juegos, parlantes Bluetooth, memorias SD, pilas, baterías, santy tec plottier, santy tec argentina, electronica plottier, electronica argentina, accesorios online, santy tec plottier online',
+	openGraph: {
+		title: 'Santy Tec - Accesorios de Tecnología y Electrónica',
+		description:
+			'Santy Tec - Tienda online de accesorios de tecnología y electrónica. Encuentra auriculares manos libres, cables USB, cargadores, iluminación para fiestas, adaptadores, artículos para camping, electrodomésticos, juegos y entretenimiento, parlantes Bluetooth, memorias SD, y mucho más.',
+	},
 };
 
 export default function RootLayout({
