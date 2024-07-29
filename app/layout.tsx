@@ -31,7 +31,32 @@ export const metadata: Metadata = {
 		title: 'Santy Tec - Accesorios de Tecnología y Electrónica',
 		description:
 			'Santy Tec - Tienda online de accesorios de tecnología y electrónica. Encuentra auriculares manos libres, cables USB, cargadores, iluminación para fiestas, adaptadores, artículos para camping, electrodomésticos, juegos y entretenimiento, parlantes Bluetooth, memorias SD, y mucho más.',
+		images: [
+			{
+				url: '/opengraph-image.png',
+				width: 512,
+				height: 512,
+				alt: 'Santy Tec - Accesorios de Tecnología y Electrónica',
+			},
+		],
 	},
+	alternates: {
+		canonical: '/',
+	},
+	icons: [
+		{
+			rel: 'icon',
+			type: 'image/png',
+			sizes: '192x192',
+			url: '/android-chrome-192x192.png',
+		},
+		{
+			rel: 'icon',
+			type: 'image/png',
+			sizes: '512x512',
+			url: '/android-chrome-512x512.png',
+		},
+	],
 };
 
 export default function RootLayout({
