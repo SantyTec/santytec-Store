@@ -8,6 +8,7 @@ export async function fetchRootCategories() {
 	try {
 		const categories = await prisma.category.findMany({
 			where: { parentCategoryId: null },
+			orderBy: { name: 'asc' },
 		});
 
 		return {

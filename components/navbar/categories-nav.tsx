@@ -17,7 +17,7 @@ export default async function CategoriesNav() {
 				}
 				className="p-4 bg-secondary"
 			>
-				<ul className="grid grid-cols-3">
+				<ul className="grid grid-cols-3 gap-3 text-center">
 					{categories.map((category) => (
 						<Navlink
 							key={category.id}

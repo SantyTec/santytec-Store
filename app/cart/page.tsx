@@ -1,6 +1,14 @@
+import { Metadata } from 'next';
+
 import { EmptyCart } from '@/components/cart/cart-buttons';
 import CartList from '@/components/cart/cart-list';
 import Wrapper from '@/components/wrapper';
+
+export const metadata: Metadata = {
+	title: 'Carrito de Compras - Santy Tec',
+	description:
+		'Revisa los productos en tu carrito de compras en Santy Tec. Completa tu pedido y disfruta de nuestros accesorios de tecnología y electrónica.',
+};
 
 export default function CartPage() {
 	return (
