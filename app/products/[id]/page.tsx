@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -7,9 +8,40 @@ import ProductsGrid from '@/components/products-grid';
 import Gallery from '@/components/products/gallery';
 import Info from '@/components/products/info';
 import { ProductCardSkeleton, ProductSkeleton } from '@/components/skeletons';
+import { getProduct } from '@/lib/model/products';
 
 interface Props {
 	params: { id: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const id = params.id;
+
+	const product = await getProduct(id);
+
+	return {
+		title: `${product?.name ?? 'Producto'} | Santy Tec`,
+		description: `Compra ${product?.name ?? 'Producto'} en Santy Tec. ${
+			product?.description
+		}. Descubre sus características y especificaciones.`,
+		openGraph: {
+			title: `${product?.name ?? 'Producto'} | Santy Tec`,
+			description: `Compra ${product?.name ?? 'Producto'} en Santy Tec. ${
+				product?.description
+			}. Descubre sus características y especificaciones.`,
+			url: `https://www.santytec.com.ar/products/${id}`,
+			images: [
+				{
+					url: product?.images[0]?.url ?? '#',
+					width: 600,
+					height: 600,
+				},
+			],
+			siteName: 'Santy Tec',
+			locale: 'es_ES',
+			type: 'website',
+		},
+	};
 }
 
 export default async function ProductPage({ params }: Props) {

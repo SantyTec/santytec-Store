@@ -1,4 +1,12 @@
+import { Metadata } from 'next';
+
 import ListItem from '@/components/list-item';
+
+export const metadata: Metadata = {
+	title: 'Políticas de Privacidad - Santy Tec',
+	description:
+		'Lee nuestras políticas de privacidad en Santy Tec. Descubre cómo protegemos tu información personal y tus datos en nuestra tienda online.',
+};
 
 export default function CookiePolicyPage() {
 	return (
@@ -11,11 +19,11 @@ export default function CookiePolicyPage() {
 			</div>
 			<div className="mx-auto w-[80ch]">
 				<p className="w-full mb-5 text-pretty">
-					Bienvenido a Santy Tec. Nosotros valoramos y respetamos tu
-					privacidad. Esta Política de Privacidad describe cómo recopilamos,
-					utilizamos y protegemos la información personal que nos proporcionas
-					en nuestro sitio web. Al utilizar nuestro sitio, aceptas las prácticas
-					descritas en esta política.
+					Bienvenido a Santy Tec. Nosotros valoramos y respetamos tu privacidad.
+					Esta Política de Privacidad describe cómo recopilamos, utilizamos y
+					protegemos la información personal que nos proporcionas en nuestro
+					sitio web. Al utilizar nuestro sitio, aceptas las prácticas descritas
+					en esta política.
 				</p>
 				<h2 className="text-xl text-gray-100">Información que recopilamos:</h2>
 				<dl className="w-full mb-4 text-gray-100 divide-y divide-gray-700">

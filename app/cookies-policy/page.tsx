@@ -1,4 +1,12 @@
+import { Metadata } from 'next';
+
 import ListItem from '@/components/list-item';
+
+export const metadata: Metadata = {
+	title: 'Políticas de Cookies - Santy Tec',
+	description:
+		'Infórmate sobre nuestras políticas de cookies en Santy Tec. Aprende cómo utilizamos las cookies para mejorar tu experiencia en nuestro sitio',
+};
 
 export default function CookiePolicyPage() {
 	return (
@@ -50,7 +58,7 @@ export default function CookiePolicyPage() {
 					/>
 					<ListItem
 						title="Contactenos"
-						description="Si tiene alguna pregunta o inquietud sobre esta Política de Cookies, contáctenos en santytecno0@gmail.com."
+						description="Si tiene alguna pregunta o inquietud sobre esta Política de Cookies, contáctenos en santytec2@gmail.com."
 					/>
 				</dl>
 			</div>

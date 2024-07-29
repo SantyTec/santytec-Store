@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import Catalog from '@/components/products/catalog';
@@ -11,6 +12,12 @@ interface Props {
 		category?: string;
 	};
 }
+
+export const metadata: Metadata = {
+	title: 'Catálogo de Productos - Santy Tec',
+	description:
+		'Explora el catálogo completo de productos en Santy Tec. Encuentra una amplia variedad de accesorios de tecnología y electrónica.',
+};
 
 export default function ProductsPage({ searchParams }: Props) {
 	const page = searchParams?.page || 1;
