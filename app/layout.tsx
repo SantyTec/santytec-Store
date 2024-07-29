@@ -17,8 +17,11 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-	title: 'Santy Tec',
-	description: 'En Santy Tec encontrarás los mejores productos.',
+	title: 'Santy Tec - Accesorios de Tecnología y Electrónica',
+	description:
+		'Santy Tec - Tienda online de accesorios de tecnología y electrónica. Encuentra auriculares manos libres, cables USB, cargadores, iluminación para fiestas, adaptadores, artículos para camping, electrodomésticos, juegos y entretenimiento, parlantes Bluetooth, memorias SD, y mucho más.',
+	keywords:
+		'Santy Tec, accesorios tecnología, accesorios electrónicos, auriculares, cables USB, cargadores, iluminación, adaptadores, camping, electrodomésticos, juegos, parlantes Bluetooth, memorias SD, pilas, baterías',
 };
 
 export default function RootLayout({

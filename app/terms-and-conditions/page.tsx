@@ -1,4 +1,11 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+	title: 'Términos y Condiciones - Santy Tec',
+	description:
+		'Conoce los términos y condiciones de Santy Tec. Información sobre las políticas de uso, pedidos, envíos y devoluciones de nuestra tienda online.',
+};
 
 export default function TermsAndConditionsPage() {
 	return (
@@ -46,10 +53,7 @@ export default function TermsAndConditionsPage() {
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							Nuestro correo electrónico es:{' '}
-							<a
-								href="mailto:"
-								className="text-secondary-300 hover:underline"
-							>
+							<a href="mailto:" className="text-secondary-300 hover:underline">
 								@gmail.com
 							</a>
 						</dd>
@@ -92,9 +96,9 @@ export default function TermsAndConditionsPage() {
 							Los menores de edad de 13 a 18 años solo podrán utilizar nuestros
 							servicios con autorización de su representante legal (padre, madre
 							o tutor). El representante legal será responsable de todas las
-							acciones y obligaciones derivadas del uso del sitio y velará
-							por el uso responsable y adecuado del mismo, teniendo en cuenta
-							la madurez del menor.
+							acciones y obligaciones derivadas del uso del sitio y velará por
+							el uso responsable y adecuado del mismo, teniendo en cuenta la
+							madurez del menor.
 						</dd>
 					</div>
 					<div className="flex flex-col pb-3 mt-5">
@@ -139,10 +143,10 @@ export default function TermsAndConditionsPage() {
 							productos cuando así lo decida y sin previo aviso.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
-							El administrador de Santy Tec puede cancelar o editar pedidos
-							en cualquier momento. Ante la cancelación o modificación de un
-							pedido se contactará con el Usuario mediante los datos que este
-							mismo haya otorgado para notificarle.
+							El administrador de Santy Tec puede cancelar o editar pedidos en
+							cualquier momento. Ante la cancelación o modificación de un pedido
+							se contactará con el Usuario mediante los datos que este mismo
+							haya otorgado para notificarle.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							Un pedido puede ser modificado o cancelado por razones
@@ -169,20 +173,20 @@ export default function TermsAndConditionsPage() {
 							7. Responsabilidad por el Uso de los Productos
 						</dt>
 						<dd className="text-gray-400 text-pretty">
-							Santy Tec no se hace responsable del uso indebido de los
-							productos por parte del Usuario ni de las consecuencias derivadas
-							de dicho uso.
+							Santy Tec no se hace responsable del uso indebido de los productos
+							por parte del Usuario ni de las consecuencias derivadas de dicho
+							uso.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
-							Santy Tec proporcionará al Usuario, en la descripción del
-							producto en la página web, cualquier información sobre posibles
-							riesgos asociados al uso del producto.
+							Santy Tec proporcionará al Usuario, en la descripción del producto
+							en la página web, cualquier información sobre posibles riesgos
+							asociados al uso del producto.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							Es responsabilidad del Usuario leer atentamente las instrucciones
-							de uso de cada producto antes de usarlo. Santy Tec no se
-							hace responsable de los daños que causen los productos, incluso
-							cuando estos incluyan advertencias en sus instrucciones o en la
+							de uso de cada producto antes de usarlo. Santy Tec no se hace
+							responsable de los daños que causen los productos, incluso cuando
+							estos incluyan advertencias en sus instrucciones o en la
 							descripción del sitio web.
 						</dd>
 					</div>
@@ -200,12 +204,13 @@ export default function TermsAndConditionsPage() {
 							Queda expresamente prohibido cualquier uso, reproducción,
 							distribución, comunicación pública, transformación, modificación o
 							cualquier otra forma de explotación de todo o parte del contenido
-							de la página web sin la autorización previa y expresa de Santy Tec.
+							de la página web sin la autorización previa y expresa de Santy
+							Tec.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							El Usuario que infrinja los derechos de propiedad intelectual de
-							Santy Tec podrá ser responsable de los daños y perjuicios que
-							se causen.
+							Santy Tec podrá ser responsable de los daños y perjuicios que se
+							causen.
 						</dd>
 					</div>
 					<div className="flex flex-col pb-3 mt-5">
@@ -239,20 +244,19 @@ export default function TermsAndConditionsPage() {
 							11. Protección de Datos Personales
 						</dt>
 						<dd className="text-gray-400 text-pretty">
-							Santy Tec se compromete a proteger la privacidad de sus
-							Usuarios.
+							Santy Tec se compromete a proteger la privacidad de sus Usuarios.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
-							Santy Tec no compartirá los datos personales de sus Usuarios
-							con terceros sin su consentimiento.
+							Santy Tec no compartirá los datos personales de sus Usuarios con
+							terceros sin su consentimiento.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							El Usuario puede ejercer en cualquier momento sus derechos de
 							acceso, rectificación, cancelación y oposición sobre sus datos
 							personales. Para hacer esto, deberá comunicarse enviando un mail
 							mediante la sección de Contacto o por algún medio que crea
-							conveniente. Santy Tec se compromete a responder su solicitud
-							con la mayor prontitud posible.
+							conveniente. Santy Tec se compromete a responder su solicitud con
+							la mayor prontitud posible.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
 							Para obtener más información sobre cómo tratamos sus datos
@@ -272,8 +276,8 @@ export default function TermsAndConditionsPage() {
 						</dt>
 						<dd className="text-gray-400 text-pretty">
 							Cualquier Usuario que tenga un problema con los servicios
-							ofrecidos por Santy Tec podrá iniciar un reclamo y contactar
-							con nosotros. Puede hacerlo libremente mediante los datos
+							ofrecidos por Santy Tec podrá iniciar un reclamo y contactar con
+							nosotros. Puede hacerlo libremente mediante los datos
 							proporcionados en el punto 1 de los Términos o llenando el
 							formulario de contacto disponible en la página de inicio del
 							sitio.
@@ -332,14 +336,14 @@ export default function TermsAndConditionsPage() {
 						</dd>
 					</div>
 					<div className="flex flex-col pb-3 mt-5">
-						<dt className="mb-1 text-lg font-semibold text-balance">	
+						<dt className="mb-1 text-lg font-semibold text-balance">
 							14. Leyes Aplicables y Jurisdicción
 						</dt>
 						<dd className="text-gray-400 text-pretty">
 							Estos Términos rigen por la ley argentina. Toda controversia
 							derivada de su aplicación, interpretación, ejecución o validez se
-							resolverá por los tribunales competentes de la ciudad, salvo disposición específica de
-							normas de orden público.
+							resolverá por los tribunales competentes de la ciudad, salvo
+							disposición específica de normas de orden público.
 						</dd>
 					</div>
 				</dl>
