@@ -45,16 +45,16 @@ export default function TermsAndConditionsPage() {
 							1. Información general
 						</dt>
 						<dd className="text-gray-400 text-pretty">
-							Santy Tec es un emprendimiento argentino con sede en [lugar],
+							Santy Tec es un emprendimiento argentino con sede en Plottier,
 							dedicado a la venta de distintos accesorios de tecnología.
 						</dd>
 						<dd className="text-gray-400 text-pretty">
-							Nuestro número de teléfono es:
+							Nuestro número de teléfono es: +54 9 299 590-5983
 						</dd>
 						<dd className="text-gray-400 text-pretty">
-							Nuestro correo electrónico es:{' '}
+							Nuestro correo electrónico es:
 							<a href="mailto:" className="text-secondary-300 hover:underline">
-								@gmail.com
+								santytec2@gmail.com
 							</a>
 						</dd>
 					</div>

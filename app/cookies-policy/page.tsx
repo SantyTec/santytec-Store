@@ -58,7 +58,7 @@ export default function CookiePolicyPage() {
 					/>
 					<ListItem
 						title="Contactenos"
-						description="Si tiene alguna pregunta o inquietud sobre esta Política de Cookies, contáctenos en santytecno0@gmail.com."
+						description="Si tiene alguna pregunta o inquietud sobre esta Política de Cookies, contáctenos en santytec2@gmail.com."
 					/>
 				</dl>
 			</div>
