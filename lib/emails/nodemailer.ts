@@ -1,6 +1,10 @@
 import * as nodemailer from 'nodemailer';
 import { MailOptions } from 'nodemailer/lib/json-transport';
-import { adminNotification, customerNotification } from './templates';
+import {
+	adminNotification,
+	contactEmail,
+	customerNotification,
+} from './templates';
 
 export class Emailer {
 	private readonly transporter: nodemailer.Transporter;
@@ -45,6 +49,23 @@ export class Emailer {
 			console.error('Error al enviar mail de compra al administrador.', error);
 
 			return { success: false, error };
+		}
+	}
+
+	public async sendContactEmail(
+		name: string,
+		email: string,
+		phone: string,
+		message: string
+	) {
+		try {
+			await this.sendEmail(contactEmail(name, email, phone, message));
+
+			return { success: true };
+		} catch (error) {
+			console.error('Error al enviar mail de contacto.', error);
+
+			throw new Error('Error al enviar mail de contacto.');
 		}
 	}
 }
