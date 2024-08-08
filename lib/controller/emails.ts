@@ -36,3 +36,26 @@ export async function sendNotifications(
 
 	return { success: true, message: 'Notificaciones enviadas correctamente.' };
 }
+
+export async function sendContactEmail(
+	name: string,
+	email: string,
+	phone: string,
+	message: string
+) {
+	try {
+		const { success } = await emailer.sendContactEmail(
+			name,
+			email,
+			phone,
+			message
+		);
+
+		return { success, message: 'Correo enviado correctamente.' };
+	} catch (error: any) {
+		return {
+			success: false,
+			message: error.message || 'Error al enviar el correo',
+		};
+	}
+}
