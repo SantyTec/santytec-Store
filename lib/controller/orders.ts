@@ -1,9 +1,9 @@
 'use server';
 
+import { sendNotifications } from '@/lib/controller/emails';
 import { checkoutSchema } from '@/lib/schemas/checkout';
+import { createOrder } from '@/lib/model/orders';
 import { CartProduct } from '@/lib/types';
-import { createOrder } from '../model/orders';
-import { sendNotifications } from '../model/emails';
 
 export type CheckoutFormState = {
 	message: string;
