@@ -15,7 +15,7 @@ export default async function CategoriesNav() {
 						Categorías
 					</span>
 				}
-				className="p-4 bg-secondary"
+				className="p-4 bg-secondary z-20"
 			>
 				<ul className="grid grid-cols-3 gap-3 text-center">
 					{categories.map((category) => (
