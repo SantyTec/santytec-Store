@@ -16,7 +16,7 @@ export default function HeroSection() {
 			</h1>
 			<Link
 				href="/products"
-				className="z-20 btn bg-accent text-bg hover:bg-accent/80"
+				className="z-10 btn bg-accent text-bg hover:bg-accent/80"
 			>
 				Comprar ahora
 			</Link>
