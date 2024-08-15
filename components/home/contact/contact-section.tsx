@@ -21,7 +21,7 @@ export default function ContactSection() {
 					<div className="flex mb-1.5">
 						<Phone className="size-6 mr-2 text-primary" />
 						<p>
-							<b className="text-primary-100">Teléfono:</b> +54 9 2999 532-3739
+							<b className="text-primary-100">Teléfono:</b> +54 9 299 532-3739
 						</p>
 					</div>
 					<div className="flex">
