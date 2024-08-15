@@ -10,12 +10,14 @@ import { NavbarLink } from 'flowbite-react';
 export default function Navlink({
 	route,
 	className,
+	onClick
 }: {
 	route: {
 		href: string;
 		label: string;
 	};
-	className?: string;
+		className?: string;
+		onClick?: () => void;
 }) {
 	const pathname = usePathname();
 	const isActive = route.href === pathname;
@@ -29,6 +31,7 @@ export default function Navlink({
 				isActive && 'text-accent-900 underline',
 				className
 			)}
+			onClick={onClick}
 		>
 			{route.label}
 		</NavbarLink>
