@@ -1,7 +1,7 @@
 'use client';
 
 import { Category } from '@prisma/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { MegaMenu, MegaMenuDropdown } from 'flowbite-react';
 
@@ -13,6 +13,13 @@ export default function MegaMenuClient({
 	categories: Category[];
 }) {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isClient, setIsClient] = useState(false);
+
+	useEffect(() => {
+		setIsClient(true)
+	});
+
+	if (!isClient) return null;
 
 	function handleToggle() {
 		setIsOpen(!isOpen);
