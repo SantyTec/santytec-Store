@@ -33,7 +33,7 @@ export default function ProductCard({ product }: Props) {
 				<CardContent>
 					<div className="relative w-full rounded-md aspect-square bg-bg-800">
 						<Image
-							src={firstImage.url}
+							src={firstImage?.url || '/logo.webp'}
 							className="object-contain aspect-square"
 							alt={product.name}
 							fill
