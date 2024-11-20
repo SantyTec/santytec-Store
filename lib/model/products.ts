@@ -120,7 +120,7 @@ export async function fetchFeaturedProducts() {
 
 	try {
 		const products = await prisma.product.findMany({
-			where: { isFeatured: true },
+			where: { isFeatured: true, isArchived: false },
 			include: { images: true, category: true },
 		});
 
