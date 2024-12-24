@@ -31,6 +31,7 @@ export async function createOrder(
 						quantity: orderProduct.quantity,
 						orderId: order.id,
 						priceAtOrder: product.price,
+					  productNameAtOrder: product.name
 					},
 				});
 			}
