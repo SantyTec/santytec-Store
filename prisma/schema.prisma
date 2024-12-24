@@ -11,33 +11,34 @@ datasource db {
 model Category {
   id               String     @id @default(uuid())
   name             String
-  parentCategoryId String?
-  parentCategory   Category?  @relation("Category to Subcategories", fields: [parentCategoryId], references: [id], onUpdate: SetNull)
-  subcategories    Category[] @relation("Category to Subcategories")
   products         Product[]
+  parentCategory   Category?  @relation(name: "Category to Subcategories", fields: [parentCategoryId], references: [id], onUpdate: SetNull, onDelete: SetNull)
+  parentCategoryId String?
+  subcategories    Category[] @relation(name: "Category to Subcategories")
 
   @@index([parentCategoryId])
 }
 
 model Order {
   id         Int         @id @default(autoincrement())
+  orderItems OrderItem[]
   email      String      @default("")
   isPaid     Boolean     @default(false)
-  name       String      @default("")
   phone      String      @default("")
+  name       String      @default("")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  orderItems OrderItem[]
 }
 
 model OrderItem {
-  id              String   @id @default(uuid())
-  orderId         Int
-  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId       String?
-  product         Product? @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  quantity        Int
-  priceAtOrder    Decimal  @default(1.99)
+  id                 String   @id @default(uuid())
+  orderId            Int
+  order              Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId          String?
+  product            Product? @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: SetNull)
+  productNameAtOrder String?
+  quantity           Int
+  priceAtOrder       Decimal  @default(1.99)
 
   @@index([orderId])
   @@index([productId])
@@ -45,15 +46,15 @@ model OrderItem {
 
 model Product {
   id          String      @id @unique @default(uuid())
-  categoryId  String
   description String?
+  isArchived  Boolean     @default(false)
+  isFeatured  Boolean     @default(false)
   name        String
   price       Decimal
   stock       Int
-  isArchived  Boolean     @default(false)
-  isFeatured  Boolean     @default(false)
-  images      Image[]
   category    Category    @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  images      Image[]
   orderItems  OrderItem[]
 }
 
@@ -61,7 +62,7 @@ model Image {
   id        String  @id @default(uuid())
   url       String
   productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([productId])
 }
