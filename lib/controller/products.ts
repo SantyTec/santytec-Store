@@ -21,7 +21,7 @@ export async function getFormattedProducts(
 
 	const formattedProducts: FullProduct[] = products.map((item) => ({
 		...item,
-		price: item.price.toNumber(),
+		price: item.price.toFixed(),
 	}));
 
 	return formattedProducts;
