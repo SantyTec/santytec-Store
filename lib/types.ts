@@ -10,7 +10,7 @@ export type FullProduct = {
 	id: string;
 	name: string;
 	description: string | null;
-	price: number;
+	price: string;
 	stock: number;
 	isArchived: boolean;
 	images: Image[];
