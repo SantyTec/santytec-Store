@@ -28,7 +28,7 @@ export default function CartCard({ product }: { product: CartProduct }) {
 				initialQuantity={product.quantity}
 			/>
 			<p className="font-semibold col-span-2 col-start-6 text-center text-xl md:w-[15%]">
-				${product.price * product.quantity}
+				${Number(product.price) * product.quantity}
 			</p>
 		</article>
 	);
