@@ -66,6 +66,11 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
 					removeAll: () => set(() => ({ items: [] })),
 
 					setItemQuantity: (id, quantity) => {
+						if (quantity <= 0)
+							return toast.error('La cantidad debe ser mayor a cero.', {
+								duration: 500,
+							});
+
 						const currentItems = get().items;
 						const existingItem = currentItems.find((item) => item.id === id);
 
@@ -74,16 +79,10 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
 								duration: 500,
 							});
 
-						if (quantity <= 0)
-							return toast.error('La cantidad debe ser mayor a cero.', {
-								duration: 500,
-							});
-
 						set((state) => ({
-							items: [
-								...state.items.filter((item) => item.id !== id),
-								{ ...existingItem, quantity },
-							],
+							items: state.items.map((item) =>
+								item.id === id ? { ...item, quantity } : item
+							),
 						}));
 						return;
 					},
