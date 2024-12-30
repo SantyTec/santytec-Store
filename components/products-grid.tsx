@@ -32,7 +32,7 @@ export default async function ProductsGrid({
 				{products.map((product) => {
 					const formattedProduct = {
 						...product,
-						price: product.price.toNumber(),
+						price: product.price.toFixed(),
 					};
 
 					return <ProductCard key={product.id} product={formattedProduct} />;

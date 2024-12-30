@@ -44,7 +44,7 @@ export async function getFeaturedProducts() {
 
 	const formattedProducts = products.map((item) => ({
 		...item,
-		price: item.price.toNumber(),
+		price: item.price.toFixed(),
 	}));
 
 	return formattedProducts;
