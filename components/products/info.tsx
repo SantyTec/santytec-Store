@@ -39,7 +39,7 @@ export default async function Info({ id }: Props) {
 					<AddToCart
 						item={{
 							...product,
-							price: product.price.toNumber(),
+							price: product.price.toFixed(),
 						}}
 						showQuantityInput
 					/>
