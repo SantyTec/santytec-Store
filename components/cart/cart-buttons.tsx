@@ -15,11 +15,13 @@ export function AddToCart({
 	showQuantityInput = false,
 	className,
 	text,
+	onAddToCart,
 }: {
 	item: FullProduct;
 	showQuantityInput?: boolean;
 	className?: string;
 	text?: string;
+	onAddToCart?: () => void;
 }) {
 	const [quantity, setQuantity] = useState(1);
 	const { addItem } = useCartStore((state) => state);
@@ -30,6 +32,8 @@ export function AddToCart({
 		event.stopPropagation();
 
 		addItem({ ...item, quantity });
+
+		onAddToCart?.();
 	}
 
 	function handleInput(event: React.ChangeEvent<HTMLInputElement>) {

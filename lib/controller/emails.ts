@@ -6,11 +6,13 @@ export async function sendNotifications(
 	orderId: number,
 	name: string,
 	phone: string,
-	email: string
+	email: string,
+	orderSummary: string
 ): Promise<{ success: boolean; message?: string }> {
 	const customerNotificationResult = await emailer.sendCustomerNotification(
 		name,
-		email
+		email,
+		orderSummary
 	);
 	if (!customerNotificationResult.success) {
 		return {
@@ -24,7 +26,8 @@ export async function sendNotifications(
 		orderId,
 		name,
 		email,
-		phone
+		phone,
+		orderSummary
 	);
 	if (!adminNotificationResult.success) {
 		return {

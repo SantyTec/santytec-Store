@@ -1,3 +1,5 @@
+'use client';
+
 import { AddToCart } from '@/components/cart/cart-buttons';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -10,6 +12,7 @@ import {
 import { FullProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
 	outOfStock?: boolean;
@@ -17,8 +20,10 @@ interface Props {
 }
 
 export function CartPreview({ item, outOfStock }: Props) {
+	const [open, setOpen] = useState(false);
+
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger
 				className={cn(
 					buttonVariants({ variant: 'default' }),
@@ -34,7 +39,11 @@ export function CartPreview({ item, outOfStock }: Props) {
 					{item.name} - ${item.price}
 				</DialogHeader>
 				<DialogFooter>
-					<AddToCart item={item} showQuantityInput />
+					<AddToCart
+						item={item}
+						showQuantityInput
+						onAddToCart={() => setOpen(false)}
+					/>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
