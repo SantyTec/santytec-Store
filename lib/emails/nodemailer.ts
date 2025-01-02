@@ -23,9 +23,9 @@ export class Emailer {
 		return this.transporter.sendMail(mailOptions);
 	}
 
-	public async sendCustomerNotification(name: string, email: string) {
+	public async sendCustomerNotification(name: string, email: string, orderSummary: string) {
 		try {
-			await this.sendEmail(customerNotification(name, email));
+			await this.sendEmail(customerNotification(name, email, orderSummary));
 
 			return { success: true, error: null };
 		} catch (error) {
@@ -39,10 +39,11 @@ export class Emailer {
 		orderId: number,
 		name: string,
 		email: string,
-		phone: string
+		phone: string,
+		orderSummary: string
 	) {
 		try {
-			await this.sendEmail(adminNotification(orderId, name, email, phone));
+			await this.sendEmail(adminNotification(orderId, name, email, phone, orderSummary));
 
 			return { success: true, error: null };
 		} catch (error) {
