@@ -11,6 +11,10 @@ import CheckoutForm from '@/components/cart/checkout-form';
 export default function CartList() {
 	const { items, removeAll } = useCartStore((state) => state);
 	const isCartEmpty = items.length === 0;
+	const totalPrice = items.reduce((total, item) => {
+		const itemPrice = Number(item.price);
+		return total + itemPrice * item.quantity;
+	}, 0);
 
 	return (
 		<main>
@@ -27,7 +31,8 @@ export default function CartList() {
 				</div>
 			) : (
 				<div className="grid grid-cols-1 md:grid-cols-[1fr_450px] gap-x-6 gap-y-8">
-					<section>
+					<section className="flex flex-col gap-2">
+						<h3 className="text-primary text-2xl mb-1">Total: ${totalPrice}</h3>
 						{items.map((item) => (
 							<CartCard product={item} key={item.id} />
 						))}
