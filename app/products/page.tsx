@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import Catalog from '@/components/products/catalog';
+import { DownloadCatalogButton } from '@/components/products/download-catalog-button';
 import { ProductCardSkeleton } from '@/components/skeletons';
 import Wrapper from '@/components/wrapper';
 
@@ -27,9 +28,12 @@ export default function ProductsPage({ searchParams }: Props) {
 	return (
 		<section className="pb-10">
 			<Wrapper>
-				<h2 className="my-6 text-4xl font-semibold text-center uppercase font-accent text-accent-600">
-					Catálogo completo
-				</h2>
+				<div className="flex my-6 items-center">
+					<h2 className="text-4xl font-semibold uppercase font-accent text-accent-600">
+						Catálogo completo
+					</h2>
+					<DownloadCatalogButton className="ms-auto" />
+				</div>
 				<Suspense
 					fallback={
 						<div className="px-4 pb-10 sm:px-6 lg:px-8 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
