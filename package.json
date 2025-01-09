@@ -1,6 +1,6 @@
 {
   "name": "romatechnology-store",
-  "version": "1.2.1-beta",
+  "version": "1.2.1-rc",
   "private": true,
   "scripts": {
     "dev": "next dev",
