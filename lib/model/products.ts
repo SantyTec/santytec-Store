@@ -2,6 +2,23 @@ import { unstable_noStore as noStore } from 'next/cache';
 
 import { prisma } from '@/lib/client';
 
+export async function getAllProducts() {
+	noStore();
+
+	try {
+		const products = await prisma.product.findMany({
+			include: { images: true, category: true },
+			orderBy: { name: 'asc' },
+			where: { isArchived: false },
+		});
+
+		return { data: products, error: null };
+	} catch (error) {
+		console.error('Error al obtener los productos.', error);
+		return { data: null, error: 'Error al obtener los productos.' };
+	}
+}
+
 const ITEMS_PER_PAGE = 12;
 
 export async function getFilteredProducts(
