@@ -17,12 +17,12 @@ export default async function Catalog({ page, name, category }: Props) {
 	return (
 		<>
 			{products.length === 0 ? (
-				<main className="px-4 pb-10 sm:px-6 lg:px-8">
+				<main>
 					<NoResults />
 				</main>
 			) : (
 				<>
-					<main className="px-4 pb-10 sm:px-6 lg:px-8">
+					<main>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
 							{products.map((item) => (
 								<ProductCard key={item.id} product={item} />
