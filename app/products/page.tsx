@@ -26,17 +26,17 @@ export default function ProductsPage({ searchParams }: Props) {
 	const category = searchParams?.category;
 
 	return (
-		<section className="pb-10">
+		<section className="pb-10 px-4 sm:px-6 lg:px-8 ">
 			<Wrapper>
-				<div className="flex my-6 items-center">
+				<div className="flex gap-3 my-6 items-baseline justify-between">
 					<h2 className="text-4xl font-semibold uppercase font-accent text-accent-600">
-						Catálogo completo
+						Nuestros Productos
 					</h2>
-					<DownloadCatalogButton className="ms-auto" />
+					<DownloadCatalogButton />
 				</div>
 				<Suspense
 					fallback={
-						<div className="px-4 pb-10 sm:px-6 lg:px-8 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
+						<div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
 							<ProductCardSkeleton />
 							<ProductCardSkeleton />
 							<ProductCardSkeleton />

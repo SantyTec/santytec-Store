@@ -22,11 +22,11 @@ export default function ProductCard({ product }: Props) {
 
 	return (
 		<Card className="h-full border-2 cursor-pointer border-bg-800 hover:shadow-sm hover:shadow-accent">
-			<CardHeader className="h-full max-h-24">
+			<CardHeader className="h-full max-h-[80px] p-3">
 				<p className="font-semibold text-primary-100">{product.name}</p>
 			</CardHeader>
-			<CardContent>
-				<div className="relative w-full rounded-md aspect-square bg-bg-800">
+			<CardContent className="p-3 pt-0 overflow-hidden">
+				<div className="relative w-full rounded-md overflow-hidden aspect-square bg-bg-800">
 					<Image
 						src={firstImage?.url || '/logo.webp'}
 						className="object-contain aspect-square"
