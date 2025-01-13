@@ -7,6 +7,11 @@ import { CatalogDocument } from '@/components/pdf';
 
 export async function generateCatalogPDF(products: FullProduct[]) {
 	try {
+		const optimizedCoverUrl = await optimizeImage(
+			'/santytec-catalogo.png',
+			true
+		);
+
 		const preparedProducts = await Promise.all(
 			products.map(async (product) => ({
 				...product,
@@ -17,7 +22,10 @@ export async function generateCatalogPDF(products: FullProduct[]) {
 		);
 
 		const stream = await ReactPDF.renderToStream(
-			<CatalogDocument products={preparedProducts} />
+			<CatalogDocument
+				products={preparedProducts}
+				optimizedCoverUrl={optimizedCoverUrl}
+			/>
 		);
 
 		return await streamToBuffer(stream);
