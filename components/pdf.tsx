@@ -11,7 +11,7 @@ import {
 } from '@react-pdf/renderer';
 import { chunk } from 'typedash';
 
-import { FullProduct } from '@/lib/types';
+import { FullProduct, ProductsByCategory } from '@/lib/types';
 
 const styles = StyleSheet.create({
 	page: {
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		width: '30%',
+		height: 200,
 		border: '1 solid #ccc',
 		padding: 10,
 		marginBottom: 10,
@@ -91,6 +92,15 @@ const styles = StyleSheet.create({
 		textDecoration: 'none',
 		color: 'hsl(58, 100%, 50%)',
 	},
+	categoryHeader: {
+		fontSize: 24,
+		fontWeight: 'bold',
+		marginBottom: 20,
+		color: '#333',
+		textTransform: 'uppercase',
+		borderBottom: '2 solid #ccc',
+		paddingBottom: 10,
+	},
 });
 
 const ITEMS_PER_PAGE = 9;
@@ -139,20 +149,19 @@ const CoverPageImage = ({
 	);
 };
 
-export const CatalogDocument = ({
-	products,
-	optimizedCoverUrl,
-}: {
-	products: Array<FullProduct & { optimizedImageUrl: string }>;
-	optimizedCoverUrl: string;
-}) => {
-	const productPages = chunk(products, ITEMS_PER_PAGE);
-
+const CategoryPages = ({ category }: { category: ProductsByCategory }) => {
+	const productPages = chunk(category.products, ITEMS_PER_PAGE);
 	return (
-		<Document>
-			<CoverPageImage optimizedCoverUrl={optimizedCoverUrl} />
+		<>
 			{productPages.map((pageProducts, pageIndex) => (
-				<Page key={pageIndex} size="A4" style={styles.page}>
+				<Page
+					key={`${category.category}-${pageIndex}`}
+					size="A4"
+					style={styles.page}
+				>
+					{pageIndex === 0 && (
+						<Text style={styles.categoryHeader}>{category.category}</Text>
+					)}
 					<View style={styles.grid}>
 						{pageProducts.map((product) => (
 							<ProductCard key={product.id} product={product} />
@@ -166,6 +175,23 @@ export const CatalogDocument = ({
 						}
 					/>
 				</Page>
+			))}
+		</>
+	);
+};
+
+export const CatalogDocument = ({
+	products,
+	optimizedCoverUrl,
+}: {
+	products: ProductsByCategory[];
+	optimizedCoverUrl: string;
+}) => {
+	return (
+		<Document>
+			<CoverPageImage optimizedCoverUrl={optimizedCoverUrl} />
+			{products.map((category) => (
+				<CategoryPages category={category} />
 			))}
 		</Document>
 	);
