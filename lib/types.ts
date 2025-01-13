@@ -19,5 +19,14 @@ export type FullProduct = {
 };
 
 export type CartProduct = FullProduct & {
-	quantity: number
+	quantity: number;
+};
+
+export interface OptimizedProduct extends FullProduct {
+	optimizedImageUrl: string
 }
+
+export type ProductsByCategory = {
+	category: string;
+	products: OptimizedProduct[]
+};

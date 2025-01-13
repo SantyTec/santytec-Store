@@ -1,6 +1,9 @@
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import {
 	Document,
 	Image,
+	Link,
 	Page,
 	StyleSheet,
 	Text,
@@ -8,7 +11,7 @@ import {
 } from '@react-pdf/renderer';
 import { chunk } from 'typedash';
 
-import { FullProduct } from '@/lib/types';
+import { FullProduct, ProductsByCategory } from '@/lib/types';
 
 const styles = StyleSheet.create({
 	page: {
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		width: '30%',
+		height: 200,
 		border: '1 solid #ccc',
 		padding: 10,
 		marginBottom: 10,
@@ -57,6 +61,46 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: 'hsl(58, 100%, 30%)',
 	},
+	coverPage: {
+		padding: 0,
+		margin: 0,
+		position: 'relative',
+		width: '100%',
+		height: '100%',
+	},
+	coverContainer: {
+		position: 'relative',
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+	},
+	coverImage: {
+		width: '100%',
+		height: 'auto',
+		maxHeight: '100%',
+	},
+	dateText: {
+		color: '#DDDBFF',
+		fontSize: 18,
+		position: 'absolute',
+		bottom: 30,
+		right: 30,
+	},
+	link: {
+		fontSize: 20,
+		textDecoration: 'none',
+		color: 'hsl(58, 100%, 50%)',
+	},
+	categoryHeader: {
+		fontSize: 24,
+		fontWeight: 'bold',
+		marginBottom: 20,
+		color: '#333',
+		textTransform: 'uppercase',
+		borderBottom: '2 solid #ccc',
+		paddingBottom: 10,
+	},
 });
 
 const ITEMS_PER_PAGE = 9;
@@ -73,17 +117,51 @@ const ProductCard = ({
 	</View>
 );
 
-export const CatalogDocument = ({
-	products,
+const CoverPageImage = ({
+	optimizedCoverUrl,
 }: {
-	products: Array<FullProduct & { optimizedImageUrl: string }>;
+	optimizedCoverUrl: string;
 }) => {
-	const productPages = chunk(products, ITEMS_PER_PAGE);
+	const currentDate = format(new Date(), 'dd MMMM yyyy', { locale: es });
+	const formattedDate =
+		currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
 
 	return (
-		<Document>
+		<Page size="A4" style={styles.coverPage}>
+			<View style={styles.coverContainer}>
+				<Image src={optimizedCoverUrl} style={styles.coverImage} />
+				<Text
+					style={{
+						fontSize: 20,
+						fontWeight: 800,
+						position: 'absolute',
+						bottom: 110,
+						left: 14,
+					}}
+				>
+					<Link src="https://santytec.com.ar" style={styles.link}>
+						santytec.com.ar
+					</Link>
+				</Text>
+				<Text style={styles.dateText}>{formattedDate}</Text>
+			</View>
+		</Page>
+	);
+};
+
+const CategoryPages = ({ category }: { category: ProductsByCategory }) => {
+	const productPages = chunk(category.products, ITEMS_PER_PAGE);
+	return (
+		<>
 			{productPages.map((pageProducts, pageIndex) => (
-				<Page key={pageIndex} size="A4" style={styles.page}>
+				<Page
+					key={`${category.category}-${pageIndex}`}
+					size="A4"
+					style={styles.page}
+				>
+					{pageIndex === 0 && (
+						<Text style={styles.categoryHeader}>{category.category}</Text>
+					)}
 					<View style={styles.grid}>
 						{pageProducts.map((product) => (
 							<ProductCard key={product.id} product={product} />
@@ -97,6 +175,23 @@ export const CatalogDocument = ({
 						}
 					/>
 				</Page>
+			))}
+		</>
+	);
+};
+
+export const CatalogDocument = ({
+	products,
+	optimizedCoverUrl,
+}: {
+	products: ProductsByCategory[];
+	optimizedCoverUrl: string;
+}) => {
+	return (
+		<Document>
+			<CoverPageImage optimizedCoverUrl={optimizedCoverUrl} />
+			{products.map((category) => (
+				<CategoryPages category={category} />
 			))}
 		</Document>
 	);
