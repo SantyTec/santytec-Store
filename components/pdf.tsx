@@ -190,8 +190,11 @@ export const CatalogDocument = ({
 	return (
 		<Document>
 			<CoverPageImage optimizedCoverUrl={optimizedCoverUrl} />
-			{products.map((category) => (
-				<CategoryPages category={category} />
+			{products.map((category, index) => (
+				<CategoryPages
+					key={`${category.category}-${index}`}
+					category={category}
+				/>
 			))}
 		</Document>
 	);
