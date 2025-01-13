@@ -28,7 +28,7 @@ export default function ProductsPage({ searchParams }: Props) {
 	return (
 		<section className="pb-10 px-4 sm:px-6 lg:px-8 ">
 			<Wrapper>
-				<div className="flex gap-3 my-6 items-baseline justify-between">
+				<div className="flex flex-col md:flex-row gap-3 my-6 items-baseline justify-between">
 					<h2 className="text-4xl font-semibold uppercase font-accent text-accent-600">
 						Nuestros Productos
 					</h2>
