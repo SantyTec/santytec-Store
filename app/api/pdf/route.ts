@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { getProductsForPDF } from '@/lib/controller/products';
 import { generateCatalogPDF } from '@/lib/pdf/generator';
 
-export const maxDuration = 20;
+export const maxDuration = 35;
 
 export async function GET() {
 	try {
