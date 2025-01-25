@@ -1,5 +1,7 @@
-> [!NOTE]
-> Last app version: 1.1.11
+>[!NOTE]
+>
+>Last update: January 25
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
