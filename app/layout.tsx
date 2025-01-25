@@ -1,4 +1,5 @@
 import { GeistSans } from 'geist/font/sans';
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
 
@@ -80,6 +81,7 @@ export default function RootLayout({
 						<Footer />
 					</CartStoreProvider>
 				</GReCaptchaProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
