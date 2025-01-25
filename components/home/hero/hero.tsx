@@ -5,7 +5,7 @@ import MouseAnimation from '@/components/home/hero/mouse-animation';
 
 export default function HeroSection() {
 	return (
-		<section className="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-screen text-center group">
+		<section className="absolute top-0 left-0 flex flex-col items-center justify-center w-full md:h-[80dvh] min-h-[70dvh] text-center group">
 			<BgAnimation />
 			<MouseAnimation />
 			<p className="text-xl text-accent-800">
