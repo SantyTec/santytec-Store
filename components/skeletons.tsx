@@ -81,3 +81,40 @@ export function CarouselSkeleton() {
 		</div>
 	);
 }
+
+export function NavbarSkeleton() {
+	return (
+		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+			<div className="container flex h-16 items-center justify-between px-4 md:px-6">
+				{/* Logo skeleton */}
+				<div className="flex items-center space-x-2">
+					<div className="h-8 w-8 rounded-lg bg-bg-700" />
+					<div className="h-6 w-24 rounded-md bg-bg-700" />
+				</div>
+
+				{/* Desktop navigation skeleton */}
+				<div className="hidden md:flex items-center space-x-4">
+					{/* Productos link */}
+					<div className="h-5 w-20 rounded-md bg-bg-700" />
+					
+					{/* Categorías dropdown */}
+					<div className="h-5 w-24 rounded-md bg-bg-700" />
+				</div>
+
+				{/* Search bar skeleton - only visible on large screens */}
+				<div className="hidden flex-1 max-w-sm mx-6 lg:flex">
+					<div className="relative w-full h-9 rounded-md bg-bg-700" />
+				</div>
+
+				{/* Right side buttons */}
+				<div className="flex items-center space-x-2">
+					{/* Cart button skeleton */}
+					<div className="h-9 w-9 rounded-md bg-bg-700" />
+
+					{/* Mobile menu button skeleton - only visible on mobile */}
+					<div className="h-9 w-9 rounded-md bg-bg-700 md:hidden" />
+				</div>
+			</div>
+		</header>
+	);
+}
