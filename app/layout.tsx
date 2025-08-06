@@ -1,5 +1,5 @@
 import { GeistSans } from 'geist/font/sans';
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
 
@@ -10,6 +10,8 @@ import ToastProvider from '@/providers/toast-provider';
 
 import Navbar from '@/components/navbar/navbar';
 import Footer from '@/components/footer';
+import { Suspense } from 'react';
+import { NavbarSkeleton } from '@/components/skeletons';
 
 if (!process.env.FRONTEND_STORE_URL) {
 	throw new Error('FRONTEND_STORE_URL is not defined');
@@ -75,7 +77,9 @@ export default function RootLayout({
 			<body className={`${GeistSans.variable} ${onest.variable}`}>
 				<GReCaptchaProvider>
 					<CartStoreProvider>
-						<Navbar />
+            <Suspense fallback={<NavbarSkeleton />}>
+							<Navbar />
+						</Suspense>
 						<ToastProvider />
 						{children}
 						<Footer />

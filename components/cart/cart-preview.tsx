@@ -7,6 +7,7 @@ import {
 	DialogContent,
 	DialogFooter,
 	DialogHeader,
+	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { FullProduct } from '@/lib/types';
@@ -34,7 +35,8 @@ export function CartPreview({ item, outOfStock }: Props) {
 				<ShoppingCart className="size-6" />
 				Añadir
 			</DialogTrigger>
-			<DialogContent>
+      <DialogContent>
+        <DialogTitle>Añadir al carrito</DialogTitle>
 				<DialogHeader>
 					{item.name} - ${item.price}
 				</DialogHeader>

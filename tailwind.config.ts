@@ -23,7 +23,9 @@ const config = {
 			animation: {
 				animate: 'animate 25s linear infinite',
 			},
-			colors: {
+      colors: {
+        popover: 'hsl(var(--popover) / <alpha-value>)',
+        'popover-foreground': 'hsl(var(--popover-foreground) / <alpha-value>)',
 				txt: {
 					DEFAULT: 'hsl(var(--text-100) / <alpha-value>)',
 					50: 'hsl(var(--text-50) / <alpha-value>)',
