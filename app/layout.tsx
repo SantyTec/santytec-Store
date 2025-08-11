@@ -65,6 +65,7 @@ export const metadata: Metadata = {
 			url: '/android-chrome-512x512.png',
 		},
 	],
+	manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -77,7 +78,7 @@ export default function RootLayout({
 			<body className={`${GeistSans.variable} ${onest.variable}`}>
 				<GReCaptchaProvider>
 					<CartStoreProvider>
-            <Suspense fallback={<NavbarSkeleton />}>
+						<Suspense fallback={<NavbarSkeleton />}>
 							<Navbar />
 						</Suspense>
 						<ToastProvider />
