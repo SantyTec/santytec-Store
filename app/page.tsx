@@ -4,10 +4,8 @@ import ContactSection from '@/components/home/contact/contact-section';
 
 export default function Home() {
 	return (
-		<main className="relative pb-24 lg:pb-0">
-			<div className="min-h-[80dvh] pb-10 mb-4">
-				<HeroSection />
-			</div>
+		<main className="pb-24 lg:pb-0">
+			<HeroSection />
 			<FeaturedSection />
 			<section className="mt-12 lg:mt-6">
 				<ContactSection />
