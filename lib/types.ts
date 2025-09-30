@@ -18,8 +18,19 @@ export type FullProduct = {
 	categoryId: string;
 };
 
+export type Discount = {
+	id: string;
+	name: string;
+	type: 'PERCENTAGE' | 'FIXED';
+	value: number;
+};
+
 export type CartProduct = FullProduct & {
 	quantity: number;
+	originalSubtotal?: number;
+	discountAmount?: number;
+	finalSubtotal?: number;
+	appliedDiscounts?: Discount[];
 };
 
 export interface OptimizedProduct extends FullProduct {
