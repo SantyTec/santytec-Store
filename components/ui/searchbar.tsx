@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { cn } from '@/lib/utils';
 
-export default function Search({ className }: { className?: string }) {
+export function Searchbar({ className }: { className?: string }) {
 	const router = useRouter();
 	const { replace } = useRouter();
 	const pathname = usePathname();
