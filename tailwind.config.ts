@@ -27,6 +27,14 @@ const config = {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 			},
 			colors: {
+				card: 'hsl(var(--card) / <alpha-value>)',
+				'card-foreground': 'hsl(var(--card-foreground) / <alpha-value>)',
+				border: 'hsl(var(--border) / <alpha-value>)',
+				destructive: 'hsl(var(--destructive) / <alpha-value>)',
+				'destructive-foreground':
+					'hsl(var(--destructive-foreground) / <alpha-value>)',
+				input: 'hsl(var(--input) / <alpha-value>)',
+				ring: 'hsl(var(--ring) / <alpha-value>)',
 				popover: 'hsl(var(--popover) / <alpha-value>)',
 				'popover-foreground': 'hsl(var(--popover-foreground) / <alpha-value>)',
 				txt: {
