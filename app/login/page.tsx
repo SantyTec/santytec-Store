@@ -33,7 +33,7 @@ export default async function LoginPage({
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<LoginForm searchParams={searchParams} />
+					<LoginForm callbackUrl={searchParams.callbackUrl} />
 					<div className="mt-6 text-center text-sm">
 						<p className="text-muted-foreground">
 							¿No tienes una cuenta?{' '}
