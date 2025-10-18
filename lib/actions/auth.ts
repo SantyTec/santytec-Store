@@ -37,7 +37,7 @@ export async function loginAction(
 			redirect: false,
 		});
 
-		return { success: true };
+		return { success: true, message: 'Ha iniciado sesión!' };
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {
@@ -116,7 +116,7 @@ export async function registerAction(
 			redirect: false,
 		});
 
-		return { success: true };
+		return { success: true, message: 'Registro exitoso!' };
 	} catch (error) {
 		console.error('Error al registrar usuario:', error);
 		return {
