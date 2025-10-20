@@ -46,7 +46,7 @@ export function NavbarClient({
 	session: Session | null;
 }) {
 	const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = !!session;
+	const isAuthenticated = !!session;
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
@@ -68,11 +68,12 @@ export function NavbarClient({
 				<NavigationMenu className="hidden md:flex">
 					<NavigationMenuList>
 						<NavigationMenuItem>
-							<Link href="/products" legacyBehavior passHref>
-								<NavigationMenuLink className={navigationMenuTriggerStyle()}>
-									Productos
-								</NavigationMenuLink>
-							</Link>
+							<NavigationMenuLink
+								asChild
+								className={navigationMenuTriggerStyle()}
+							>
+								<Link href="/products">Productos</Link>
+							</NavigationMenuLink>
 						</NavigationMenuItem>
 
 						<NavigationMenuItem>
