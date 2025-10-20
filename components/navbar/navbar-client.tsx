@@ -49,7 +49,7 @@ export function NavbarClient({
   const isAuthenticated = !!session;
 
 	return (
-		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 items-center justify-between px-4 md:px-6">
 				<Link href="/" className="flex items-center space-x-2">
 					<div className="flex h-8 w-8 items-center justify-center rounded-lg">
@@ -244,7 +244,7 @@ const ListItem = ({
 				<Link
 					href={href}
 					className={cn(
-						'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-900 focus:bg-accent focus:text-accent-foreground',
+						'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-900 focus:bg-accent focus:text-accent-foreground',
 						className
 					)}
 					{...props}

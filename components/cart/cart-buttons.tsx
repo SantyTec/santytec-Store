@@ -60,7 +60,7 @@ export function AddToCart({
 			<Button
 				onClick={onAdd}
 				className={cn(
-					'inline-flex text-xl text-black rounded-md bg-gradient-to-br from-accent-300 to-accent-500 gap-x-3 hover:to-accent-300 hover:shadow-[0px_22px_43px_-25px] hover:shadow-accent-800',
+					'inline-flex text-xl text-black rounded-md bg-linear-to-br from-accent-300 to-accent-500 gap-x-3 hover:to-accent-300 hover:shadow-[0px_22px_43px_-25px] hover:shadow-accent-800',
 					outOfStock && 'cursor-not-allowed bg-accent-700',
 					className
 				)}

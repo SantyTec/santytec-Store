@@ -42,7 +42,7 @@ export function Searchbar({ className }: { className?: string }) {
 
 	return (
 		<div
-			className={cn('relative flex w-full sm:w-auto flex-shrink-0', className)}
+			className={cn('relative flex w-full sm:w-auto shrink-0', className)}
 		>
 			<form onSubmit={handleSubmit} className="w-full">
 				<input

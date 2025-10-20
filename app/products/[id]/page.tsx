@@ -56,10 +56,10 @@ export default async function ProductPage(props: Props) {
 	return (
 		<section className="lg:px-14 px-7 py-7">
 			<main className="flex flex-col lg:flex-row gap-x-14">
-				<div className="lg:w-[65%] w-[80%] mx-auto lg:h-[calc(100dvh_-_8rem)]">
+				<div className="lg:w-[65%] w-[80%] mx-auto lg:h-[calc(100dvh-8rem)]">
 					<Suspense
 						fallback={
-							<div className="lg:h-[calc(100dvh_-_10rem)] aspect-square mx-auto bg-bg-800 rounded-md shimmer overflow-hidden relative"></div>
+							<div className="lg:h-[calc(100dvh-10rem)] aspect-square mx-auto bg-bg-800 rounded-md shimmer overflow-hidden relative"></div>
 						}
 					>
 						<Gallery id={params.id} />

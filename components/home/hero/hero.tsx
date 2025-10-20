@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function HeroSection() {
 	return (
-		<section className="min-h-[80dvh] pb-10 mb-4 bg-gradient-to-b from-[#f5f5f5]/20 to-bg">
+		<section className="min-h-[80dvh] pb-10 mb-4 bg-linear-to-b from-[#f5f5f5]/20 to-bg">
 			<div className="container relative px-4 py-12 md:px-6 md:py-24 lg:py-32">
 				<div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
 					<div className="space-y-6 self-baseline">
@@ -28,7 +28,7 @@ export default function HeroSection() {
 						<div className="space-y-4">
 							<h1 className='text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"'>
 								Tu tecnología,{' '}
-								<span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+								<span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
 									al mejor precio
 								</span>
 							</h1>
@@ -40,13 +40,13 @@ export default function HeroSection() {
 						<div className="flex flex-col gap-3 sm:flex-row">
 							<Link
                 href="#destacados"
-                className="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-8 text-base font-medium text-accent-950 shadow transition-colors hover:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent duration-200"
+                className="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-8 text-base font-medium text-accent-950 shadow-sm transition-colors hover:bg-accent/70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent duration-200"
 							>
 								Comprar ahora
 							</Link>
 							<Link
 								href="/products"
-								className="inline-flex h-12 items-center justify-center rounded-lg border border-input bg-background px-8 text-base font-medium shadow-sm transition-colors duration-200 hover:bg-primary hover:text-accent-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								className="inline-flex h-12 items-center justify-center rounded-lg border border-input bg-background px-8 text-base font-medium shadow-xs transition-colors duration-200 hover:bg-primary hover:text-accent-950 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
 							>
 								Ver catálogo
 							</Link>
@@ -64,7 +64,7 @@ export default function HeroSection() {
 						</div>
 					</div>
 					<div className="relative mx-auto aspect-square w-full max-w-[500px] lg:ml-auto">
-						<div className="absolute inset-0 bg-gradient-to-tr from-primary/80 via-accent/60 to-secondary/90 rounded-full blur-3xl"></div>
+						<div className="absolute inset-0 bg-linear-to-tr from-primary/80 via-accent/60 to-secondary/90 rounded-full blur-3xl"></div>
 						<Image
 							alt="Persona usando auriculares premium"
 							src="/hero.webp"
