@@ -111,24 +111,26 @@ const ProductCard = ({
 	product: FullProduct & { optimizedImageUrl: string };
 }) => (
 	<View style={styles.card}>
-		<Text style={styles.productName}>{product.name}</Text>
-		<Image style={styles.image} src={product.optimizedImageUrl} />
+    <Text style={styles.productName}>{product.name}</Text>
+    {/* eslint-disable-next-line jsx-a11y/alt-text */}
+    <Image style={styles.image} src={product.optimizedImageUrl} />
 		<Text style={styles.price}>${product.price}</Text>
 	</View>
 );
 
 const CoverPageImage = ({
-	optimizedCoverUrl,
+  optimizedCoverUrl,
 }: {
-	optimizedCoverUrl: string;
+  optimizedCoverUrl: string;
 }) => {
-	const currentDate = format(new Date(), 'dd MMMM yyyy', { locale: es });
+  const currentDate = format(new Date(), 'dd MMMM yyyy', { locale: es });
 	const formattedDate =
-		currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
-
+  currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
+  
 	return (
-		<Page size="A4" style={styles.coverPage}>
+    <Page size="A4" style={styles.coverPage}>
 			<View style={styles.coverContainer}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
 				<Image src={optimizedCoverUrl} style={styles.coverImage} />
 				<Text
 					style={{
