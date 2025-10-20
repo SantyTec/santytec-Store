@@ -8,12 +8,13 @@ import Wrapper from '@/components/wrapper';
 import { getCategoryName } from '@/lib/model/categories';
 
 interface Props {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+	const params = await props.params;
 	const id = params.id;
 
 	const { data: categoryName, error } = await getCategoryName(id);
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default function CategoryPage({ params }: Props) {
+export default async function CategoryPage(props: Props) {
+	const params = await props.params;
 	return (
 		<section className="pb-10">
 			<Wrapper>

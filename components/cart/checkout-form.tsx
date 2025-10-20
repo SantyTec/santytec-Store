@@ -1,8 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useEffect, useState, useActionState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import toast from 'react-hot-toast';
 
@@ -14,7 +13,6 @@ import FormError from '@/components/form-error';
 import SubmitButton from '@/components/submit-button';
 import { Input } from '@/components/ui/input';
 
-
 export default function CheckoutForm({
 	items,
 	clearCart,
@@ -23,7 +21,7 @@ export default function CheckoutForm({
 	clearCart: () => void;
 }) {
 	const { executeRecaptcha } = useGoogleReCaptcha();
-	const [state, dispatch] = useFormState(onCheckout, {
+	const [state, dispatch] = useActionState(onCheckout, {
 		message: '',
 		success: false,
 		errors: {},
@@ -66,7 +64,7 @@ export default function CheckoutForm({
 		toast.success(message, {
 			duration: 2500,
 		});
-		
+
 		router.push('/success');
 		clearCart();
 

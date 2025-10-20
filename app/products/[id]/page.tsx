@@ -11,10 +11,11 @@ import { ProductCardSkeleton, ProductSkeleton } from '@/components/skeletons';
 import { getProduct } from '@/lib/model/products';
 
 interface Props {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+	const params = await props.params;
 	const id = params.id;
 
 	const product = await getProduct(id);
@@ -44,7 +45,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage(props: Props) {
+	const params = await props.params;
 	const product = await prisma.product.findFirst({
 		where: { id: params.id },
 		select: { categoryId: true },

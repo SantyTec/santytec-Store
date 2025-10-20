@@ -9,11 +9,10 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 
-export default function RegisterPage({
-	searchParams,
-}: {
-	searchParams: { callbackUrl?: string };
+export default async function RegisterPage(props: {
+	searchParams: Promise<{ callbackUrl?: string }>;
 }) {
+	const searchParams = await props.searchParams;
 	return (
 		<div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
 			<Card className="w-full max-w-md">

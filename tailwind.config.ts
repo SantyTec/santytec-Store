@@ -35,6 +35,8 @@ const config = {
 					'hsl(var(--destructive-foreground) / <alpha-value>)',
 				input: 'hsl(var(--input) / <alpha-value>)',
 				ring: 'hsl(var(--ring) / <alpha-value>)',
+				muted: 'hsl(var(--muted) / <alpha-value>)',
+				'muted-foreground': 'hsl(var(--muted-foreground) / <alpha-value>)',
 				popover: 'hsl(var(--popover) / <alpha-value>)',
 				'popover-foreground': 'hsl(var(--popover-foreground) / <alpha-value>)',
 				txt: {

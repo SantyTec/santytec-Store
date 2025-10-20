@@ -19,6 +19,9 @@
 		--popover: 0 0 10;
 		--popover-foreground: 0 0 90;
 
+		--muted: 0 0% 14.9%;
+		--muted-foreground: 0 0% 63.9%;
+
 		--background-50: 0 0 95;
 		--background-100: 0 0 90;
 		--background-200: 0 0 80;

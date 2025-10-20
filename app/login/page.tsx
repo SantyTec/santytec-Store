@@ -11,11 +11,10 @@ import {
 } from '@/components/ui/card';
 import { LoginForm } from '@/components/login-form';
 
-export default async function LoginPage({
-	searchParams,
-}: {
-	searchParams: { callbackUrl?: string };
+export default async function LoginPage(props: {
+	searchParams: Promise<{ callbackUrl?: string }>;
 }) {
+	const searchParams = await props.searchParams;
 	const session = await auth();
 
 	if (session) {

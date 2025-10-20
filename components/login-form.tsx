@@ -1,13 +1,14 @@
 'use client';
 
-import { loginAction, loginWithGoogleAction } from '@/lib/actions/auth';
-import { LoginFormState } from '@/lib/schemas/auth';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import toast from 'react-hot-toast';
+
+import { loginAction, loginWithGoogleAction } from '@/lib/actions/auth';
+import { LoginFormState } from '@/lib/schemas/auth';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,7 +64,7 @@ function GoogleButton() {
 export function LoginForm({ callbackUrl }: { callbackUrl?: string }) {
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
-	const [state, formAction] = useFormState(onSubmit, {
+	const [state, formAction] = useActionState(onSubmit, {
 		message: '',
 		success: false,
 	});

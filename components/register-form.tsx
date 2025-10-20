@@ -2,8 +2,8 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import toast from 'react-hot-toast';
 
 import { loginWithGoogleAction, registerAction } from '@/lib/actions/auth';
@@ -81,7 +81,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
 	const [password, setPassword] = useState('');
-	const [state, formAction] = useFormState(onSubmit, {
+	const [state, formAction] = useActionState(onSubmit, {
 		message: '',
 		success: false,
 	});
