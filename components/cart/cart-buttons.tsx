@@ -1,7 +1,7 @@
 'use client';
 
+import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
-import { ShoppingCart, Trash2 } from 'lucide-react';
 
 import { FullProduct } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -31,7 +31,12 @@ export function AddToCart({
 	function onAdd(event: React.MouseEvent<HTMLButtonElement>) {
 		event.stopPropagation();
 
-		addItem({ ...item, quantity });
+		addItem({
+			...item,
+			quantity,
+			image: item.images[0]?.url || '',
+			price: Number(item.price),
+		});
 
 		onAddToCart?.();
 	}
@@ -88,13 +93,14 @@ export function DeleteFromCart({
 	}
 
 	return (
-		<button
-			className={cn('p-2 rounded-full bg-bg-800', className)}
+		<Button
+			variant="ghost"
+			size="icon"
+			className="size-8 text-muted-foreground hover:bg-red-900 hover:text-destructive-foreground"
 			onClick={onDelete}
 		>
-			<span className="sr-only">Quitar del carrito</span>
-			<Trash2 className="size-4 md:size-6 text-primary" />
-		</button>
+			<X className="size-4" />
+		</Button>
 	);
 }
 
@@ -119,26 +125,38 @@ export function EmptyCart({ className }: { className?: string }) {
 
 export function InputHandler({
 	id,
-	initialQuantity,
 	className,
 }: {
 	id: string;
-	initialQuantity: number;
 	className?: string;
 }) {
-	const { setItemQuantity } = useCartStore((state) => state);
-
-	function handleInput(event: React.ChangeEvent<HTMLInputElement>) {
-		setItemQuantity(id, event.target.valueAsNumber);
-	}
+	const { setItemQuantity, items } = useCartStore((state) => state);
+	const currentQuantity = items.find((item) => item.id === id)?.quantity || 0;
 
 	return (
-		<Input
-			className={className}
-			type="number"
-			value={initialQuantity}
-			onChange={handleInput}
-			name="cartInputQuantity"
-		/>
+		<>
+			<Button
+				variant="outline"
+				size="icon"
+				className="size-10 rounded-full bg-transparent"
+				onClick={() => setItemQuantity(id, currentQuantity - 1)}
+				disabled={currentQuantity <= 1}
+			>
+				<Minus className="size-4" />
+			</Button>
+			<div className="w-12 text-center">
+				<span className="text-lg font-semibold animate-in fade-in duration-200">
+					{currentQuantity}
+				</span>
+			</div>
+			<Button
+				variant="outline"
+				size="icon"
+				className="size-10 rounded-full bg-transparent"
+				onClick={() => setItemQuantity(id, currentQuantity + 1)}
+			>
+				<Plus className="size-4" />
+			</Button>
+		</>
 	);
 }

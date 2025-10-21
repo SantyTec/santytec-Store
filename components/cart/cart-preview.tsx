@@ -35,12 +35,14 @@ export function CartPreview({ item, outOfStock }: Props) {
 				<ShoppingCart className="size-6" />
 				Añadir
 			</DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Añadir al carrito</DialogTitle>
+			<DialogContent>
 				<DialogHeader>
-					{item.name} - ${item.price}
+					<DialogTitle>Añadir al carrito</DialogTitle>
+					<div className="text-sm text-muted-foreground mt-2">
+						{item.name} - ${item.price}
+					</div>
 				</DialogHeader>
-				<DialogFooter>
+				<DialogFooter className="sm:justify-start">
 					<AddToCart
 						item={item}
 						showQuantityInput

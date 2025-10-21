@@ -25,7 +25,11 @@ export type Discount = {
 	value: number;
 };
 
-export type CartProduct = FullProduct & {
+export type CartProduct = {
+	id: string;
+	name: string;
+	price: number;
+	image: string;
 	quantity: number;
 	originalSubtotal?: number;
 	discountAmount?: number;
@@ -34,10 +38,25 @@ export type CartProduct = FullProduct & {
 };
 
 export interface OptimizedProduct extends FullProduct {
-	optimizedImageUrl: string
+	optimizedImageUrl: string;
 }
 
 export type ProductsByCategory = {
 	category: string;
-	products: OptimizedProduct[]
+	products: OptimizedProduct[];
+};
+
+export type SessionUser = {
+	id: string;
+	name: string | null;
+	email: string | null;
+	phone: string | null;
+} | null;
+
+export type LoadedCartProduct = {
+	id: string;
+	name: string;
+	price: string;
+	quantity: number;
+	image: string;
 };

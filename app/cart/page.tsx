@@ -1,27 +1,40 @@
-import { Metadata } from 'next';
+import { auth } from '@/auth';
+import { CheckCircle2 } from 'lucide-react';
 
-import { EmptyCart } from '@/components/cart/cart-buttons';
+import { loadCartFromDB } from '@/lib/controller/cart';
+
 import CartList from '@/components/cart/cart-list';
-import Wrapper from '@/components/wrapper';
+import { DesktopSummary, MobileSummary } from '@/components/cart/summaries';
 
-export const metadata: Metadata = {
-	title: 'Carrito de Compras - Santy Tec',
-	description:
-		'Revisa los productos en tu carrito de compras en Santy Tec. Completa tu pedido y disfruta de nuestros accesorios de tecnología y electrónica.',
-};
+export default async function CartPage() {
+	const session = await auth();
+	const isLoggedIn = !!session?.user;
 
-export default function CartPage() {
+	const cartItems = await loadCartFromDB();
+
 	return (
-		<section className="lg:px-14 px-7 py-7">
-			<Wrapper>
-				<main>
-					<h1 className="text-4xl font-semibold text-center uppercase font-accent text-accent-600 mb-6">
-						Mi carrito
-					</h1>
-					<EmptyCart className="mb-6 md:mt-0" />
-					<CartList />
-				</main>
-			</Wrapper>
-		</section>
+		<main className="relative min-h-screen flex flex-col bg-background">
+			<div className="flex-1 container px-4 py-8 md:px-6 lg:py-12">
+				<div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+					<div className="space-y-6">
+						<div className="flex flex-col items-start justify-between">
+							<h1 className="text-3xl font-bold tracking-tight">
+								Carrito de Compras
+							</h1>
+							{isLoggedIn && (
+								<div className="flex items-center gap-2 text-sm text-green-600 transition-opacity duration-300">
+									<CheckCircle2 className="h-4 w-4" />
+									<span>Carrito guardado</span>
+								</div>
+							)}
+						</div>
+
+						<CartList isLoggedIn={isLoggedIn} initialItems={cartItems} />
+					</div>
+					<DesktopSummary />
+				</div>
+			</div>
+			<MobileSummary />
+		</main>
 	);
 }
