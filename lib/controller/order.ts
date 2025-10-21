@@ -1,66 +1,25 @@
-'use server';
-
-import { sendNotifications } from '@/lib/controller/emails';
-import { checkoutSchema } from '@/lib/schemas/checkout';
-import { createOrder } from '@/lib/model/orders';
+import { findManyByUserId } from '@/lib/model/order';
 import { CartProduct } from '@/lib/types';
 
-export type CheckoutFormState = {
-	message: string;
-	success: boolean;
-	errors?: {
-		name?: string[];
-		email?: string[];
-		phone?: string[];
-	};
-};
+export async function handleGetUserOrders(userId: string) {
+	try {
+		const { message, success, data } = await findManyByUserId(userId);
 
-export async function processOrder(
-	prevState: CheckoutFormState,
-	formData: FormData,
-	items: CartProduct[]
-): Promise<CheckoutFormState> {
-	const data = Object.fromEntries(formData);
+		if (!success) return { message, success, data: [] };
 
-	const validatedFields = checkoutSchema.safeParse(data);
+		return { message, success, data };
+	} catch (error) {
+		console.error('[GET_USER_ORDERS_CONTROLLER_ERROR]', error);
 
-	if (!validatedFields.success) {
 		return {
-			message: 'Error en los campos del formulario',
+			message: 'Error al obtener las órdenes del usuario',
 			success: false,
-			errors: validatedFields.error.flatten().fieldErrors,
+			data: [],
 		};
 	}
-
-	const { name, email, phone } = validatedFields.data;
-
-	const products = items.map((item) => ({
-		id: item.id,
-		quantity: item.quantity,
-	}));
-
-	const {
-		message,
-		success: orderSuccess,
-		orderId,
-	} = await createOrder(name, email, phone, products);
-	if (!orderSuccess || !orderId) return { message, success: false };
-
-	const orderSummary = await generateOrderSummary(items);
-
-	const { success: notifySuccess, message: notifyMessage } =
-		await sendNotifications(orderId, name, phone, email, orderSummary);
-	if (!notifySuccess) {
-		return {
-			message: notifyMessage || 'Error en las notificaciones.',
-			success: false,
-		};
-	}
-
-	return { message: 'Su orden fue creada éxitosamente', success: true };
 }
 
-async function generateOrderSummary(items: CartProduct[]) {
+export async function generateOrderSummary(items: CartProduct[]) {
 	const originalTotal = items.reduce((total, item) => {
 		const itemPrice = Number(item.price);
 		return total + itemPrice * item.quantity;
@@ -79,8 +38,16 @@ async function generateOrderSummary(items: CartProduct[]) {
             <th style="text-align: center; padding: 0.5rem; color: hsl(0, 0%, 80%);">Cantidad</th>
             <th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Precio</th>
             <th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Subtotal</th>
-            ${discountTotal > 0 ? '<th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Descuento</th>' : ''}
-            ${discountTotal > 0 ? '<th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Total Final</th>' : ''}
+            ${
+							discountTotal > 0
+								? '<th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Descuento</th>'
+								: ''
+						}
+            ${
+							discountTotal > 0
+								? '<th style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">Total Final</th>'
+								: ''
+						}
           </tr>
         </thead>
         <tbody>
@@ -110,7 +77,7 @@ async function generateOrderSummary(items: CartProduct[]) {
               ${
 								discountTotal > 0
 									? `<td style="text-align: right; padding: 0.5rem; color: hsl(0, 0%, 80%);">$${(
-											(Number(item.price) * item.quantity) -
+											Number(item.price) * item.quantity -
 											(item.discountAmount || 0)
 									  ).toFixed()}</td>`
 									: ''
@@ -136,7 +103,7 @@ async function generateOrderSummary(items: CartProduct[]) {
 										)
 										.join('')
 								: ''
-							}
+						}
           `
 						)
 						.join('')}

@@ -1,10 +1,17 @@
 import { auth } from '@/auth';
 import { CheckCircle2 } from 'lucide-react';
+import { Metadata } from 'next';
 
 import { loadCartFromDB } from '@/lib/controller/cart';
 
 import CartList from '@/components/cart/cart-list';
 import { DesktopSummary, MobileSummary } from '@/components/cart/summaries';
+
+export const metadata: Metadata = {
+	title: 'Carrito de Compras - Santy Tec',
+	description:
+		'Revisa los productos en tu carrito de compras en Santy Tec. Completa tu pedido y disfruta de nuestros accesorios de tecnología y electrónica.',
+};
 
 export default async function CartPage() {
 	const session = await auth();

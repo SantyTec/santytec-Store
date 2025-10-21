@@ -107,3 +107,45 @@ export async function createOrder(
 		};
 	}
 }
+
+export async function findManyByUserId(userId: string) {
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        userId
+      },
+      include: {
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                images: true
+              }
+            },
+            discounts: true
+          }
+        },
+        discounts: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    return {
+      success: true,
+      data: orders,
+      message: orders.length > 0
+        ? 'Órdenes encontradas con éxito'
+        : 'No hay órdenes registradas para este usuario'
+    };
+  } catch (error) {
+    console.error('[FIND_ORDERS_BY_USER_ID_MODEL_ERROR]', error);
+
+    return {
+      success: false,
+      data: null,
+      message: 'Error al buscar las órdenes del usuario'
+    };
+  }
+}

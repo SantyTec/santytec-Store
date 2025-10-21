@@ -48,9 +48,9 @@ export type ProductsByCategory = {
 
 export type SessionUser = {
 	id: string;
-	name: string | null;
-	email: string | null;
-	phone: string | null;
+	name?: string | null;
+	email?: string | null;
+	phone?: string | null;
 } | null;
 
 export type LoadedCartProduct = {

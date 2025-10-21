@@ -95,6 +95,8 @@
   --color-accent-950: hsl(var(--accent-950));
   --color-accent: hsl(var(--accent-500));
 
+  --color-foreground: hsl(var(--text-100));
+
   --font-base: var(--font-onest);
   --font-accent: var(--font-geist-sans);
 
