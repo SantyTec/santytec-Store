@@ -1,3 +1,4 @@
+import { handleGetFormattedUserOrders } from '@/lib/controller/order';
 import { Category, Image } from '@prisma/client';
 
 export type DataResponse = {
@@ -60,3 +61,9 @@ export type LoadedCartProduct = {
 	quantity: number;
 	image: string;
 };
+
+type HandleGetFormattedUserOrdersReturn = Awaited<
+	ReturnType<typeof handleGetFormattedUserOrders>
+  >;
+
+export type FormattedOrder = HandleGetFormattedUserOrdersReturn['data'][number];

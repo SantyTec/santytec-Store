@@ -7,6 +7,9 @@ import { createOrder } from '@/lib/model/order';
 import { CheckoutFormState, checkoutSchema } from '@/lib/schemas/checkout';
 import { CartProduct } from '@/lib/types';
 import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+import { handleGetUser } from '@/lib/controller/user';
+import { prisma } from '@/lib/client';
 
 export async function checkoutAction(
 	prevState: CheckoutFormState,
@@ -29,6 +32,33 @@ export async function checkoutAction(
 
 	const { name, email, phone } = validatedFields.data;
 
+	const session = await auth();
+
+	let orderData = {
+		name,
+		email,
+		phone,
+		userId: null as string | null,
+	};
+
+	if (session?.user.id) {
+		const { data } = await handleGetUser(session.user.id);
+
+		orderData = {
+			name,
+			email: data?.email || email,
+			phone: data?.phone || phone,
+			userId: session.user.id,
+		};
+
+		if (!data?.phone && phone) {
+			await prisma.user.update({
+				where: { id: session.user.id },
+				data: { phone },
+			});
+		}
+	}
+
 	const products = items.map((item) => ({
 		id: item.id,
 		quantity: item.quantity,
@@ -38,7 +68,13 @@ export async function checkoutAction(
 		message,
 		success: orderSuccess,
 		orderId,
-	} = await createOrder(name, email, phone, products);
+	} = await createOrder(
+		orderData.name,
+		orderData.email,
+		orderData.phone,
+		orderData.userId,
+		products
+	);
 	if (!orderSuccess || !orderId) return { message, success: false };
 
 	const orderSummary = await generateOrderSummary(items);

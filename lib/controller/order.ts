@@ -1,5 +1,75 @@
-import { findManyByUserId } from '@/lib/model/order';
+import { auth } from '@/auth';
+import { findById, findManyByUserId } from '@/lib/model/order';
 import { CartProduct } from '@/lib/types';
+
+export async function handleGetOrder(orderId: string) {
+	try {
+		const session = await auth();
+		if (!session?.user?.id) {
+			return {
+				message: 'No autorizado',
+				success: false,
+				data: null,
+			};
+		}
+
+		const { data, message, success } = await findById(parseInt(orderId));
+		if (!success || !data) {
+			return { message, success, data: null };
+		}
+
+		if (data.userId !== session.user.id) {
+			return {
+				message: 'No autorizado para ver esta orden',
+				success: false,
+				data: null,
+			};
+		}
+
+		const formattedOrder = {
+			id: data.id,
+			status: data.status,
+			date: data.createdAt.toLocaleDateString('es-AR', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			}),
+			customer: {
+				name: data.name,
+				email: data.email,
+				phone: data.phone,
+			},
+			items: data.orderItems.map((item) => ({
+				id: item.id,
+				name: item.productNameAtOrder,
+				price: item.priceAtOrder.toNumber(),
+				quantity: item.quantity,
+				originalSubtotal: item.originalSubtotal.toNumber(),
+				discountAmount: item.discountAmount.toNumber(),
+				finalSubtotal: item.finalSubtotal.toNumber(),
+				image: item.product?.images[0]?.url,
+			})),
+			originalSubtotal: data.originalSubtotal.toNumber(),
+			discountAmount: data.discountAmount.toNumber(),
+			finalSubtotal: data.finalSubtotal.toNumber(),
+			discounts: data.discounts.map((discount) => ({
+				id: discount.id,
+				name: discount.name,
+				type: discount.type,
+				value: discount.value.toNumber(),
+			})),
+		};
+
+		return { message: 'Orden encontrada', success: true, data: formattedOrder };
+	} catch (error) {
+		console.error('[GET_ORDER_CONTROLLER_ERROR]', error);
+		return {
+			message: 'Error al obtener la orden',
+			success: false,
+			data: null,
+		};
+	}
+}
 
 export async function handleGetUserOrders(userId: string) {
 	try {
@@ -10,6 +80,53 @@ export async function handleGetUserOrders(userId: string) {
 		return { message, success, data };
 	} catch (error) {
 		console.error('[GET_USER_ORDERS_CONTROLLER_ERROR]', error);
+
+		return {
+			message: 'Error al obtener las órdenes del usuario',
+			success: false,
+			data: [],
+		};
+	}
+}
+
+export async function handleGetFormattedUserOrders(userId: string) {
+	try {
+		const { message, success, data } = await findManyByUserId(userId);
+
+		if (!success || !data) return { message, success, data: [] };
+
+		const formattedOrders = data.map((order) => ({
+			...order,
+			createdAt: order.createdAt.toLocaleDateString('es-AR'),
+			discountAmount: order.discountAmount.toNumber(),
+			finalSubtotal: order.finalSubtotal.toNumber(),
+			originalSubtotal: order.originalSubtotal.toNumber(),
+			discounts: order.discounts.map((discount) => ({
+				...discount,
+				value: discount.value.toNumber(),
+			})),
+			orderItems: order.orderItems.map((item) => ({
+				...item,
+				product: {
+					...item.product,
+					price: item.product?.price.toNumber(),
+				},
+				discounts: item.discounts.map((discount) => ({
+					...discount,
+					value: discount.value.toNumber(),
+				})),
+				discountAmount: item.discountAmount.toNumber(),
+				finalSubtotal: item.finalSubtotal.toNumber(),
+				originalSubtotal: item.originalSubtotal.toNumber(),
+				priceAtOrder: item.priceAtOrder.toNumber(),
+			})),
+		}));
+
+		console.log('Formatted Orders:', formattedOrders);
+
+		return { message, success, data: formattedOrders };
+	} catch (error) {
+		console.error('[GET_FORMATTED_USER_ORDERS_CONTROLLER_ERROR]', error);
 
 		return {
 			message: 'Error al obtener las órdenes del usuario',
