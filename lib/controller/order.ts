@@ -122,8 +122,6 @@ export async function handleGetFormattedUserOrders(userId: string) {
 			})),
 		}));
 
-		console.log('Formatted Orders:', formattedOrders);
-
 		return { message, success, data: formattedOrders };
 	} catch (error) {
 		console.error('[GET_FORMATTED_USER_ORDERS_CONTROLLER_ERROR]', error);

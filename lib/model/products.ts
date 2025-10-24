@@ -48,7 +48,7 @@ export async function getFilteredProducts(
 		return { data: products, error: null };
 	} catch (error) {
 		const message = 'Error al obtener los productos.';
-		console.log(message, error);
+		console.error(message, error);
 
 		return { data: null, error: message };
 	}
@@ -60,7 +60,7 @@ export async function fetchProductsCount() {
 
 		return { data: count, error: null };
 	} catch (error) {
-		console.log(error, 'Error en la base de datos.');
+		console.error(error, 'Error en la base de datos.');
 
 		return {
 			data: null,

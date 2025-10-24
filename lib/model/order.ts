@@ -228,7 +228,7 @@ export async function findManyByUserId(userId: string) {
 
   return { success: true };
     } catch (error) {
-      console.log('[ASSOCIATE_ORDERS_ERROR]', error)
+      console.error('[ASSOCIATE_ORDERS_ERROR]', error)
       return {success:false}
     }
 }

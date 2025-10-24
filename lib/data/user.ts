@@ -1,40 +1,69 @@
 import { prisma } from '@/lib/client';
 import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 export async function getUserByEmail(email: string) {
-	return prisma.user.findUnique({ where: { email } });
+    return prisma.user.findUnique({ where: { email } });
 }
 
-
+export async function findUserById(userId: string) {
+    return prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            password: true,
+        },
+    });
+}
 
 export async function updateUser(
-	userId: string,
-	data: Partial<{ name: string; email: string; phone: string }>
+    userId: string,
+    data: Partial<{ name: string; email: string; phone: string }>
 ) {
-	return prisma.user.update({ where: { id: userId }, data });
+    return prisma.user.update({ 
+        where: { id: userId }, 
+        data,
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+        },
+    });
 }
 
 export async function updatePasswordHash(
-	userId: string,
-	hashedPassword: string
+    userId: string,
+    hashedPassword: string
 ) {
-	return prisma.user.update({
-		where: { id: userId },
-		data: { password: hashedPassword },
-	});
+    return prisma.user.update({
+        where: { id: userId },
+        data: { password: hashedPassword },
+    });
 }
 
 export async function verifyCurrentPassword(
-	userId: string,
-	plainPassword: string
+    userId: string,
+    plainPassword: string
 ) {
-	const user = await prisma.user.findUnique({
-		where: { id: userId },
-		select: { password: true },
-	});
-	if (!user || !user.password) return false;
-	const bcrypt = await import('bcryptjs');
-	return await bcrypt.compare(plainPassword, user.password);
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { password: true },
+    });
+    if (!user || !user.password) return false;
+    return bcrypt.compare(plainPassword, user.password);
+}
+
+/**
+ * Elimina todas las sesiones de un usuario
+ */
+export async function deleteUserSessions(userId: string) {
+    return prisma.session.deleteMany({
+        where: { userId },
+    });
 }
 
 
