@@ -27,7 +27,7 @@ export type LoginFormState = {
 export type RegisterFormState = {
 	success: boolean;
 	message: string;
-	errors?: {
+	errors: {
 		name?: string[];
 		email?: string[];
 		password?: string[];

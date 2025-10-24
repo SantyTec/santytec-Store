@@ -11,6 +11,8 @@ import {
 	RegisterFormState,
 	RegisterSchema,
 } from '@/lib/schemas/auth';
+import { autoAssociateOrdersOnRegistration } from '@/lib/model/order';
+import { revalidatePath } from 'next/cache';
 
 export async function loginAction(
 	prevState: LoginFormState,
@@ -34,9 +36,10 @@ export async function loginAction(
 		await signIn('credentials', {
 			email: email.toLowerCase(),
 			password,
-			redirect: false,
+			redirectTo: '/',
 		});
 
+		revalidatePath('/');
 		return { success: true, message: 'Ha iniciado sesión!' };
 	} catch (error) {
 		if (error instanceof AuthError) {
@@ -60,7 +63,7 @@ export async function loginAction(
 export async function registerAction(
 	prevState: RegisterFormState,
 	formData: FormData
-): Promise<RegisterFormState> {
+) {
 	try {
 		const data = Object.fromEntries(formData);
 
@@ -100,7 +103,7 @@ export async function registerAction(
 
 		const hashedPassword = await bcrypt.hash(password, 10);
 
-		await prisma.user.create({
+		const user = await prisma.user.create({
 			data: {
 				name,
 				email: emailLower,
@@ -110,13 +113,23 @@ export async function registerAction(
 			},
 		});
 
+		const association = await autoAssociateOrdersOnRegistration(
+			user.id,
+			user.email!
+		);
+
+		if (!association.success) {
+			return {
+				success: true,
+				message: 'Se registro el usuario pero no se pudieron conectar ordenes',
+			};
+		}
+
 		await signIn('credentials', {
 			email: emailLower,
 			password,
-			redirect: false,
+			redirect: false
 		});
-
-		return { success: true, message: 'Registro exitoso!' };
 	} catch (error) {
 		console.error('Error al registrar usuario:', error);
 		return {

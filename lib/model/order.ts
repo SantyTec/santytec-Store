@@ -204,3 +204,31 @@ export async function findManyByUserId(userId: string) {
 		};
 	}
 }
+
+
+  export async function autoAssociateOrdersOnRegistration(
+  userId: string,
+  email: string,
+  ) {
+    try {
+      
+      
+      const conditions = [];
+      
+  if (email) {
+    conditions.push({ email: email, userId: null });
+  }
+  
+  if (conditions.length === 0) return { count: 0 };
+
+  const result = await prisma.order.updateMany({
+    where: { OR: conditions },
+    data: { userId: userId }
+  });
+
+  return { success: true };
+    } catch (error) {
+      console.log('[ASSOCIATE_ORDERS_ERROR]', error)
+      return {success:false}
+    }
+}

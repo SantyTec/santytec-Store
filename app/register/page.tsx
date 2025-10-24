@@ -29,9 +29,10 @@ export default async function RegisterPage(props: {
 						</h3>
 						<ul className="space-y-1 text-xs text-muted-foreground">
 							<li>✓ Historial completo de tus pedidos</li>
-							<li>✓ Guardar productos favoritos</li>
+							<li>✓ Guardar tu carrito</li>
+							{/* <li>✓ Guardar productos favoritos</li> */}
 							<li>✓ Seguimiento de envíos en tiempo real</li>
-							<li>✓ Ofertas y descuentos exclusivos</li>
+							{/* <li>✓ Ofertas y descuentos exclusivos</li> */}
 						</ul>
 					</div>
 					<RegisterForm callbackUrl={searchParams.callbackUrl} />

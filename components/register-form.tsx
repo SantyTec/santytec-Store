@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, useActionState } from 'react';
+import { useState, useActionState, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 import toast from 'react-hot-toast';
 
@@ -84,21 +84,36 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 	const [state, formAction] = useActionState(onSubmit, {
 		message: '',
 		success: false,
+		errors: {},
 	});
+
+	useEffect(() => {
+		if (state.success) {
+			router.refresh();
+      toast.success('Registro exitoso')
+
+			setTimeout(() => {
+				router.push('/');
+			}, 500);
+		}
+	}, [state, router]);
 
 	const passwordStrength = getPasswordStrength(password);
 
 	async function onSubmit(prevState: RegisterFormState, formData: FormData) {
 		const res = await registerAction(prevState, formData);
 
-		if (!res.success) {
+		if (!res) {
+			return { success: true, message: 'Exito', errors: {} };
+		}
+
+		if (!res.success && res.errors) {
 			toast.error(res.message);
 			return res;
 		}
 
 		toast.success(res.message);
-		router.push('/');
-		return res;
+		return { ...res, errors: {} };
 	}
 
 	return (
@@ -128,10 +143,16 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 						autoComplete="name"
 						required
 						placeholder="Juan Pérez"
-						className={state.errors?.name ? 'border-destructive' : ''}
+						className={
+							state && state.errors && state.errors?.name
+								? 'border-destructive'
+								: ''
+						}
 					/>
-					{state.errors?.name && (
-						<p className="text-xs text-destructive">{state.errors.name[0]}</p>
+					{state && state.errors && state.errors?.name && (
+						<p className="text-xs text-destructive">
+							{state && state.errors && state.errors.name[0]}
+						</p>
 					)}
 				</div>
 
@@ -144,9 +165,13 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 						autoComplete="email"
 						required
 						placeholder="tu@email.com"
-						className={state.errors?.email ? 'border-destructive' : ''}
+						className={
+							state && state.errors && state.errors?.email
+								? 'border-destructive'
+								: ''
+						}
 					/>
-					{state.errors?.email && (
+					{state && state.errors && state.errors?.email && (
 						<p className="text-xs text-destructive">{state.errors.email[0]}</p>
 					)}
 				</div>

@@ -77,6 +77,7 @@ const authConfig = {
 	},
 	pages: {
 		signIn: '/login',
+		newUser: '/',
 	},
 	callbacks: {
 		async signIn({ user, account }) {
@@ -141,7 +142,7 @@ const authConfig = {
 				const dbUser = await prisma.user.findUnique({
 					where: { email: user.email?.toLowerCase() },
 				});
-				
+
 				if (dbUser) {
 					token.id = dbUser.id;
 					token.role = dbUser.role;
