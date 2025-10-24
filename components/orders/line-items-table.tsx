@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package } from 'lucide-react';
+import Image from 'next/image';
 
 interface LineItem {
 	id: string;
@@ -25,9 +26,10 @@ export function LineItemsTable({ items }: Props) {
 						<div key={item.id} className="flex items-center gap-4">
 							<div className="h-20 w-20 rounded-lg border bg-muted flex items-center justify-center">
 								{item.image ? (
-									<img
+									<Image
 										src={item.image}
-										alt={item.name}
+                    alt={item.name}
+                    fill
 										className="h-full w-full object-cover rounded-lg"
 									/>
 								) : (

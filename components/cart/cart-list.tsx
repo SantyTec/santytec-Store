@@ -41,7 +41,7 @@ export default function CartList({ isLoggedIn, initialItems }: Props) {
 		}
 
 		mergeCart();
-	}, [isLoggedIn]);
+	}, [isLoggedIn, hydrateFromDB, initialItems, items]);
 
 	if (isMerging) {
 		return (

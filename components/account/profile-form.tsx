@@ -68,7 +68,9 @@ export function ProfileForm({ values }: Props) {
 				{formState.errors &&
 					formState.errors?.name &&
 					formState.errors.name.map((error) => (
-						<p className="text-xs text-destructive">{error}</p>
+						<p key={error} className="text-xs text-destructive">
+							{error}
+						</p>
 					))}
 			</div>
 
@@ -87,7 +89,9 @@ export function ProfileForm({ values }: Props) {
 				{formState.errors &&
 					formState.errors?.email &&
 					formState.errors.email.map((error) => (
-						<p className="text-xs text-destructive">{error}</p>
+						<p key={error} className="text-xs text-destructive">
+							{error}
+						</p>
 					))}
 			</div>
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { requestPasswordReset } from './actions';
 
 export default function ForgotPasswordPage() {
   return (
@@ -8,7 +7,7 @@ export default function ForgotPasswordPage() {
         <h1 className="text-2xl font-bold mb-4">Recuperar contraseña</h1>
         <p className="text-sm text-muted-foreground mb-4">Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña.</p>
 
-        <form action={requestPasswordReset} className="space-y-4">
+        {/* <form action={requestPasswordReset} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium">Email</label>
             <input id="email" name="email" type="email" required className="mt-1 block w-full" />
@@ -17,7 +16,7 @@ export default function ForgotPasswordPage() {
           <div>
             <button type="submit" className="btn-primary w-full">Enviar enlace</button>
           </div>
-        </form>
+        </form> */}
       </div>
     </div>
   );

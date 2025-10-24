@@ -7,12 +7,16 @@ import { OrderTotals } from '@/components/orders/order-totals';
 import { handleGetOrder } from '@/lib/controller/order';
 import { OrderTimeline } from '@/components/orders/order-timeline';
 
-export default async function OrderPage({
-	params,
-}: {
-	params: { id: string };
-}) {
-	const { data: order, success } = await handleGetOrder(params.id);
+interface Props {
+	params: Promise<{
+		id: string;
+	}>;
+}
+
+export default async function OrderPage({ params }: Props) {
+	const { id } = await params;
+
+	const { data: order, success } = await handleGetOrder(id);
 
 	if (!success || !order) {
 		notFound();
