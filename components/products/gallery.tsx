@@ -22,7 +22,7 @@ export default async function Gallery({ id }: Props) {
 
 	return (
 		<Carousel
-			className="lg:h-[calc(100dvh_-_10rem)] aspect-square mx-auto"
+			className="lg:h-[calc(100dvh-10rem)] aspect-square mx-auto"
 			opts={{ loop: true }}
 		>
 			<CarouselContent>

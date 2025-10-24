@@ -3,6 +3,7 @@ import { shared } from 'use-broadcast-ts';
 import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { syncCartToDb } from '@/lib/controller/cart';
 import { CartProduct } from '@/lib/types';
 
 export type CartState = {
@@ -14,6 +15,7 @@ export type CartActions = {
 	removeItem: (id: string) => void;
 	removeAll: () => void;
 	setItemQuantity: (id: string, quantity: number) => void;
+	hydrateFromDB: (items: CartProduct[]) => void;
 };
 
 export type CartStore = CartState & CartActions;
@@ -48,6 +50,8 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
 							items: [...state.items, product],
 						}));
 
+						syncCartToDb(get().items).catch(() => {});
+
 						toast.success('Producto agregado al carrito', {
 							duration: 500,
 						});
@@ -58,12 +62,17 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
 							items: [...state.items.filter((item) => item.id !== id)],
 						}));
 
+						syncCartToDb(get().items).catch(() => {});
+
 						toast.success('Producto removido del carrito', {
 							duration: 500,
 						});
 					},
 
-					removeAll: () => set(() => ({ items: [] })),
+					removeAll: () => {
+						set(() => ({ items: [] }));
+						syncCartToDb([]).catch(() => {});
+					},
 
 					setItemQuantity: (id, quantity) => {
 						if (quantity <= 0)
@@ -84,7 +93,14 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
 								item.id === id ? { ...item, quantity } : item
 							),
 						}));
+
+						syncCartToDb(get().items).catch(() => {});
+
 						return;
+					},
+
+					hydrateFromDB: (items) => {
+						set(() => ({ items }));
 					},
 				}),
 

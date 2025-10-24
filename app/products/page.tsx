@@ -7,11 +7,11 @@ import { ProductCardSkeleton } from '@/components/skeletons';
 import Wrapper from '@/components/wrapper';
 
 interface Props {
-	searchParams: {
+	searchParams: Promise<{
 		page?: string;
 		name?: string;
 		category?: string;
-	};
+	}>;
 }
 
 export const metadata: Metadata = {
@@ -20,7 +20,8 @@ export const metadata: Metadata = {
 		'Explora el catálogo completo de productos en Santy Tec. Encuentra una amplia variedad de accesorios de tecnología y electrónica.',
 };
 
-export default function ProductsPage({ searchParams }: Props) {
+export default async function ProductsPage(props: Props) {
+	const searchParams = await props.searchParams;
 	const page = searchParams?.page || 1;
 	const name = searchParams?.name || '';
 	const category = searchParams?.category;

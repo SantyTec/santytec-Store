@@ -21,7 +21,7 @@ export default function ProductCard({ product }: Props) {
 	const outOfStock = product.stock === 0;
 
 	return (
-		<Card className="h-full border-2 cursor-pointer border-bg-800 hover:shadow-sm hover:shadow-accent">
+		<Card className="h-full border-2 cursor-pointer border-bg-800 hover:shadow-xs hover:shadow-accent">
 			<CardHeader className="h-full max-h-[80px] p-3">
 				<p className="font-semibold text-primary-100">{product.name}</p>
 			</CardHeader>

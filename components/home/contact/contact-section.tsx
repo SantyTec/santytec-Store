@@ -4,7 +4,7 @@ import { Mail, Phone } from 'lucide-react';
 
 export default function ContactSection() {
 	return (
-		<Wrapper className="mx-[6rem] min-h-screen">
+		<Wrapper className="mx-24 min-h-screen">
 			<h2 className="mb-6 text-4xl font-semibold uppercase text-accent-600 text-center font-accent">
 				Contactános
 			</h2>
