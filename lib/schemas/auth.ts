@@ -7,8 +7,8 @@ export const LoginSchema = z.object({
 
 export const RegisterSchema = z.object({
 	name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-	email: z.string().email('Email inválido'),
-	password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+	email: z.email('Email inválido'),
+	password: z.string().min(8, 'La contraseña debe tener al menos 6 caracteres'),
 	phone: z.string().optional(),
 });
 
@@ -27,7 +27,7 @@ export type LoginFormState = {
 export type RegisterFormState = {
 	success: boolean;
 	message: string;
-	errors: {
+	errors?: {
 		name?: string[];
 		email?: string[];
 		password?: string[];

@@ -2,17 +2,19 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, useActionState, useEffect } from 'react';
+import { useState, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import toast from 'react-hot-toast';
 
 import { loginWithGoogleAction, registerAction } from '@/lib/actions/auth';
 import { RegisterFormState } from '@/lib/schemas/auth';
+import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
 
 function SubmitButton() {
 	const { pending } = useFormStatus();
@@ -65,8 +67,8 @@ const getPasswordStrength = (pwd: string) => {
 	if (!pwd) return { score: 0, label: '', color: '' };
 
 	let score = 0;
-	if (pwd.length >= 6) score += 25;
 	if (pwd.length >= 8) score += 25;
+	if (pwd.length >= 10) score += 25;
 	if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score += 25;
 	if (/\d/.test(pwd)) score += 12.5;
 	if (/[^a-zA-Z\d]/.test(pwd)) score += 12.5;
@@ -84,36 +86,21 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 	const [state, formAction] = useActionState(onSubmit, {
 		message: '',
 		success: false,
-		errors: {},
 	});
-
-	useEffect(() => {
-		if (state.success) {
-			router.refresh();
-      toast.success('Registro exitoso')
-
-			setTimeout(() => {
-				router.push('/');
-			}, 500);
-		}
-	}, [state, router]);
 
 	const passwordStrength = getPasswordStrength(password);
 
 	async function onSubmit(prevState: RegisterFormState, formData: FormData) {
 		const res = await registerAction(prevState, formData);
 
-		if (!res) {
-			return { success: true, message: 'Exito', errors: {} };
-		}
-
-		if (!res.success && res.errors) {
+		if (!res.success) {
 			toast.error(res.message);
-			return res;
+			return res as RegisterFormState;
 		}
 
 		toast.success(res.message);
-		return { ...res, errors: {} };
+		router.push('/login');
+		return res as RegisterFormState;
 	}
 
 	return (
@@ -144,9 +131,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 						required
 						placeholder="Juan Pérez"
 						className={
-							state && state.errors && state.errors?.name
-								? 'border-destructive'
-								: ''
+							state.errors && state.errors?.name ? 'border-destructive' : ''
 						}
 					/>
 					{state && state.errors && state.errors?.name && (
@@ -202,7 +187,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 							type={showPassword ? 'text' : 'password'}
 							autoComplete="new-password"
 							required
-							placeholder="Mínimo 6 caracteres"
+							placeholder="Mínimo 8 caracteres"
 							className={state.errors?.password ? 'border-destructive' : ''}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
@@ -223,11 +208,13 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 							<div className="flex items-center justify-between">
 								<Progress
 									value={passwordStrength.score}
-									className="flex-1 mr-2 h-2"
+									className={'flex-1 mr-2 h-2'}
 								/>
-								<span className="text-xs font-medium">
+								<Badge
+									className={cn('text-xs font-medium', passwordStrength.color)}
+								>
 									{passwordStrength.label}
-								</span>
+								</Badge>
 							</div>
 						</div>
 					)}

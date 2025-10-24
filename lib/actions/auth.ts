@@ -2,17 +2,17 @@
 
 import { signOut } from '@/auth';
 import { signIn } from '@/auth';
-import bcrypt from 'bcryptjs';
-import { prisma } from '@/lib/client';
 import { AuthError } from 'next-auth';
+import { revalidatePath } from 'next/cache';
+
+import { prisma } from '@/lib/client';
+import { handleRegister } from '@/lib/controller/user';
 import {
 	LoginFormState,
 	LoginSchema,
 	RegisterFormState,
 	RegisterSchema,
 } from '@/lib/schemas/auth';
-import { autoAssociateOrdersOnRegistration } from '@/lib/model/order';
-import { revalidatePath } from 'next/cache';
 
 export async function loginAction(
 	prevState: LoginFormState,
@@ -78,58 +78,17 @@ export async function registerAction(
 		}
 
 		const { name, email, password, phone } = validatedFields.data;
-		const emailLower = email.toLowerCase();
 
-		const existingUser = await prisma.user.findFirst({
-			where: {
-				OR: [{ email: emailLower }, ...(phone ? [{ phone }] : [])],
-			},
-		});
+		const result = await handleRegister(email, password, name, phone);
 
-		if (existingUser) {
-			if (existingUser.email === emailLower) {
-				return {
-					message: 'Este email ya está registrado. ¿Querés iniciar sesión?',
-					success: false,
-				};
-			}
-			if (existingUser.phone === phone) {
-				return {
-					message: 'Este teléfono ya está registrado.',
-					success: false,
-				};
-			}
+		if (!result.success) {
+			return result;
 		}
 
-		const hashedPassword = await bcrypt.hash(password, 10);
-
-		const user = await prisma.user.create({
-			data: {
-				name,
-				email: emailLower,
-				password: hashedPassword,
-				phone: phone || null,
-				role: 'USER',
-			},
-		});
-
-		const association = await autoAssociateOrdersOnRegistration(
-			user.id,
-			user.email!
-		);
-
-		if (!association.success) {
-			return {
-				success: true,
-				message: 'Se registro el usuario pero no se pudieron conectar ordenes',
-			};
-		}
-
-		await signIn('credentials', {
-			email: emailLower,
-			password,
-			redirect: false
-		});
+		return {
+			success: true,
+			message: '¡Registro exitoso! Revisa tu email para activar tu cuenta.',
+		};
 	} catch (error) {
 		console.error('Error al registrar usuario:', error);
 		return {
