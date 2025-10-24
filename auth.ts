@@ -73,7 +73,8 @@ const authConfig = {
 	adapter: PrismaAdapter(prisma) as Adapter,
 	providers,
 	session: {
-		strategy: 'jwt', // IMPORTANTE: Usar JWT para que Credentials funcione
+		strategy: 'jwt',
+		maxAge: 10 * 24 * 60 * 60,
 	},
 	pages: {
 		signIn: '/login',
