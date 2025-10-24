@@ -129,3 +129,199 @@ export async function handleVerifyEmail(plainToken: string) {
 			'¡Tu cuenta ha sido verificada exitosamente! Ya puedes iniciar sesión.',
 	};
 }
+
+
+// export async function handleUpdateEmail(
+// 	userId: string,
+// 	form: {
+// 		currentPassword: string;
+// 		email: string;
+// 	}
+// ) {
+// 	if (!userId) return { success: false, message: 'No autorizado' };
+
+// 	const parsed = updateEmailSchema.safeParse(form);
+// 	if (!parsed.success)
+// 		return {
+// 			success: false,
+// 			message: 'Datos inválidos',
+// 			errors: parsed.error.flatten().fieldErrors,
+// 		};
+
+// 	const { currentPassword, email } = parsed.data;
+
+// 	const { success: found, data: user } = await findUserById(userId);
+// 	if (!found || !user)
+// 		return { success: false, message: 'Usuario no encontrado' };
+
+// 	// Ensure user has a password
+// 	const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+
+// 	if (!dbUser || !dbUser.password) {
+// 		return {
+// 			success: false,
+// 			message:
+// 				'Este usuario no tiene contraseña establecida. Inicia sesión con el proveedor correspondiente o restablece contraseña.',
+// 		};
+// 	}
+
+// 	const match = await bcrypt.compare(currentPassword, dbUser.password);
+// 	if (!match)
+// 		return { success: false, message: 'Contraseña actual incorrecta' };
+
+// 	// Check uniqueness of email
+// 	const exists = await dataUser.getUserByEmail(email);
+// 	if (exists && exists.id !== userId)
+// 		return { success: false, message: 'El email ya está en uso' };
+
+// 	// Create verification token to confirm new email
+// 	const { token } = await dataUser.createVerificationToken(
+// 		email,
+// 		'CHANGE_EMAIL',
+// 		email
+// 	);
+
+// 	// Send verification email to the new email address
+// 	try {
+// 		const emailer = new Emailer();
+// 		const subject = 'Confirma tu nuevo email';
+// 		const url = `${
+// 			process.env.FRONTEND_STORE_URL || ''
+// 		}/auth/verify-new-email?token=${token}`;
+// 		const text = `Haz clic en el siguiente enlace para confirmar tu nuevo email: ${url}`;
+// 		await emailer.sendEmail({
+// 			to: email,
+// 			from: process.env.GMAIL_USER,
+// 			subject,
+// 			text,
+// 		});
+// 	} catch (err) {
+// 		console.error('Error sending verification email', err);
+// 	}
+
+// 	return {
+// 		success: true,
+// 		message: 'Se ha enviado un correo de verificación al nuevo email.',
+// 	};
+// }
+
+// export async function handleUpdatePhone(
+// 	userId: string,
+// 	form: {
+// 		currentPassword: string;
+// 		phone: string;
+// 	}
+// ) {
+// 	if (!userId) return { success: false, message: 'No autorizado' };
+
+// 	const parsed = updatePhoneSchema.safeParse(form);
+// 	if (!parsed.success)
+// 		return {
+// 			success: false,
+// 			message: 'Datos inválidos',
+// 			errors: parsed.error.flatten().fieldErrors,
+// 		};
+
+// 	const { currentPassword, phone } = parsed.data;
+
+// 	const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+// 	if (!dbUser || !dbUser.password) {
+// 		return {
+// 			success: false,
+// 			message:
+// 				'Este usuario no tiene contraseña establecida. Inicia sesión con el proveedor correspondiente o restablece contraseña.',
+// 		};
+// 	}
+
+// 	const match = await bcrypt.compare(currentPassword, dbUser.password);
+// 	if (!match)
+// 		return { success: false, message: 'Contraseña actual incorrecta' };
+
+// 	// Check uniqueness of phone
+// 	const exists = await prisma.user.findUnique({ where: { phone } });
+// 	if (exists && exists.id !== userId)
+// 		return { success: false, message: 'El teléfono ya está en uso' };
+
+// 	const updated = await updateUserPhone(userId, phone);
+// 	if (!updated.success) return { success: false, message: updated.message };
+
+// 	return { success: true, message: 'Teléfono actualizado', data: updated.data };
+// }
+
+// export async function handleUpdatePassword(
+// 	userId: string,
+// 	form: {
+// 		currentPassword: string;
+// 		newPassword: string;
+// 		confirmPassword: string;
+// 	}
+// ) {
+// 	if (!userId) return { success: false, message: 'No autorizado' };
+
+// 	const parsed = updatePasswordSchema.safeParse(form);
+// 	if (!parsed.success)
+// 		return {
+// 			success: false,
+// 			message: 'Datos inválidos',
+// 			errors: parsed.error.flatten().fieldErrors,
+// 		};
+
+// 	const { currentPassword, newPassword } = parsed.data;
+
+// 	const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+// 	if (!dbUser || !dbUser.password) {
+// 		return {
+// 			success: false,
+// 			message:
+// 				'Este usuario no tiene contraseña establecida. Inicia sesión con el proveedor correspondiente o restablece contraseña.',
+// 		};
+// 	}
+
+// 	const match = await bcrypt.compare(currentPassword, dbUser.password);
+// 	if (!match)
+// 		return { success: false, message: 'Contraseña actual incorrecta' };
+
+// 	const hashed = await bcrypt.hash(newPassword, 10);
+// 	const updated = await updateUserPassword(userId, hashed);
+// 	if (!updated.success) return { success: false, message: updated.message };
+
+// 	return { success: true, message: 'Contraseña actualizada' };
+// }
+
+// export async function handleDeleteAccount(
+// 	userId: string,
+// 	form: { currentPassword: string }
+// ) {
+// 	if (!userId) return { success: false, message: 'No autorizado' };
+
+// 	const parsed = updatePasswordSchema.safeParse({
+// 		currentPassword: form.currentPassword,
+// 		newPassword: 'placeholder',
+// 		confirmPassword: 'placeholder',
+// 	});
+// 	if (!parsed.success) {
+// 		// We only needed to validate currentPassword length; return a simpler error
+// 		if (!form.currentPassword || form.currentPassword.length < 6) {
+// 			return { success: false, message: 'Contraseña actual inválida' };
+// 		}
+// 	}
+
+// 	const { prisma } = await import('@/lib/client');
+// 	const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+// 	if (!dbUser || !dbUser.password) {
+// 		return {
+// 			success: false,
+// 			message:
+// 				'Este usuario no tiene contraseña establecida. Inicia sesión con el proveedor correspondiente o restablece contraseña.',
+// 		};
+// 	}
+
+// 	const match = await bcrypt.compare(form.currentPassword, dbUser.password);
+// 	if (!match)
+// 		return { success: false, message: 'Contraseña actual incorrecta' };
+
+// 	const deleted = await deleteUserById(userId);
+// 	if (!deleted.success) return { success: false, message: deleted.message };
+
+// 	return { success: true, message: 'Cuenta eliminada correctamente' };
+// }

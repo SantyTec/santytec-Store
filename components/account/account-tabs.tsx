@@ -17,6 +17,9 @@ export function AccountTabs() {
 				<TabsTrigger value="/account/orders" asChild>
 					<Link href="/account/orders">Mis Órdenes</Link>
 				</TabsTrigger>
+				<TabsTrigger value="/account/profile" asChild>
+					<Link href="/account/orders">Mi Perfil</Link>
+				</TabsTrigger>
 			</TabsList>
 		</Tabs>
 	);
