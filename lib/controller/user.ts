@@ -38,6 +38,8 @@ export async function handleRegister(
 	name: string,
 	phone?: string
 ) {
+	const emailer = new Emailer();
+
 	const emailLower = email.toLowerCase();
 
 	const existingUser = await findUserByEmailOrPhone(emailLower, phone);
@@ -72,25 +74,17 @@ export async function handleRegister(
 		email
 	);
 
-	if (!tokenSuccess)
+	if (!tokenSuccess || !token)
 		return { success: false, message: 'Lo sentimos ha ocurrido un error' };
 
-	try {
-		const emailer = new Emailer();
-		const subject = 'Confirma tu cuenta';
-		const url = `${
-			process.env.FRONTEND_STORE_URL || ''
-		}/auth/verify-email?token=${token}`;
-		const text = `Gracias por registrarte. Confirma tu correo haciendo clic en: ${url}`;
-		await emailer.sendEmail({
-			to: email,
-			from: process.env.GMAIL_USER,
-			subject,
-			text,
-		});
-	} catch (err) {
-		console.error('Error sending verification email', err);
-	}
+	const { success: emailSuccess } = await emailer.sendVerificationEmail(
+		name,
+		email,
+		token
+	);
+
+	if (!emailSuccess)
+		return { success: false, message: 'No se pudo enviar el mail' };
 
 	return {
 		success: true,
