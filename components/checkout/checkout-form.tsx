@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useActionState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { checkoutAction } from '@/lib/actions/checkout';
 import { validateCaptcha } from '@/lib/controller/recaptcha';

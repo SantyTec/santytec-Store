@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { shared } from 'use-broadcast-ts';
 import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';

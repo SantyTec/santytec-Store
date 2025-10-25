@@ -4,7 +4,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { loginWithGoogleAction, registerAction } from '@/lib/actions/auth';
 import { RegisterFormState } from '@/lib/schemas/auth';
