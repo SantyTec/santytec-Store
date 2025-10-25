@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { FullProduct } from '@/lib/types';
 
-import ProductCard from '@/components/product-card';
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import {
 	Carousel,
 	CarouselApi,
@@ -14,6 +14,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel';
+import CarouselCard from '@/components/carousel-card';
 
 export default function FeaturedGallery({
 	products,
@@ -23,6 +24,30 @@ export default function FeaturedGallery({
 	const [api, setApi] = useState<CarouselApi>();
 	const [current, setCurrent] = useState(0);
 	const [count, setCount] = useState(0);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					setIsVisible(true);
+				}
+			},
+			{ threshold: 0.1 }
+		);
+
+		const container = scrollContainerRef.current;
+		if (container) {
+			observer.observe(container);
+		}
+
+		return () => {
+			if (container) {
+				observer.unobserve(container);
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		if (!api) {
@@ -44,26 +69,34 @@ export default function FeaturedGallery({
 					<Carousel
 						opts={{
 							align: 'start',
+              loop: false,
+              dragFree: true,
+              containScroll: 'keepSnaps'
 						}}
 						setApi={setApi}
-						className="w-full"
+            className="w-full"
+            plugins={[
+              WheelGesturesPlugin()
+            ]}
+						ref={scrollContainerRef}
 					>
-						<CarouselContent>
-							{products.map((product) => (
-								<CarouselItem
-									key={product.id}
-									className="basis-full md:basis-1/3 lg:basis-1/4"
-								>
-									<ProductCard product={product} />
+						<CarouselContent className="-ml-6">
+							{products.map((product, index) => (
+								<CarouselItem key={product.id} className="pl-6 basis-[280px]">
+									<CarouselCard
+										isVisible={isVisible}
+										index={index}
+										product={product}
+									/>
 								</CarouselItem>
 							))}
-						</CarouselContent>
-						<CarouselPrevious />
-						<CarouselNext />
+            </CarouselContent>
+            
+						<div className="hidden md:block absolute -top-8 right-14">
+							<CarouselPrevious className="border-accent/50 hover:border-accent hover:bg-accent/10 transition-all -left-12" />
+							<CarouselNext className="border-accent/50 hover:border-accent hover:bg-accent/10 transition-all -right-12" />
+						</div>
 					</Carousel>
-					<div className="py-2 text-sm text-center text-muted-foreground">
-						Página {current} de {count}
-					</div>
 				</>
 			) : (
 				<>
