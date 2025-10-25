@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 import { loginWithGoogleAction, registerAction } from '@/lib/actions/auth';
 import { RegisterFormState } from '@/lib/schemas/auth';
-import { cn } from '@/lib/utils';
+import { cn, getPasswordStrength } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 
-function SubmitButton() {
+export function SubmitButton() {
 	const { pending } = useFormStatus();
 	return (
 		<Button
@@ -62,22 +62,6 @@ function GoogleButton() {
 		</Button>
 	);
 }
-
-const getPasswordStrength = (pwd: string) => {
-	if (!pwd) return { score: 0, label: '', color: '' };
-
-	let score = 0;
-	if (pwd.length >= 8) score += 25;
-	if (pwd.length >= 10) score += 25;
-	if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score += 25;
-	if (/\d/.test(pwd)) score += 12.5;
-	if (/[^a-zA-Z\d]/.test(pwd)) score += 12.5;
-
-	if (score <= 25) return { score, label: 'Débil', color: 'bg-destructive' };
-	if (score <= 50) return { score, label: 'Regular', color: 'bg-yellow-500' };
-	if (score <= 75) return { score, label: 'Buena', color: 'bg-blue-500' };
-	return { score, label: 'Excelente', color: 'bg-green-500' };
-};
 
 export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 	const router = useRouter();

@@ -23,6 +23,10 @@ import {
 	deleteToken,
 } from '@/lib/data/token';
 import { string } from 'zod';
+import {
+	deleteInvitationToken,
+	verifyInvitationToken,
+} from '@/lib/controller/token';
 
 export const handleGetUser = async (userId: string) => {
 	const { success, data, message } = await findUserSimple(userId);
@@ -90,6 +94,38 @@ export async function handleRegister(
 		success: true,
 		message: 'Usuario creado. Por favor verifica tu correo.',
 	};
+}
+
+export async function handleInvitationRegister(
+	email: string,
+	password: string,
+	name: string
+) {
+	try {
+		const hashed = await bcrypt.hash(password, 10);
+
+		const { data: user, success: userSuccess } = await createUser({
+			name,
+			email,
+			password: hashed,
+		});
+		if (!userSuccess)
+			return { success: false, message: 'Lo sentimos ha ocurrido un error' };
+
+		await activateUserAndAssociateOrders(user?.id!, email);
+
+		return {
+			success: true,
+			message:
+				'¡Tu cuenta ha sido verificada exitosamente! Ya puedes iniciar sesión.',
+		};
+	} catch (error) {
+		console.error('[INVITATION_REGISTER_CONTROLLER_ERROR]', error);
+		return {
+			success: false,
+			message: 'Lo sentimos. Ha ocurrido un error inesperado',
+		};
+	}
 }
 
 export async function handleVerifyEmail(plainToken: string) {
@@ -390,5 +426,29 @@ export async function handleVerifyEmailChange(plainToken: string) {
 		success: true,
 		message: 'Email actualizado correctamente',
 		data: user,
+	};
+}
+
+export async function handleInvitationEmail(token: string) {
+	const verification = await verifyInvitationToken(token);
+
+	if (!verification.valid) {
+		return { success: false, message: 'Código Invalido' };
+	}
+
+	const { email, phone } = verification.invitation!;
+
+	const existingUser = await getUserByEmail(email);
+
+	if (existingUser) {
+		return { success: false, message: 'Este email ya tiene cuenta' };
+	}
+
+	await deleteInvitationToken(token);
+
+	return {
+		success: true,
+		message: 'Invitación verificada',
+		data: { email, phone },
 	};
 }
