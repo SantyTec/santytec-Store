@@ -1,20 +1,21 @@
 'use client';
 
+import { useEffect, useState, useActionState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import toast from 'react-hot-toast';
+
+import { ContactFormState, sendContactMail } from '@/lib/controller/contact';
+import { validateCaptcha } from '@/lib/controller/recaptcha';
+
 import FormError from '@/components/form-error';
 import SubmitButton from '@/components/submit-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ContactFormState, sendContactMail } from '@/lib/controller/contact';
-import { validateCaptcha } from '@/lib/controller/recaptcha';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import toast from 'react-hot-toast';
 
 export default function ContactForm() {
 	const { executeRecaptcha } = useGoogleReCaptcha();
-	const [state, dispatch] = useFormState(onSubmit, {
+	const [state, dispatch] = useActionState(onSubmit, {
 		message: '',
 		success: false,
 		errors: {},
@@ -56,7 +57,11 @@ export default function ContactForm() {
 	}
 
 	return (
-		<form action={dispatch} id="contact-form" className="grid grid-cols-2 gap-x-4">
+		<form
+			action={dispatch}
+			id="contact-form"
+			className="grid grid-cols-2 gap-x-4"
+		>
 			<div className="flex flex-col mb-4 gap-y-1 col-span-2">
 				<Label htmlFor="name">Nombre</Label>
 				<Input type="text" name="name" aria-describedby="name-error" />

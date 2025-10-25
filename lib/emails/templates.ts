@@ -5,7 +5,7 @@ const emailSignature = `
   <p style="font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem;">
     El equipo de <span style="color: hsl(58, 98%, 50%);">Santy Tec</span>
   </p>
-  <a href="https://santytec.com.ar/" style="display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;">
+  <a href="https://santytec.com.ar/" style="display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline-solid: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;">
     Visitanos
   </a>
 `;
@@ -83,7 +83,7 @@ export function adminNotification(
 				<p style="color: hsl(0, 0%, 80%);">Teléfono: <b>${phone}</b></p>
          <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">Resumen de orden</h2>
           ${orderSummary}
-				<a style="margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;" href="https://santytec-admin.vercel.app/admin">
+				<a style="margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline-solid: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;" href="https://santytec-admin.vercel.app/admin">
 					Más Info
 				</a>
 			</section>

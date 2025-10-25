@@ -4,7 +4,7 @@ import { CheckCircle2, Home, ShoppingBag } from 'lucide-react';
 
 export default function SuccessPage() {
 	return (
-		<section className="w-[calc(100%_-_10rem)] mx-auto text-center">
+		<section className="w-[calc(100%-10rem)] mx-auto text-center">
 			<header className="mt-8 mb-4 text-accent">
 				<CheckCircle2 className="mx-auto size-10" />
 				<h3 className="text-3xl font-semibold">¡Orden enviada!</h3>

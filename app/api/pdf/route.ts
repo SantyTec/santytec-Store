@@ -13,7 +13,9 @@ export async function GET() {
 
 		const buffer = await generateCatalogPDF(products);
 
-		return new NextResponse(buffer, {
+		const arrayBuffer = buffer.buffer as ArrayBuffer;
+
+		return new NextResponse(arrayBuffer, {
 			headers: {
 				'Content-Type': 'application/pdf',
 				'Content-Disposition': 'attachment; filename=santytec-catalogo.pdf',
