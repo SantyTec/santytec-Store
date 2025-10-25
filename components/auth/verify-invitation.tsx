@@ -32,12 +32,12 @@ export default function VerifyInvitation({ token }: TokenVerificationProps) {
 
 		if (!response.success) {
 			toast.error(response.message);
-			return response;
+			return response as InvitationFormState;
 		}
 
 		toast.success(response.message);
 		router.push('/login');
-		return response;
+		return response as InvitationFormState;
 	}
 
 	return (
