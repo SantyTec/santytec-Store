@@ -1,6 +1,12 @@
 import { handleGetFormattedUserOrders } from '@/lib/controller/order';
 import { Category, Image } from '@prisma/client';
 
+export type VerificationState = 'loading' | 'success' | 'error' | 'invalid';
+
+export interface TokenVerificationProps {
+	token?: string;
+}
+
 export type DataResponse = {
 	success: boolean;
 	message: string;

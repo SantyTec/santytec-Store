@@ -4,6 +4,7 @@ import {
 	adminNotification,
 	contactEmail,
 	customerNotification,
+  verificationEmail,
 } from './templates';
 
 export class Emailer {
@@ -21,7 +22,18 @@ export class Emailer {
 
 	public sendEmail(mailOptions: MailOptions) {
 		return this.transporter.sendMail(mailOptions);
-	}
+  }
+  
+  public async sendVerificationEmail(name: string, email: string, token: string) {
+    try {
+      await this.sendEmail(verificationEmail(name, email, token))
+
+      return {success:true, error:null}
+    } catch (error) {
+      console.error('[VERIFICATION_EMAIL_MAILER_ERROR]', error)
+      return {success:false, error}
+    }
+  }
 
 	public async sendCustomerNotification(name: string, email: string, orderSummary: string) {
 		try {

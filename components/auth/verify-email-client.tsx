@@ -13,14 +13,9 @@ import { Button } from '@/components/ui/button';
 import { Loader2, CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { verifyEmailAction } from '@/lib/actions/user';
+import { TokenVerificationProps, VerificationState } from '@/lib/types';
 
-interface VerifyEmailClientProps {
-	token?: string;
-}
-
-type VerificationState = 'loading' | 'success' | 'error' | 'invalid';
-
-export function VerifyEmailClient({ token }: VerifyEmailClientProps) {
+export function VerifyEmailClient({ token }: TokenVerificationProps) {
 	const router = useRouter();
 	const [state, setState] = useState<VerificationState>('loading');
 	const [errorMessage, setErrorMessage] = useState<string>('');

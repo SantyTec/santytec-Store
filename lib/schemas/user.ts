@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { RegisterSchema } from '@/lib/schemas/auth';
 
 export const PasswordSchema = z.string().min(1, {
-	message: 'La contraseña actual es requerida',
+	message: 'La contraseña es obligatoria',
 });
 
 export const NewEmailSchema = z.string().email({
@@ -69,11 +69,34 @@ export type ProfileFormState = {
 };
 
 export type UpdatePasswordFormState = {
-  message: string;
-  success: boolean;
-  errors?: {
-    currentPassword?: string[];
-    newPassword?: string[];
-    confirmNewPassword?: string[];
-  };
-}
+	message: string;
+	success: boolean;
+	errors?: {
+		currentPassword?: string[];
+		newPassword?: string[];
+		confirmNewPassword?: string[];
+	};
+};
+
+export const InvitationSchema = z
+	.object({
+		name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
+		password: PasswordSchema,
+		confirmPassword: PasswordSchema,
+		token: z.string().min(1),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		path: ['confirmPassword'],
+		error: 'Las contraseñas no coinciden',
+	});
+
+export type InvitationFormState = {
+	success: boolean;
+	message: string;
+	errors?: {
+		name?: string[];
+		password?: string[];
+		confirmPassword?: string[];
+		token?: string[];
+	};
+};
