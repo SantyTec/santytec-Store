@@ -6,13 +6,24 @@ import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 
 import { prisma } from '@/lib/client';
-import { handleRegister } from '@/lib/controller/user';
+import {
+	handleInvitationEmail,
+	handleInvitationRegister,
+	handleRegister,
+} from '@/lib/controller/user';
 import {
 	LoginFormState,
 	LoginSchema,
 	RegisterFormState,
 	RegisterSchema,
 } from '@/lib/schemas/auth';
+import {
+	deleteInvitationToken,
+	verifyInvitationToken,
+} from '@/lib/controller/token';
+import { findUserByEmailOrPhone } from '@/lib/model/user';
+import { InvitationFormState, InvitationSchema } from '@/lib/schemas/user';
+import z from 'zod';
 
 export async function loginAction(
 	prevState: LoginFormState,
@@ -111,4 +122,38 @@ export async function checkEmailExists(email: string): Promise<boolean> {
 
 export async function signOutAction() {
 	await signOut();
+}
+
+export async function registerWithInvitation(
+	prevState: InvitationFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = InvitationSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			message: 'Error en el formulario',
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+		};
+
+	const { name, password, token } = validatedFields.data;
+
+	const {
+		message: invitationMessage,
+		success: invitationSuccess,
+		data: invitationData,
+	} = await handleInvitationEmail(token);
+	if (!invitationSuccess || !invitationData)
+		return { success: false, message: invitationMessage };
+
+	const result = await handleInvitationRegister(
+		invitationData.email,
+		password,
+		name
+	);
+
+	return result;
 }
