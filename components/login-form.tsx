@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import toast from 'react-hot-toast';
 
 import { loginAction, loginWithGoogleAction } from '@/lib/actions/auth';
 import { LoginFormState } from '@/lib/schemas/auth';
@@ -13,6 +12,7 @@ import { LoginFormState } from '@/lib/schemas/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
 
 function SubmitButton() {
 	const { pending } = useFormStatus();
