@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useActionState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { ContactFormState, sendContactMail } from '@/lib/controller/contact';
 import { validateCaptcha } from '@/lib/controller/recaptcha';

@@ -1,3 +1,5 @@
+'use client'
+
 import { SubmitButton } from '@/components/register-form';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -10,7 +12,7 @@ import { cn, getPasswordStrength } from '@/lib/utils';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useActionState, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function VerifyInvitation({ token }: TokenVerificationProps) {
 	const router = useRouter();

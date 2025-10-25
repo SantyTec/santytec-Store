@@ -2,7 +2,7 @@
 
 import { SearchIcon } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { cn } from '@/lib/utils';
