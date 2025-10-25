@@ -32,7 +32,8 @@ export default function CarouselCard({ product, index, isVisible }: Props) {
 						<Image
 							src={firstImage?.url || '/logo.webp'}
 							alt={product.name}
-							className="object-cover transition-transform duration-500 group-hover:scale-110"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              priority={index < 3}
 							fill
 						/>
 						{outOfStock && (

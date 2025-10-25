@@ -27,6 +27,8 @@ export default function FeaturedGallery({
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const [isVisible, setIsVisible] = useState(false);
 
+  
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([entry]) => {
@@ -34,7 +36,7 @@ export default function FeaturedGallery({
 					setIsVisible(true);
 				}
 			},
-			{ threshold: 0.1 }
+			{ threshold: 0.1, rootMargin: '50px' }
 		);
 
 		const container = scrollContainerRef.current;
@@ -46,21 +48,8 @@ export default function FeaturedGallery({
 			if (container) {
 				observer.unobserve(container);
 			}
-		};
+    };
 	}, []);
-
-	useEffect(() => {
-		if (!api) {
-			return;
-		}
-
-		setCount(api.scrollSnapList().length);
-		setCurrent(api.selectedScrollSnap() + 1);
-
-		api.on('select', () => {
-			setCurrent(api.selectedScrollSnap() + 1);
-		});
-	}, [api]);
 
 	return (
 		<div>
@@ -71,7 +60,7 @@ export default function FeaturedGallery({
 							align: 'start',
               loop: false,
               dragFree: true,
-              containScroll: 'keepSnaps'
+              watchDrag: true
 						}}
 						setApi={setApi}
             className="w-full"
