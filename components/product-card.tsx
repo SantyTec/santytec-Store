@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { FullProduct } from '@/lib/types';
-import { cn } from '@/lib/utils';
 
 import {
 	Card,
@@ -10,7 +9,8 @@ import {
 	CardFooter,
 	CardHeader,
 } from '@/components/ui/card';
-import { CartPreview } from "@/components/cart/cart-preview";
+import { CartPreview } from '@/components/cart/cart-preview';
+import { Button } from '@/components/ui/button';
 
 interface Props {
 	product: FullProduct;
@@ -21,36 +21,53 @@ export default function ProductCard({ product }: Props) {
 	const outOfStock = product.stock === 0;
 
 	return (
-		<Card className="h-full border-2 cursor-pointer border-bg-800 hover:shadow-xs hover:shadow-accent">
-			<CardHeader className="h-full max-h-[80px] p-3">
-				<p className="font-semibold text-primary-100">{product.name}</p>
-			</CardHeader>
-			<CardContent className="p-3 pt-0 overflow-hidden">
-				<div className="relative w-full rounded-md overflow-hidden aspect-square bg-bg-800">
+		<Card className="relative overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2 hover:shadow-accent/10">
+			<Link href={`/products/${product.id}`}>
+				<CardHeader className="flex items-center justify-center overflow-hidden aspect-square bg-muted/50">
 					<Image
-						src={firstImage?.url || '/logo.webp'}
-						className="object-contain aspect-square"
+						src={firstImage.url || '/placeholder.svg'}
 						alt={product.name}
-						fill
+						width={300}
+						height={300}
+						className="object-contain p-8 transition-transform duration-300 group-hover:scale-110"
 					/>
-					{outOfStock && (
-						<span className="absolute top-0 bottom-0 left-0 right-0 w-full py-3 m-auto font-semibold text-center uppercase h-fit bg-bg text-primary-50">
-							Stock no disponible
-						</span>
+				</CardHeader>
+				<CardContent className="p-4 space-y-3">
+					<h3 className="text-base font-semibold transition-colors line-clamp-2 group-hover:text-accent">
+						{product.name}
+					</h3>
+					{product.stock < 5 && (
+						<div className="flex items-center gap-2 text-sm">
+							<div
+								className={`h-2 w-2 rounded-full ${
+									product.stock < 5
+										? 'bg-primary animate-gentle-pulse'
+										: 'bg-tertiary'
+								}`}
+							/>
+							<span
+								className={product.stock < 5 ? 'text-primary' : 'text-tertiary'}
+							>
+								{product.stock} disponibles
+							</span>
+						</div>
 					)}
-				</div>
-			</CardContent>
-			<CardFooter className="flex flex-col gap-y-3">
-				<p className="text-xl font-bold text-accent">${product.price}</p>
-				<div className="flex flex-wrap md:flex-nowrap w-full sm:w-auto mb-6 pointer-events-auto gap-3">
-					<CartPreview item={product} outOfStock={outOfStock} />
-					<Link
-						href={`/products/${product.id}`}
-						className={cn('btn border border-bg-800 bg-bg hover:bg-accent-900')}
+					<p className="text-2xl font-bold text-primary">${product.price}</p>
+
+					<Button
+						variant="outline"
+						className="w-full transition-all duration-300 bg-transparent border-primary text-primary hover:bg-primary hover:text-bg"
 					>
-						Más info
-					</Link>
-				</div>
+						Ver detalles
+					</Button>
+				</CardContent>
+			</Link>
+			<CardFooter className="px-4">
+				<CartPreview
+					item={product}
+					outOfStock={outOfStock}
+					className="w-full"
+				/>
 			</CardFooter>
 		</Card>
 	);

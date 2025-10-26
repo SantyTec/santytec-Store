@@ -47,7 +47,7 @@ export default async function CategoryPage(props: Props) {
 							</div>
 						}
 					>
-						<ProductsGrid categoryId={params.id} fetchType="category" />
+						<ProductsGrid categoryId={params.id} />
 					</Suspense>
 				</main>
 			</Wrapper>

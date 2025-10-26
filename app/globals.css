@@ -153,8 +153,21 @@
 	}
 }
 
+@utility scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+@utility bg-size-200 {
+	background-size: 200% 100%;
+}
+
+@utility bg-right {
+	background-position: 100% 0;
+}
+
 @utility btn {
-	@apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2;
+	@apply inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium transition-colors rounded-md whitespace-nowrap focus-visible:outline-hidden focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 }
 
 @utility btn--accent {
@@ -370,4 +383,50 @@
 	p {
 		@apply text-pretty;
 	}
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+.animate-float {
+	animation: float 6s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+/* Oculta el control de borrado nativo en Webkit (Chrome, Safari, Edge) */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Opcional: Oculta la lupa nativa en Firefox (aunque es menos común) */
+input[type="search"]::-moz-placeholder {
+  opacity: 1; /* Para Firefox, a veces el color cambia al ocultar la lupa */
 }
