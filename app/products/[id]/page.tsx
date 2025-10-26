@@ -4,11 +4,13 @@ import { Suspense } from 'react';
 
 import { prisma } from '@/lib/client';
 
-import ProductsGrid from '@/components/products-grid';
 import Gallery from '@/components/products/gallery';
 import Info from '@/components/products/info';
-import { ProductCardSkeleton, ProductSkeleton } from '@/components/skeletons';
+import { ProductSkeleton } from '@/components/skeletons';
 import { getProduct } from '@/lib/model/products';
+import { ProductBreadcrumb } from '@/components/products/product-breadcrumb';
+import { Skeleton } from '@/components/ui/skeleton';
+import { RelatedProductsWrapper } from '@/components/products/related-products-wrapper';
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -49,48 +51,54 @@ export default async function ProductPage(props: Props) {
 	const params = await props.params;
 	const product = await prisma.product.findFirst({
 		where: { id: params.id },
-		select: { categoryId: true },
+		select: {
+			id: true,
+			categoryId: true,
+			name: true,
+			category: { select: { name: true } },
+		},
 	});
 	if (!product) notFound();
 
 	return (
-		<section className="lg:px-14 px-7 py-7">
-			<main className="flex flex-col lg:flex-row gap-x-14">
-				<div className="lg:w-[65%] w-[80%] mx-auto lg:h-[calc(100dvh-8rem)]">
-					<Suspense
-						fallback={
-							<div className="lg:h-[calc(100dvh-10rem)] aspect-square mx-auto bg-bg-800 rounded-md shimmer overflow-hidden relative"></div>
-						}
-					>
-						<Gallery id={params.id} />
-					</Suspense>
-				</div>
-				<div>
-					<Suspense fallback={<ProductSkeleton />}>
-						<Info id={params.id} />
-					</Suspense>
+		<section className="min-h-screen lg:px-14 px-7 py-7 bg-bg">
+			<div className="container px-4 py-4 md:px-6">
+				<ProductBreadcrumb
+					category={product.category.name}
+					categorySlug={product.categoryId}
+					productName={product.name}
+				/>
+			</div>
+			<main className="container px-4 pb-16 md:px-6">
+				<div className="grid gap-8 lg:grid-cols-[60%_40%] lg:gap-12">
+					<div>
+						<Suspense
+							fallback={
+								<div className="lg:h-[calc(100dvh-10rem)] aspect-square mx-auto bg-bg-800 rounded-md shimmer overflow-hidden relative"></div>
+							}
+						>
+							<Gallery id={params.id} />
+						</Suspense>
+					</div>
+					<div className="lg:sticky lg:top-24 lg:h-fit">
+						<Suspense fallback={<ProductSkeleton />}>
+							<Info id={params.id} />
+						</Suspense>
+					</div>
 				</div>
 			</main>
-			<hr className="" />
-			<div className="space-y-4 text-center">
-				<h2 className="my-6 text-4xl font-semibold uppercase font-accent">
-					Productos recomendados
-				</h2>
-				<Suspense
-					fallback={
-						<div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-							<ProductCardSkeleton />
-							<ProductCardSkeleton />
-							<ProductCardSkeleton />
-							<ProductCardSkeleton />
-						</div>
-					}
-				>
-					<ProductsGrid
-						categoryId={product.categoryId}
-						fetchType="recommended"
-					/>
-				</Suspense>
+			<div className="mt-16">
+				<div className="space-y-6">
+					<div className="flex items-center justify-between">
+						<h2 className="text-3xl font-bold">Te podría interesar</h2>
+					</div>
+					<Suspense fallback={<Skeleton className="w-full h-96" />}>
+						<RelatedProductsWrapper
+							categoryId={product.categoryId}
+							productId={product.id}
+						/>
+					</Suspense>
+				</div>
 			</div>
 		</section>
 	);
