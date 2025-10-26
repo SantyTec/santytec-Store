@@ -47,7 +47,7 @@ export function Searchbar({ className }: { className?: string }) {
 			<form onSubmit={handleSubmit} className="w-full">
 				<input
 					defaultValue={searchParams.get('name') || ''}
-					className="peer block w-full rounded-md py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+					className="peer block w-full rounded-md py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 bg-bg"
 					name="query"
 					placeholder="Buscar producto"
 					onChange={(e) => {

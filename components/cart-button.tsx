@@ -12,13 +12,13 @@ export default function CartButton() {
 	const { items } = useCartStore((state) => state);
 
 	return (
-		<Button asChild className="relative" size="icon" variant="ghost">
+		<Button asChild className="relative hover:bg-tertiary hover:text-bg" size="icon" variant="ghost">
 			<Link href="/cart">
 				<ShoppingCart className="size-5" />
 				{items.length > 0 && (
 					<Badge
-						variant="secondary"
-						className="absolute -right-1 -top-1 size-5 rounded-full p-0 text-xs flex items-center justify-center"
+						variant="destructive"
+						className="absolute flex items-center justify-center p-0 text-xs rounded-full -right-1 -top-1 size-5"
 					>
 						{items.length}
 					</Badge>

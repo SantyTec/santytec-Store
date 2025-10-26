@@ -62,27 +62,31 @@ export default function ContactForm() {
 			id="contact-form"
 			className="grid grid-cols-2 gap-x-4"
 		>
-			<div className="flex flex-col mb-4 gap-y-1 col-span-2">
+			<div className="flex flex-col col-span-2 mb-4 gap-y-1">
 				<Label htmlFor="name">Nombre</Label>
 				<Input type="text" name="name" aria-describedby="name-error" />
 				<FormError id="name-error" field={state.errors?.name} />
 			</div>
 
-			<div className="flex flex-col mb-4 gap-y-1 col-span-2 md:col-span-1">
+			<div className="flex flex-col col-span-2 mb-4 gap-y-1 md:col-span-1">
 				<Label htmlFor="email">Email</Label>
 				<Input type="email" name="email" aria-describedby="email-error" />
 				<FormError id="email-error" field={state.errors?.email} />
 			</div>
 
-			<div className="flex flex-col mb-4 gap-y-1 col-span-2 md:col-span-1">
+			<div className="flex flex-col col-span-2 mb-4 gap-y-1 md:col-span-1">
 				<Label htmlFor="phone">Teléfono</Label>
 				<Input type="text" name="phone" aria-describedby="phone-error" />
 				<FormError id="phone-error" field={state.errors?.phone} />
 			</div>
 
-			<div className="flex flex-col mb-4 gap-y-1 col-span-2">
-				<Label htmlFor="phone">Mensaje</Label>
-				<Textarea name="message" aria-describedby="message-error" />
+			<div className="flex flex-col col-span-2 mb-4 gap-y-1">
+				<Label htmlFor="message">Mensaje</Label>
+				<Textarea
+					name="message"
+					className="h-40 resize-none"
+					aria-describedby="message-error"
+				/>
 				<FormError id="message-error" field={state.errors?.message} />
 			</div>
 

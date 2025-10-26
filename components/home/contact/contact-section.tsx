@@ -1,37 +1,50 @@
-import Wrapper from '@/components/wrapper';
 import ContactForm from './contact-form';
 import { Mail, Phone } from 'lucide-react';
 
 export default function ContactSection() {
 	return (
-		<Wrapper className="mx-24 min-h-screen">
-			<h2 className="mb-6 text-4xl font-semibold uppercase text-accent-600 text-center font-accent">
-				Contactános
+		<section className="container min-h-screen">
+			<h2 className="mb-6 text-4xl font-bold tracking-tight text-center uppercase md:text-5xl text-accent font-accent">
+				Contactanos
 			</h2>
-			<p className="text-lg text-bg-100 mx-auto mb-3">
+			<p className="max-w-2xl mx-auto mb-3 text-lg text-center text-primary-200/80">
 				¿Tenés una pregunta o necesitás asistencia? Llená el formulario de abajo
 				y te contactaremos lo más pronto posible
 			</p>
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				<ContactForm />
-				<section>
-					<h3 className="text-2xl mb-3 font-bold text-accent-600">
-						Información de contacto
+				<section className="space-y-8">
+					<h3 className="mb-3 text-2xl font-bold text-text">
+						Información de <span className="text-primary">soporte</span>
 					</h3>
-					<div className="flex mb-1.5">
-						<Phone className="size-6 mr-2 text-primary" />
-						<p>
-							<b className="text-primary-100">Teléfono:</b> +54 9 299 532-3739
-						</p>
+					<div className="flex items-start mb-1.5">
+						<Phone className="mr-2 size-6 text-primary" aria-hidden="true" />
+						<div className="space-y-1">
+							<p className="text-lg font-semibold text-text">Teléfono</p>
+							<a
+								href="tel:+5492995323739"
+								className="text-xl transition-colors duration-200 text-text hover:text-primary"
+							>
+								+54 9 299 532-3739
+							</a>
+						</div>
 					</div>
-					<div className="flex">
-						<Mail className="size-6 mr-2 text-primary" />
-						<p>
-							<b className="text-primary-100">Correo electrónico:</b> santytec2@gmail.com
-						</p>
+					<div className="flex items-start">
+						<Mail className="mr-2 size-6 text-primary" aria-hidden="true" />
+						<div className="space-y-1">
+							<p className="text-lg font-semibold text-text">
+								Correo Electrónico
+							</p>
+							<a
+								href="mailto:santytec2@gmail.com"
+								className="text-xl transition-colors duration-200 text-text hover:text-primary"
+							>
+								santytec2@gmail.com
+							</a>
+						</div>
 					</div>
 				</section>
 			</div>
-		</Wrapper>
+		</section>
 	);
 }
