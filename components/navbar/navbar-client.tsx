@@ -84,7 +84,7 @@ export function NavbarClient({
 										<ListItem
 											key={category.name}
 											title={category.name}
-											href={`/categories/${category.id}`}
+											href={`/categories/${category.slug}`}
 										></ListItem>
 									))}
 								</ul>
@@ -221,7 +221,7 @@ export function NavbarClient({
 												{categories.map((category) => (
 													<Link
 														key={category.name}
-														href={`/categories/${category.id}`}
+														href={`/categories/${category.slug}`}
 														className="block pl-4 text-sm transition-colors hover:text-primary"
 														onClick={() => setIsOpen(false)}
 													>

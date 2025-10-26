@@ -66,7 +66,7 @@ export default async function ProductPage(props: Props) {
 			id: true,
 			categoryId: true,
 			name: true,
-			category: { select: { name: true } },
+			category: { select: { name: true, slug: true } },
 		},
 	});
 	if (!product) notFound();
@@ -76,7 +76,7 @@ export default async function ProductPage(props: Props) {
 			<div className="container px-4 py-4 md:px-6">
 				<ProductBreadcrumb
 					category={product.category.name}
-					categorySlug={product.categoryId}
+					categorySlug={product.category.slug}
 					productName={product.name}
 				/>
 			</div>
