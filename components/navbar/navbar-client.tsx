@@ -182,10 +182,20 @@ export function NavbarClient({
 						<SheetContent side="right" className="overflow-scroll w-80">
 							<div className="flex flex-col mt-6 space-y-4">
 								<Searchbar className="relative w-full" />
-
+								<Link
+									href="/products"
+									className="text-sm font-medium transition-colors hover:text-accent"
+									onClick={() => setIsOpen(false)}
+								>
+									Productos
+								</Link>
 								{!isAuthenticated && (
 									<div className="flex flex-col gap-2 pb-4 border-b">
-										<Button variant="ghost" className='hover:bg-tertiary hover:text-bg' asChild>
+										<Button
+											variant="ghost"
+											className="hover:bg-tertiary hover:text-bg"
+											asChild
+										>
 											<Link href="/login" onClick={() => setIsOpen(false)}>
 												Iniciar Sesión
 											</Link>
@@ -205,7 +215,7 @@ export function NavbarClient({
 									<Accordion type="single" collapsible>
 										<AccordionItem value="categories">
 											<AccordionTrigger> Categorías </AccordionTrigger>
-											<AccordionContent className='space-y-3'>
+											<AccordionContent className="space-y-3">
 												{categories.map((category) => (
 													<Link
 														key={category.name}
@@ -219,6 +229,30 @@ export function NavbarClient({
 											</AccordionContent>
 										</AccordionItem>
 									</Accordion>
+
+									{isAuthenticated && (
+										<>
+											<div className="border-t pt-3 space-y-2">
+												<Link
+													href="/account"
+													className="text-sm font-medium transition-colors hover:text-accent flex items-center"
+													onClick={() => setIsOpen(false)}
+												>
+													<User className="mr-2 h-4 w-4" />
+													Mi Cuenta
+												</Link>
+												<Link
+													href="/account/orders"
+													className="text-sm font-medium transition-colors hover:text-accent flex items-center"
+													onClick={() => setIsOpen(false)}
+												>
+													<Package className="mr-2 h-4 w-4" />
+													Mis Órdenes
+												</Link>
+												<SignOut className="text-red-600 bg-transparent hover:bg-red-800 hover:text-red-100" />
+											</div>
+										</>
+									)}
 								</nav>
 							</div>
 						</SheetContent>

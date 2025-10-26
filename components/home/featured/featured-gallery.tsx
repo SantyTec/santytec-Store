@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/carousel';
 import CarouselCard from '@/components/carousel-card';
 import { start } from 'repl';
+import { Button } from '@/components/ui/button';
+import { ChevronRight } from 'lucide-react';
 
 export default function FeaturedGallery({
 	products,
@@ -109,9 +111,17 @@ export default function FeaturedGallery({
 				<>
 					<h2>Ingresa más tarde para conocer nuestro productos destacados.</h2>
 					<p>Ahora te invitamos a ver el catálogo completo.</p>
-					<Link href="/products" className="btn btn--accent">
-						Ver Catálogo
-					</Link>
+					<Button
+						variant="outline"
+						size="lg"
+						asChild
+						className="transition-all duration-300 bg-transparent border-accent text-accent hover:bg-accent hover:text-bg group"
+					>
+						<Link href="/products">
+							Ver Todo el Catálogo
+							<ChevronRight className="w-5 h-5 ml-2 transition-transform transform group-hover:translate-x-1" />
+						</Link>
+					</Button>
 				</>
 			)}
 		</div>
