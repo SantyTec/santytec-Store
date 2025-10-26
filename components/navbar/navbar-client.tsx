@@ -49,11 +49,11 @@ export function NavbarClient({
 	const isAuthenticated = !!session;
 
 	return (
-		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
-			<div className="container flex h-16 items-center justify-between px-4 md:px-6">
+		<header className="sticky top-0 z-50 w-full border-b bg-bg/95 backdrop-blur-xl supports-backdrop-filter:bg-bg/90 md:supports-backdrop-filter:bg-bg/70">
+			<div className="container flex items-center justify-between h-16 px-4 md:px-6">
 				<Link href="/" className="flex items-center space-x-2">
-					<div className="flex h-8 w-8 items-center justify-center rounded-lg">
-						<div className="size-16 relative overflow-hidden">
+					<div className="flex items-center justify-center w-8 h-8 rounded-lg">
+						<div className="relative overflow-hidden size-16">
 							<Image
 								className="object-contain aspect-square"
 								alt="Logo Santy Tec"
@@ -93,7 +93,7 @@ export function NavbarClient({
 					</NavigationMenuList>
 				</NavigationMenu>
 
-				<div className="hidden flex-1 max-w-sm mx-6 lg:flex">
+				<div className="flex-1 hidden max-w-sm mx-6 lg:flex">
 					<Searchbar className="relative w-full" />
 				</div>
 
@@ -104,9 +104,9 @@ export function NavbarClient({
 								<DropdownMenuTrigger asChild>
 									<Button
 										variant="ghost"
-										className="relative h-10 w-10 rounded-full"
+										className="relative w-10 h-10 rounded-full"
 									>
-										<Avatar className="h-10 w-10">
+										<Avatar className="w-10 h-10">
 											<AvatarImage
 												src={session.user.image || '/placeholder.svg'}
 												alt={session.user.name!}
@@ -124,7 +124,7 @@ export function NavbarClient({
 								<DropdownMenuContent align="end" className="w-56">
 									<div className="flex items-center justify-start gap-2 p-2">
 										<div className="flex flex-col space-y-1 leading-none">
-											<p className="font-medium text-sm">{session.user.name}</p>
+											<p className="text-sm font-medium">{session.user.name}</p>
 											<p className="w-[200px] truncate text-xs text-muted-foreground">
 												{session.user.email}
 											</p>
@@ -139,13 +139,13 @@ export function NavbarClient({
 									</DropdownMenuItem>
 									<DropdownMenuItem asChild>
 										<Link href="/account/orders" className="cursor-pointer">
-											<Package className="mr-2 h-4 w-4" />
+											<Package className="w-4 h-4 mr-2" />
 											Mis Órdenes
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<SignOut className="bg-transparent hover:bg-red-800 text-red-600 hover:text-red-100" />
+										<SignOut className="text-red-600 bg-transparent hover:bg-red-800 hover:text-red-100" />
 									</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
@@ -156,14 +156,14 @@ export function NavbarClient({
 								variant="ghost"
 								size="sm"
 								asChild
-								className="hidden md:inline-flex"
+								className="hidden md:inline-flex hover:bg-tertiary hover:text-bg"
 							>
 								<Link href="/login">Iniciar Sesión</Link>
 							</Button>
 							<Button
 								size="sm"
 								asChild
-								className="hidden md:inline-flex bg-primary-700 text-txt-50 hover:bg-primary-700/90"
+								className="hidden md:inline-flex bg-accent text-bg hover:bg-accent/80"
 							>
 								<Link href="/register">Registrarse</Link>
 							</Button>
@@ -175,24 +175,24 @@ export function NavbarClient({
 					<Sheet open={isOpen} onOpenChange={setIsOpen}>
 						<SheetTrigger asChild>
 							<Button variant="ghost" size="icon" className="md:hidden">
-								<Menu className="h-5 w-5" />
+								<Menu className="w-5 h-5" />
 								<span className="sr-only">Abrir menú</span>
 							</Button>
 						</SheetTrigger>
-						<SheetContent side="right" className="w-80 overflow-scroll">
-							<div className="flex flex-col space-y-4 mt-6">
+						<SheetContent side="right" className="overflow-scroll w-80">
+							<div className="flex flex-col mt-6 space-y-4">
 								<Searchbar className="relative w-full" />
 
 								{!isAuthenticated && (
 									<div className="flex flex-col gap-2 pb-4 border-b">
-										<Button variant="ghost" asChild>
+										<Button variant="ghost" className='hover:bg-tertiary hover:text-bg' asChild>
 											<Link href="/login" onClick={() => setIsOpen(false)}>
 												Iniciar Sesión
 											</Link>
 										</Button>
 										<Button
 											asChild
-											className="bg-primary-700 text-txt-50 hover:bg-primary-700/90"
+											className=" bg-accent text-bg hover:bg-accent/80"
 										>
 											<Link href="/register" onClick={() => setIsOpen(false)}>
 												Registrarse
@@ -205,7 +205,7 @@ export function NavbarClient({
 									<Accordion type="single" collapsible>
 										<AccordionItem value="categories">
 											<AccordionTrigger> Categorías </AccordionTrigger>
-											<AccordionContent>
+											<AccordionContent className='space-y-3'>
 												{categories.map((category) => (
 													<Link
 														key={category.name}

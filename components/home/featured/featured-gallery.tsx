@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { FullProduct } from '@/lib/types';
 
-import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import {
 	Carousel,
 	CarouselApi,
@@ -15,6 +15,7 @@ import {
 	CarouselPrevious,
 } from '@/components/ui/carousel';
 import CarouselCard from '@/components/carousel-card';
+import { start } from 'repl';
 
 export default function FeaturedGallery({
 	products,
@@ -22,12 +23,36 @@ export default function FeaturedGallery({
 	products: FullProduct[];
 }) {
 	const [api, setApi] = useState<CarouselApi>();
-	const [current, setCurrent] = useState(0);
-	const [count, setCount] = useState(0);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const [isVisible, setIsVisible] = useState(false);
+	const [isDesktop, setIsDesktop] = useState(false);
 
-  
+	useEffect(() => {
+		const checkScreenSize = () => {
+			setIsDesktop(window.innerWidth >= 768);
+		};
+
+		checkScreenSize();
+
+		window.addEventListener('resize', checkScreenSize);
+
+		return () => window.removeEventListener('resize', checkScreenSize);
+	}, []);
+
+	const carouselOptions = isDesktop
+		? {
+				align: 'start' as const,
+				loop: false,
+				dragFree: true,
+				watchDrag: true,
+		  }
+		: {
+				align: 'start' as const,
+				loop: false,
+				dragFree: false,
+				watchDrag: true,
+				duration: 20,
+		  };
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -48,7 +73,7 @@ export default function FeaturedGallery({
 			if (container) {
 				observer.unobserve(container);
 			}
-    };
+		};
 	}, []);
 
 	return (
@@ -56,17 +81,10 @@ export default function FeaturedGallery({
 			{products.length > 0 ? (
 				<>
 					<Carousel
-						opts={{
-							align: 'start',
-              loop: false,
-              dragFree: true,
-              watchDrag: true
-						}}
+						opts={carouselOptions}
 						setApi={setApi}
-            className="w-full"
-            plugins={[
-              WheelGesturesPlugin()
-            ]}
+						className="w-full"
+						plugins={[WheelGesturesPlugin()]}
 						ref={scrollContainerRef}
 					>
 						<CarouselContent className="-ml-6">
@@ -79,11 +97,11 @@ export default function FeaturedGallery({
 									/>
 								</CarouselItem>
 							))}
-            </CarouselContent>
-            
-						<div className="hidden md:block absolute -top-8 right-14">
-							<CarouselPrevious className="border-accent/50 hover:border-accent hover:bg-accent/10 transition-all -left-12" />
-							<CarouselNext className="border-accent/50 hover:border-accent hover:bg-accent/10 transition-all -right-12" />
+						</CarouselContent>
+
+						<div className="absolute -bottom-8 right-1/2 md:-top-8 md:right-14">
+							<CarouselPrevious className="transition-all border-accent/50 hover:border-accent hover:bg-accent/10 -left-12" />
+							<CarouselNext className="transition-all border-accent/50 hover:border-accent hover:bg-accent/10 -right-12" />
 						</div>
 					</Carousel>
 				</>
