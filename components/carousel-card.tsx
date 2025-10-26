@@ -9,22 +9,15 @@ import Link from 'next/link';
 interface Props {
 	product: FullProduct;
 	index: number;
-	isVisible: boolean;
 }
 
-export default function CarouselCard({ product, index, isVisible }: Props) {
+export default function CarouselCard({ product, index }: Props) {
 	const firstImage = product.images[0];
 	const outOfStock = product.stock === 0;
 
 	return (
 		<Card
-			className={`overflow-hidden bg-card group border-border/50 h-full cursor-pointer hover:border-secondary/50 transition-all duration-300 ${
-				isVisible ? 'animate-in fade-in slide-in-from-bottom-4' : 'opacity-0'
-			}`}
-			style={{
-				animationDelay: `${index * 100}ms`,
-				animationFillMode: 'forwards',
-			}}
+			className={`overflow-hidden bg-card group border-border/50 h-full cursor-pointer hover:border-primary/50 transition-all duration-300`}
 		>
 			<Link href={`/products/${product.id}`} className="block">
 				<CardContent className="p-3 pt-0 overflow-hidden">
@@ -32,12 +25,12 @@ export default function CarouselCard({ product, index, isVisible }: Props) {
 						<Image
 							src={firstImage?.url || '/logo.webp'}
 							alt={product.name}
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              priority={index < 3}
+							className="object-cover transition-transform duration-500 group-hover:scale-110"
+							priority={index < 3}
 							fill
 						/>
 						{outOfStock && (
-							<Badge className="absolute bg-secondary top-3 right-3 gap-1 animate-gentle-pulse">
+							<Badge className="absolute bg-primary top-3 right-3 gap-1 animate-gentle-pulse">
 								Bajo stock
 							</Badge>
 						)}
@@ -46,7 +39,7 @@ export default function CarouselCard({ product, index, isVisible }: Props) {
 				</CardContent>
 
 				<div className="p-4 space-y-3">
-					<p className="text-xs text-secondary font-medium uppercase tracking-wider">
+					<p className="text-xs text-primary font-medium uppercase tracking-wider">
 						{product.category.name}
 					</p>
 					<h3 className="text-lg font-semibold text-foreground line-clamp-2 leading-tight">
@@ -61,7 +54,7 @@ export default function CarouselCard({ product, index, isVisible }: Props) {
 					</div>
 				</div>
 			</Link>
-			<CartPreview item={product} outOfStock={outOfStock} className='ml-4' />
+			<CartPreview item={product} outOfStock={outOfStock} className="ml-4" />
 		</Card>
 	);
 }

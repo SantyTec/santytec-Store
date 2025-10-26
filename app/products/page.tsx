@@ -75,7 +75,7 @@ export default async function ProductsPage(props: Props) {
 								</Button>
 							</SheetTrigger>
 							<SheetContent side="left">
-								<div className="space-y-6">
+								<div className="space-y-6 mt-6">
 									<DownloadCatalogButton className="w-full" />
 									<Suspense fallback={<Skeleton />}>
 										<CategoryFilter />
