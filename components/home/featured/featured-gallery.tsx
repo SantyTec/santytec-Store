@@ -18,7 +18,7 @@ import { ChevronRight } from 'lucide-react';
 export default function FeaturedGallery({
 	products,
 }: {
-	products: FullProduct[];
+	products: Array<FullProduct & { slug: string }>;
 }) {
 	return (
 		<div>
