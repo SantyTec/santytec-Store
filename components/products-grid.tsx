@@ -10,11 +10,11 @@ import ProductCard from '@/components/product-card';
 import { RelatedProducts } from '@/components/products/related-products';
 
 interface Props {
-	categoryId: string;
+	slug: string;
 }
 
-export default async function ProductsGrid({ categoryId }: Props) {
-	const products = await getProductsByCategory(categoryId);
+export default async function ProductsGrid({ slug }: Props) {
+	const products = await getProductsByCategory(slug);
 
 	if (!products || typeof products === 'undefined') notFound();
 

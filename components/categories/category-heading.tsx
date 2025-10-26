@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation';
 
 import { getCategoryName } from '@/lib/model/categories';
 
-export default async function CategoryHeading({ id }: { id: string }) {
-	const { data: name, error } = await getCategoryName(id);
+export default async function CategoryHeading({ slug }: { slug: string }) {
+	const { data: name, error } = await getCategoryName(slug);
 
 	if (error) notFound();
 

@@ -13,7 +13,7 @@ import { CartPreview } from '@/components/cart/cart-preview';
 import { Button } from '@/components/ui/button';
 
 interface Props {
-	product: FullProduct;
+	product: FullProduct & { slug: string };
 }
 
 export default function ProductCard({ product }: Props) {
@@ -22,7 +22,7 @@ export default function ProductCard({ product }: Props) {
 
 	return (
 		<Card className="relative overflow-hidden transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2 hover:shadow-accent/10">
-			<Link href={`/products/${product.id}`}>
+			<Link href={`/products/${product.slug}`}>
 				<CardHeader className="flex items-center justify-center overflow-hidden aspect-square bg-muted/50">
 					<Image
 						src={firstImage.url || '/placeholder.svg'}

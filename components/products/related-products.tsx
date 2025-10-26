@@ -14,6 +14,7 @@ import {
 interface Props {
 	products: Array<{
 		id: string;
+		slug: string;
 		name: string;
 		price: number;
 		image: string;
@@ -33,7 +34,7 @@ export function RelatedProducts({ products }: Props) {
 				<CarouselContent className="py-2 -ml-4">
 					{products.map((product) => (
 						<CarouselItem key={product.id} className="pl-4 basis-64">
-							<Link href={`/products/${product.id}`} className="block group">
+							<Link href={`/products/${product.slug}`} className="block group">
 								<Card className="min-h-[360px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
 									<div className="relative aspect-square bg-muted">
 										<Image
