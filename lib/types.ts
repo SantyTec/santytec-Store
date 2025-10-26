@@ -14,7 +14,7 @@ export type DataResponse = {
 };
 
 export type FullProduct = {
-	id: string;
+  id: string;
 	name: string;
 	description: string | null;
 	price: string;

@@ -15,6 +15,7 @@ model Category {
   parentCategory   Category?  @relation(name: "Category to Subcategories", fields: [parentCategoryId], references: [id], onUpdate: SetNull, onDelete: SetNull)
   parentCategoryId String?
   subcategories    Category[] @relation(name: "Category to Subcategories")
+  slug             String     @unique @db.VarChar(255)
 
   @@index([parentCategoryId])
 }
@@ -70,17 +71,21 @@ model OrderItem {
 }
 
 model Product {
-  id          String      @id @unique @default(uuid())
+  id          String   @id @unique @default(uuid())
   description String?
-  isArchived  Boolean     @default(false)
-  isFeatured  Boolean     @default(false)
+  isArchived  Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
   name        String
   price       Decimal
   stock       Int
-  category    Category    @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  images      Image[]
-  orderItems  OrderItem[]
+  slug        String   @unique @db.VarChar(255)
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  categoryId String
+  images     Image[]
+  orderItems OrderItem[]
 }
 
 model User {

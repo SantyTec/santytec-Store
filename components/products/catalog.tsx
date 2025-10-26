@@ -37,8 +37,6 @@ export default async function Catalog({
 		maxPrice,
 		inStock,
   });
-  
-  console.log(totalPages)
 
 	return (
 		<>

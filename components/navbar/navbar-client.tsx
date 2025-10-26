@@ -182,13 +182,7 @@ export function NavbarClient({
 						<SheetContent side="right" className="overflow-scroll w-80">
 							<div className="flex flex-col mt-6 space-y-4">
 								<Searchbar className="relative w-full" />
-								<Link
-									href="/products"
-									className="text-sm font-medium transition-colors hover:text-accent"
-									onClick={() => setIsOpen(false)}
-								>
-									Productos
-								</Link>
+
 								{!isAuthenticated && (
 									<div className="flex flex-col gap-2 pb-4 border-b">
 										<Button
@@ -212,6 +206,14 @@ export function NavbarClient({
 								)}
 
 								<nav className="flex flex-col space-y-3">
+									<Link
+										href="/products"
+										className="text-sm font-medium transition-colors hover:text-accent"
+										onClick={() => setIsOpen(false)}
+									>
+										Productos
+                  </Link>
+                  
 									<Accordion type="single" collapsible>
 										<AccordionItem value="categories">
 											<AccordionTrigger> Categorías </AccordionTrigger>

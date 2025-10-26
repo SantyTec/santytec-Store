@@ -1,21 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 
 import { FullProduct } from '@/lib/types';
 
-import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import {
 	Carousel,
-	CarouselApi,
 	CarouselContent,
 	CarouselItem,
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel';
 import CarouselCard from '@/components/carousel-card';
-import { start } from 'repl';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 
@@ -24,79 +20,15 @@ export default function FeaturedGallery({
 }: {
 	products: FullProduct[];
 }) {
-	const [api, setApi] = useState<CarouselApi>();
-	const scrollContainerRef = useRef<HTMLDivElement>(null);
-	const [isVisible, setIsVisible] = useState(false);
-	const [isDesktop, setIsDesktop] = useState(false);
-
-	useEffect(() => {
-		const checkScreenSize = () => {
-			setIsDesktop(window.innerWidth >= 768);
-		};
-
-		checkScreenSize();
-
-		window.addEventListener('resize', checkScreenSize);
-
-		return () => window.removeEventListener('resize', checkScreenSize);
-	}, []);
-
-	const carouselOptions = isDesktop
-		? {
-				align: 'start' as const,
-				loop: false,
-				dragFree: true,
-				watchDrag: true,
-		  }
-		: {
-				align: 'start' as const,
-				loop: false,
-				dragFree: false,
-				watchDrag: true,
-				duration: 20,
-		  };
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					setIsVisible(true);
-				}
-			},
-			{ threshold: 0.1, rootMargin: '50px' }
-		);
-
-		const container = scrollContainerRef.current;
-		if (container) {
-			observer.observe(container);
-		}
-
-		return () => {
-			if (container) {
-				observer.unobserve(container);
-			}
-		};
-	}, []);
-
 	return (
 		<div>
 			{products.length > 0 ? (
 				<>
-					<Carousel
-						opts={carouselOptions}
-						setApi={setApi}
-						className="w-full"
-						plugins={[WheelGesturesPlugin()]}
-						ref={scrollContainerRef}
-					>
+					<Carousel className="w-full" opts={{ duration: 20 }}>
 						<CarouselContent className="-ml-6">
 							{products.map((product, index) => (
 								<CarouselItem key={product.id} className="pl-6 basis-[280px]">
-									<CarouselCard
-										isVisible={isVisible}
-										index={index}
-										product={product}
-									/>
+									<CarouselCard index={index} product={product} />
 								</CarouselItem>
 							))}
 						</CarouselContent>
