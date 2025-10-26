@@ -38,10 +38,12 @@ export async function getFormattedProducts({
 	if (error) throw new Error(error);
 	if (!products) return [];
 
-	const formattedProducts: FullProduct[] = products.map((item) => ({
-		...item,
-		price: item.price.toFixed(),
-	}));
+	const formattedProducts: Array<FullProduct & { slug: string }> = products.map(
+		(item) => ({
+			...item,
+			price: item.price.toFixed(),
+		})
+	);
 
 	return formattedProducts;
 }

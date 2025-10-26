@@ -11,6 +11,7 @@ export async function RelatedProductsWrapper({ categoryId, productId }: Props) {
 		where: { categoryId, isArchived: false },
 		select: {
 			id: true,
+			slug: true,
 			name: true,
 			price: true,
 			images: { select: { url: true }, take: 1 },

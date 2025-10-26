@@ -12,11 +12,11 @@ import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface Props {
-	id: string;
+	slug: string;
 }
 
-export default async function Info({ id }: Props) {
-	const product = await getProduct(id);
+export default async function Info({ slug }: Props) {
+	const product = await getProduct(slug);
 
 	if (!product) notFound();
 

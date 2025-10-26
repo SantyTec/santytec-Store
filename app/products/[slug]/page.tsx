@@ -13,14 +13,25 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { RelatedProductsWrapper } from '@/components/products/related-products-wrapper';
 
 interface Props {
-	params: Promise<{ id: string }>;
+	params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+	const products = await prisma.product.findMany({
+		where: { isArchived: false },
+		select: { slug: true },
+	});
+
+	return products.map((product) => ({
+		slug: product.slug,
+	}));
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
 	const params = await props.params;
-	const id = params.id;
+	const slug = params.slug;
 
-	const product = await getProduct(id);
+	const product = await getProduct(slug);
 
 	return {
 		title: `${product?.name ?? 'Producto'} | Santy Tec`,
@@ -32,7 +43,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 			description: `Compra ${product?.name ?? 'Producto'} en Santy Tec. ${
 				product?.description
 			}. Descubre sus características y especificaciones.`,
-			url: `https://www.santytec.com.ar/products/${id}`,
+			url: `https://www.santytec.com.ar/products/${slug}`,
 			images: [
 				{
 					url: product?.images[0]?.url ?? '#',
@@ -50,7 +61,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function ProductPage(props: Props) {
 	const params = await props.params;
 	const product = await prisma.product.findFirst({
-		where: { id: params.id },
+		where: { slug: params.slug },
 		select: {
 			id: true,
 			categoryId: true,
@@ -77,12 +88,12 @@ export default async function ProductPage(props: Props) {
 								<div className="lg:h-[calc(100dvh-10rem)] aspect-square mx-auto bg-bg-800 rounded-md shimmer overflow-hidden relative"></div>
 							}
 						>
-							<Gallery id={params.id} />
+							<Gallery id={product.id} />
 						</Suspense>
 					</div>
 					<div className="lg:sticky lg:top-24 lg:h-fit">
 						<Suspense fallback={<ProductSkeleton />}>
-							<Info id={params.id} />
+							<Info slug={params.slug} />
 						</Suspense>
 					</div>
 				</div>

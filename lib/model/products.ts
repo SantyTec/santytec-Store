@@ -15,7 +15,7 @@ export async function getAllProducts() {
 	}
 }
 
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 12;
 
 interface FilterOptions {
 	currentPage: number;
@@ -38,9 +38,7 @@ export async function getFilteredProducts({
 
 	try {
 		const whereConditions: any = {
-			AND: [
-				{ isArchived: false },
-			],
+			AND: [{ isArchived: false }],
 		};
 
 		// Filtro por nombre
@@ -53,7 +51,7 @@ export async function getFilteredProducts({
 		// Filtro por categorías (múltiples)
 		if (categories && categories.length > 0) {
 			whereConditions.AND.push({
-				OR: categories.map(categoryId => ({
+				OR: categories.map((categoryId) => ({
 					categoryId: categoryId,
 				})),
 			});
@@ -62,15 +60,15 @@ export async function getFilteredProducts({
 		// Filtro por rango de precio
 		if (minPrice !== undefined || maxPrice !== undefined) {
 			const priceCondition: any = {};
-			
+
 			if (minPrice !== undefined) {
 				priceCondition.gte = minPrice;
 			}
-			
+
 			if (maxPrice !== undefined) {
 				priceCondition.lte = maxPrice;
 			}
-			
+
 			whereConditions.AND.push({
 				price: priceCondition,
 			});
@@ -84,9 +82,9 @@ export async function getFilteredProducts({
 		}
 
 		const products = await prisma.product.findMany({
-			include: { 
-				images: true, 
-				category: true 
+			include: {
+				images: true,
+				category: true,
 			},
 			orderBy: { name: 'asc' },
 			where: whereConditions,
@@ -112,9 +110,7 @@ export async function getFilteredProductsCount({
 }: Omit<FilterOptions, 'currentPage'>) {
 	try {
 		const whereConditions: any = {
-			AND: [
-				{ isArchived: false },
-			],
+			AND: [{ isArchived: false }],
 		};
 
 		if (name && name.trim() !== '') {
@@ -125,7 +121,7 @@ export async function getFilteredProductsCount({
 
 		if (categories && categories.length > 0) {
 			whereConditions.AND.push({
-				OR: categories.map(categoryId => ({
+				OR: categories.map((categoryId) => ({
 					categoryId: categoryId,
 				})),
 			});
@@ -133,15 +129,15 @@ export async function getFilteredProductsCount({
 
 		if (minPrice !== undefined || maxPrice !== undefined) {
 			const priceCondition: any = {};
-			
+
 			if (minPrice !== undefined) {
 				priceCondition.gte = minPrice;
 			}
-			
+
 			if (maxPrice !== undefined) {
 				priceCondition.lte = maxPrice;
 			}
-			
+
 			whereConditions.AND.push({
 				price: priceCondition,
 			});
@@ -181,10 +177,10 @@ export async function fetchProductsCount() {
 	}
 }
 
-export async function getProduct(id: string) {
+export async function getProduct(slug: string) {
 	try {
 		const product = await prisma.product.findUnique({
-			where: { id },
+			where: { slug },
 			include: { images: true, category: true },
 		});
 
@@ -214,10 +210,10 @@ export async function getRecommendedProducts(categoryId: string) {
 	}
 }
 
-export async function getProductsByCategory(categoryId: string) {
+export async function getProductsByCategory(slug: string) {
 	try {
 		const products = await prisma.product.findMany({
-			where: { categoryId, isArchived: false },
+			where: { slug, isArchived: false },
 			orderBy: { isFeatured: 'desc' },
 			include: { images: true, category: true },
 		});

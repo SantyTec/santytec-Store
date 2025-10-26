@@ -18,10 +18,10 @@ export async function fetchRootCategories() {
 	}
 }
 
-export async function getCategoryName(id: string) {
+export async function getCategoryName(slug: string) {
 	try {
 		const category = await prisma.category.findUnique({
-			where: { id },
+			where: { slug },
 			select: { name: true },
 		});
 

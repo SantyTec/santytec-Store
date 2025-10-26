@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
-	product: FullProduct;
+	product: FullProduct & {slug: string};
 	index: number;
 }
 
@@ -19,7 +19,7 @@ export default function CarouselCard({ product, index }: Props) {
 		<Card
 			className={`overflow-hidden bg-card group border-border/50 h-full cursor-pointer hover:border-primary/50 transition-all duration-300`}
 		>
-			<Link href={`/products/${product.id}`} className="block">
+			<Link href={`/products/${product.slug}`} className="block">
 				<CardContent className="p-3 pt-0 overflow-hidden">
 					<div className="relative aspect-square overflow-hidden bg-muted/30">
 						<Image
