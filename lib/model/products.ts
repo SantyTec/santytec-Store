@@ -213,7 +213,7 @@ export async function getRecommendedProducts(categoryId: string) {
 export async function getProductsByCategory(slug: string) {
 	try {
 		const products = await prisma.product.findMany({
-			where: { slug, isArchived: false },
+			where: { category: { slug }, isArchived: false },
 			orderBy: { isFeatured: 'desc' },
 			include: { images: true, category: true },
 		});

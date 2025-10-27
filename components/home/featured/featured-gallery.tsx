@@ -33,7 +33,7 @@ export default function FeaturedGallery({
 							))}
 						</CarouselContent>
 
-						<div className="absolute -bottom-8 right-1/2 md:-top-8 md:right-14">
+						<div className="absolute -bottom-8 right-1/2 md:-top-8 md:bottom-auto md:right-14">
 							<CarouselPrevious className="transition-all border-accent/50 hover:border-accent hover:bg-accent/10 -left-12" />
 							<CarouselNext className="transition-all border-accent/50 hover:border-accent hover:bg-accent/10 -right-12" />
 						</div>
