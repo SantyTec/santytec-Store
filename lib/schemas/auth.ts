@@ -12,6 +12,10 @@ export const RegisterSchema = z.object({
 	phone: z.string().optional(),
 });
 
+export const ResendVerificationEmailSchema = z.object({
+	email: z.email('Email inválido'),
+});
+
 export type Login = z.infer<typeof LoginSchema>;
 export type Register = z.infer<typeof RegisterSchema>;
 
@@ -32,5 +36,13 @@ export type RegisterFormState = {
 		email?: string[];
 		password?: string[];
 		phone?: string[];
+	};
+};
+
+export type ResendVerificationEmailFormState = {
+	message: string;
+	success: boolean;
+	errors?: {
+		email?: string[];
 	};
 };
