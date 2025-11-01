@@ -10,18 +10,16 @@ import {
 	handleInvitationEmail,
 	handleInvitationRegister,
 	handleRegister,
+	handleResendVerificationEmail,
 } from '@/lib/controller/user';
 import {
 	LoginFormState,
 	LoginSchema,
 	RegisterFormState,
 	RegisterSchema,
+	ResendVerificationEmailFormState,
+	ResendVerificationEmailSchema,
 } from '@/lib/schemas/auth';
-import {
-	deleteInvitationToken,
-	verifyInvitationToken,
-} from '@/lib/controller/token';
-import { findUserByEmailOrPhone } from '@/lib/model/user';
 import { InvitationFormState, InvitationSchema } from '@/lib/schemas/user';
 import z from 'zod';
 
@@ -61,10 +59,10 @@ export async function loginAction(
 						success: false,
 					};
 				default:
-					if (error.message.includes('CuentaNoVerificada')) {
+					if (error.cause?.err?.message.includes('CuentaNoVerificada')) {
 						return {
 							message:
-								'Tu cuenta aún no ha sido verificada. Por favor, revisa tu correo para el enlace de activación.',
+								'Tu cuenta está inactiva. Revisa tu email para el enlace de activación.',
 							success: false,
 						};
 					}
@@ -163,4 +161,26 @@ export async function registerWithInvitation(
 	);
 
 	return result;
+}
+
+export async function resendVerificationEmail(
+	prevState: ResendVerificationEmailFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResendVerificationEmailSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			message: 'Datos inválidos. Por favor revisa los campos.',
+		};
+
+	const response = await handleResendVerificationEmail(
+		validatedFields.data.email
+  );
+  
+  return response;
 }
