@@ -63,9 +63,9 @@ export async function loginAction(
 				default:
 					if (error.message.includes('CuentaNoVerificada')) {
 						return {
-							success: false,
 							message:
-								'Tu cuenta aún no ha sido verificada. Por favor, revisa tu correo',
+								'Tu cuenta aún no ha sido verificada. Por favor, revisa tu correo para el enlace de activación.',
+							success: false,
 						};
 					}
 					return {
