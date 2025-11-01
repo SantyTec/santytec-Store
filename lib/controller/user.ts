@@ -452,3 +452,32 @@ export async function handleInvitationEmail(token: string) {
 		data: { email, phone },
 	};
 }
+
+export async function handleResendVerificationEmail(email: string) {
+	const user = await getUserByEmail(email);
+	if (!user) return { success: false, message: 'Usuario no encontrado' };
+
+	if (user.emailVerified)
+		return { success: false, message: 'El email ya está verificado' };
+
+	const { data: token, success: tokenSuccess } = await createVerificationToken(
+		email
+	);
+	if (!tokenSuccess || !token) {
+		return { success: false, message: 'No se pudo crear un nuevo token' };
+	}
+
+	const emailer = new Emailer();
+	const emailSent = await emailer.sendVerificationEmail(email, email, token);
+	if (!emailSent.success) {
+		return {
+			success: false,
+			message: 'No se pudo enviar el email de verificación',
+		};
+	}
+
+	return {
+		success: true,
+		message: 'Email de verificación reenviado exitosamente',
+	};
+}
