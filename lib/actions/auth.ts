@@ -61,6 +61,13 @@ export async function loginAction(
 						success: false,
 					};
 				default:
+					if (error.message.includes('CuentaNoVerificada')) {
+						return {
+							success: false,
+							message:
+								'Tu cuenta aún no ha sido verificada. Por favor, revisa tu correo',
+						};
+					}
 					return {
 						message: 'Ocurrió un error al iniciar sesión.',
 						success: false,

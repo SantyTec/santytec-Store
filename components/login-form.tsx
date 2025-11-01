@@ -73,7 +73,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl?: string }) {
 		const res = await loginAction(prevState, formData);
 
 		if (!res.success) {
-			toast.error(res.message);
+			toast.error(res.message, { duration: 1500 });
 			return res;
 		}
 
