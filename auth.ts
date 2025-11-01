@@ -52,6 +52,8 @@ const providers: Provider[] = [
 				return null;
 			}
 
+			if (!user.emailVerified) throw new Error('CuentaNoVerificada');
+
 			const passwordMatch = await bcrypt.compare(password, user.password);
 
 			if (!passwordMatch) {
