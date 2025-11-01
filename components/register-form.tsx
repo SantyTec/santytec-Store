@@ -82,7 +82,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 			return res as RegisterFormState;
 		}
 
-		toast.success(res.message);
+		toast.success(res.message, {duration: 1500});
 		router.push('/login');
 		return res as RegisterFormState;
 	}
