@@ -52,6 +52,19 @@ export const UpdatePasswordSchema = z
 		path: ['confirmNewPassword'],
 	});
 
+export const ResetPasswordSchema = z
+	.object({
+		password: z
+			.string()
+			.min(8, 'La nueva contraseña debe tener al menos 8 caracteres'),
+		confirmPassword: z.string().min(1, 'Debes confirmar la nueva contraseña'),
+		token: z.string().min(1, 'Falta el token en la solicitud'),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: 'Las contraseñas no coinciden',
+		path: ['confirmPassword'],
+	});
+
 export const ProfileSchema = RegisterSchema;
 
 export type ProfileSchemaValues = z.infer<typeof ProfileSchema>;
@@ -98,5 +111,8 @@ export type InvitationFormState = {
 		password?: string[];
 		confirmPassword?: string[];
 		token?: string[];
+	};
+	data?: {
+		password?: string;
 	};
 };

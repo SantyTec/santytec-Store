@@ -10,6 +10,129 @@ const emailSignature = `
   </a>
 `;
 
+export function forgotPasswordEmail(
+	name: string,
+	email: string,
+	token: string
+): MailOptions {
+	return {
+		from: process.env.GMAIL_USER,
+		to: email,
+		text: '',
+		subject: 'Santy Tec - Restablece tu contraseña',
+		html: `
+   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Restablece tu contraseña</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #121212; margin: 0; padding: 0;">
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #121212;">
+        <tr>
+            <td align="center" style="padding: 20px 0;">
+
+                <table width="600" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #1f1f1f; border-radius: 8px;">
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td align="center" style="padding-top: 24px;">
+                                        <h1 style="color: #e0e0e0; font-size: 32px; font-weight: 700; line-height: 1.2; margin: 0 0 24px 0; text-align: center;">
+                                            Restablecer Contraseña
+                                        </h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="color: #e0e0e0; font-size: 16px; line-height: 1.6; margin: 16px 0;">
+                                            Hola ${name},
+                                        </p>
+                                        <p style="color: #e0e0e0; font-size: 16px; line-height: 1.6; margin: 16px 0;">
+                                            Recibimos una solicitud para restablecer la contraseña de tu cuenta. Si fuiste tú, haz clic en el botón de
+                                            abajo para crear una nueva contraseña.
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; margin: 32px 0; padding: 32px 0;">
+                                        <div>
+                                            <a href="${
+																							process.env.FRONTEND_STORE_URL ||
+																							''
+																						}/auth/reset-password?token=${token}" target="_blank" style="
+                                                background-color: #fc9783;
+                                                border: 1px solid #fc9783;
+                                                border-radius: 6px;
+                                                color: #1f1f1f;
+                                                display: inline-block;
+                                                font-family: Arial, sans-serif;
+                                                font-size: 16px;
+                                                font-weight: bold;
+                                                line-height: 1.5;
+                                                padding: 12px 24px;
+                                                text-align: center;
+                                                text-decoration: none;
+                                                white-space: nowrap;
+                                                cursor: pointer;
+                                            ">
+                                                Restablecer Contraseña
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="color: #e0e0e0; font-size: 16px; line-height: 1.6; margin: 16px 0;">
+                                            O copia y pega este enlace en tu navegador:
+                                        </p>
+                                        <p style="color: #888888; font-size: 14px; line-height: 1.6; margin: 16px 0; word-break: break-all;">
+                                            <a href="${
+																							process.env.FRONTEND_STORE_URL ||
+																							''
+																						}/auth/reset-password?token=${token}" target="_blank" style="color: #fc9783; text-decoration: underline;">
+                                                ${
+																									process.env
+																										.FRONTEND_STORE_URL || '' 
+																								}/auth/reset-password?token=${token}
+                                            </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="background-color: #333333; border: 2px solid #fdf51c; border-radius: 8px; padding: 16px; margin: 24px 0;">
+                                            <p style="color: #fdf51c; font-size: 14px; line-height: 1.6; margin: 0; text-align: center;">
+                                                ⚡ Este enlace expirará en <strong>60 minutos</strong>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 24px;">
+                                        <div style="background-color: #2a2a2a; border-left: 4px solid #fc9783; border-radius: 4px; padding: 16px; margin: 24px 0;">
+                                            <p style="color: #e0e0e0; font-size: 14px; line-height: 1.6; margin: 0;">
+                                                🔒 <strong>Seguridad</strong>: Si no solicitaste este cambio, ignora este email. Tu contraseña permanecerá
+                                                sin cambios.
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            </td>
+                    </tr>
+                </table>
+                </td>
+        </tr>
+    </table>
+    </body>
+</html>
+  `,
+	};
+}
+
 export function verificationEmail(
 	name: string,
 	email: string,

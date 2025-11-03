@@ -57,35 +57,10 @@ export async function verifyCurrentPassword(
     return bcrypt.compare(plainPassword, user.password);
 }
 
-/**
- * Elimina todas las sesiones de un usuario
- */
 export async function deleteUserSessions(userId: string) {
     return prisma.session.deleteMany({
         where: { userId },
     });
-}
-
-
-
-export async function createVerificatiasdonToken(
-	email: string,
-	purpose: 'VERIFY',
-	newEmail?: string
-) {
-	await prisma.passwordResetToken
-		.deleteMany({ where: { email, purpose } })
-		.catch(() => {});
-
-	const token = crypto.randomUUID() + crypto.randomBytes(16).toString('hex');
-	const hashed = crypto.createHash('sha256').update(token).digest('hex');
-	const expires = new Date(Date.now() + 60 * 60 * 1000);
-
-	await prisma.passwordResetToken.create({
-		data: { email, token: hashed, expires, purpose, newEmail },
-	});
-
-	return { token, hashed, expires };
 }
 
 export async function findTokenRecordByHashed(hashedToken: string) {

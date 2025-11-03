@@ -4,7 +4,8 @@ import {
 	adminNotification,
 	contactEmail,
 	customerNotification,
-  verificationEmail,
+	forgotPasswordEmail,
+	verificationEmail,
 } from './templates';
 
 export class Emailer {
@@ -22,20 +23,28 @@ export class Emailer {
 
 	public sendEmail(mailOptions: MailOptions) {
 		return this.transporter.sendMail(mailOptions);
-  }
-  
-  public async sendVerificationEmail(name: string, email: string, token: string) {
-    try {
-      await this.sendEmail(verificationEmail(name, email, token))
+	}
 
-      return {success:true, error:null}
-    } catch (error) {
-      console.error('[VERIFICATION_EMAIL_MAILER_ERROR]', error)
-      return {success:false, error}
-    }
-  }
+	public async sendVerificationEmail(
+		name: string,
+		email: string,
+		token: string
+	) {
+		try {
+			await this.sendEmail(verificationEmail(name, email, token));
 
-	public async sendCustomerNotification(name: string, email: string, orderSummary: string) {
+			return { success: true, error: null };
+		} catch (error) {
+			console.error('[VERIFICATION_EMAIL_MAILER_ERROR]', error);
+			return { success: false, error };
+		}
+	}
+
+	public async sendCustomerNotification(
+		name: string,
+		email: string,
+		orderSummary: string
+	) {
 		try {
 			await this.sendEmail(customerNotification(name, email, orderSummary));
 
@@ -55,7 +64,9 @@ export class Emailer {
 		orderSummary: string
 	) {
 		try {
-			await this.sendEmail(adminNotification(orderId, name, email, phone, orderSummary));
+			await this.sendEmail(
+				adminNotification(orderId, name, email, phone, orderSummary)
+			);
 
 			return { success: true, error: null };
 		} catch (error) {
@@ -79,6 +90,21 @@ export class Emailer {
 			console.error('Error al enviar mail de contacto.', error);
 
 			throw new Error('Error al enviar mail de contacto.');
+		}
+	}
+
+	public async sendForgotPasswordEmail(
+		name: string,
+		email: string,
+		token: string
+	) {
+		try {
+			await this.sendEmail(forgotPasswordEmail(name, email, token));
+
+			return { success: true, error: null };
+		} catch (error) {
+			console.error('[FORGOT_PASSWORD_EMAIL_MAILER_ERROR]', error);
+			return { success: false, error };
 		}
 	}
 }

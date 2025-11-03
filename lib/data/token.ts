@@ -24,6 +24,21 @@ export async function createEmailChangeToken(email: string, newEmail: string) {
 	return token;
 }
 
+export async function createForgotPasswordToken(
+	email: string,
+	token: string,
+	expires: Date
+) {
+	await prisma.passwordResetToken.create({
+		data: {
+			email,
+			token,
+			expires,
+			purpose: 'FORGOT',
+		},
+	});
+}
+
 export async function findTokenByHashedToken(
 	hashedToken: string,
 	purpose: string
@@ -46,5 +61,14 @@ export async function deleteToken(id: string) {
 export async function deleteByToken(token: string) {
 	return prisma.passwordResetToken.delete({
 		where: { token },
+	});
+}
+
+export async function deleteAllByPurposeAndEmail(
+	purpose: string,
+	email: string
+) {
+	return prisma.passwordResetToken.deleteMany({
+		where: { purpose, email },
 	});
 }

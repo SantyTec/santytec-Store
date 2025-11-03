@@ -20,8 +20,16 @@ import {
 	ResendVerificationEmailFormState,
 	ResendVerificationEmailSchema,
 } from '@/lib/schemas/auth';
-import { InvitationFormState, InvitationSchema } from '@/lib/schemas/user';
+import {
+	InvitationFormState,
+	InvitationSchema,
+	ResetPasswordSchema,
+} from '@/lib/schemas/user';
 import z from 'zod';
+import {
+	handleForgotPassword,
+	handleResetPassword,
+} from '@/lib/controller/token';
 
 export async function loginAction(
 	prevState: LoginFormState,
@@ -76,6 +84,33 @@ export async function loginAction(
 	}
 }
 
+export async function forgotPasswordAction(
+	prevState: ResendVerificationEmailFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResendVerificationEmailSchema.safeParse(data);
+
+	if (!validatedFields.success) {
+		return {
+			success: false,
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			message: 'Datos inválidos. Por favor revisa los campos.',
+		};
+	}
+
+	const { email } = validatedFields.data;
+
+	const response = await handleForgotPassword(email);
+	if (!response.success) return response;
+
+	return {
+		success: true,
+		message: 'Revisa tu email para el enlace de recuperación de contraseña.',
+	};
+}
+
 export async function registerAction(
 	prevState: RegisterFormState,
 	formData: FormData
@@ -127,6 +162,31 @@ export async function checkEmailExists(email: string): Promise<boolean> {
 
 export async function signOutAction() {
 	await signOut();
+}
+
+export async function resetPasswordAction(
+	prevState: InvitationFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResetPasswordSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			message: 'Error en el formulario',
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			data,
+		} as InvitationFormState;
+
+	const { confirmPassword, token } = validatedFields.data;
+
+	const result = await handleResetPassword(token, confirmPassword);
+
+	if (!result.success) return result;
+
+	return { success: true, message: 'Contraseña restablecida con éxito.' };
 }
 
 export async function registerWithInvitation(
