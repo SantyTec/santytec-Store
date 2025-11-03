@@ -33,8 +33,11 @@ const providers: Provider[] = [
 		async authorize(credentials) {
 			const parsedCredentials = z
 				.object({
-					email: z.string().email(),
-					password: z.string().min(6),
+					email: z.email().trim().toLowerCase(),
+					password: z
+						.string()
+						.trim()
+						.min(8, 'La contraseña debe tener al menos 8 caracteres'),
 				})
 				.safeParse(credentials);
 
