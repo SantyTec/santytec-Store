@@ -440,7 +440,9 @@ export async function handleInvitationEmail(token: string) {
 
 	const existingUser = await getUserByEmail(email);
 
-	if (existingUser) {
+  if (existingUser && existingUser.emailVerified) {
+    await deleteInvitationToken(token);
+    
 		return { success: false, message: 'Este email ya tiene cuenta' };
 	}
 
