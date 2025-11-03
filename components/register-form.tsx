@@ -21,7 +21,7 @@ export function SubmitButton() {
 	return (
 		<Button
 			type="submit"
-			className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+			className="w-full bg-accent text-bg hover:bg-accent/80"
 			disabled={pending}
 		>
 			{pending ? 'Creando cuenta...' : 'Crear Cuenta'}
@@ -78,11 +78,11 @@ export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
 		const res = await registerAction(prevState, formData);
 
 		if (!res.success) {
-			toast.error(res.message);
+			toast.error(res.message, { duration: 2500 });
 			return res as RegisterFormState;
 		}
 
-		toast.success(res.message, {duration: 1500});
+		toast.success(res.message, { duration: 3500 });
 		router.push('/login');
 		return res as RegisterFormState;
 	}

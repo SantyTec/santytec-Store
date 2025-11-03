@@ -1,5 +1,11 @@
-import React from 'react';
-import { resetPassword } from './actions';
+import ResetPassword from '@/components/auth/reset-password';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 
 interface Props {
 	searchParams: Promise<{
@@ -8,57 +14,24 @@ interface Props {
 }
 
 export default async function ResetPasswordPage({ searchParams }: Props) {
-	const { token } = (await searchParams) || '';
+	const params = await searchParams;
+	const token = params.token;
 
 	return (
-		<div className="container px-4 py-8 md:px-6">
-			<div className="max-w-md mx-auto">
-				<h1 className="text-2xl font-bold mb-4">Restablecer contraseña</h1>
-				{!token ? (
-					<p className="text-sm text-muted-foreground">
-						Falta el token de restablecimiento en la URL.
-					</p>
-				) : (
-					<form action={resetPassword} className="space-y-4">
-						<input type="hidden" name="token" value={token} />
-
-						<div>
-							<label htmlFor="password" className="block text-sm font-medium">
-								Nueva contraseña
-							</label>
-							<input
-								id="password"
-								name="password"
-								type="password"
-								required
-								className="mt-1 block w-full"
-							/>
-						</div>
-
-						<div>
-							<label
-								htmlFor="confirmPassword"
-								className="block text-sm font-medium"
-							>
-								Confirmar nueva contraseña
-							</label>
-							<input
-								id="confirmPassword"
-								name="confirmPassword"
-								type="password"
-								required
-								className="mt-1 block w-full"
-							/>
-						</div>
-
-						<div>
-							<button type="submit" className="btn-primary w-full">
-								Actualizar contraseña
-							</button>
-						</div>
-					</form>
-				)}
-			</div>
+		<div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+			<Card className="w-full max-w-md">
+				<CardHeader>
+					<CardTitle className="text-2xl font-bold">
+						Reestablecer Contraseña
+					</CardTitle>
+					<CardDescription>
+						Ingresa tu nueva contraseña a continuación.
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<ResetPassword token={token} />
+				</CardContent>
+			</Card>
 		</div>
 	);
 }
