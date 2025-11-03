@@ -16,6 +16,7 @@ import {
 	verifyCurrentPassword,
 	updateUser,
 	findUserById,
+	updatePasswordHash,
 } from '@/lib/data/user';
 import {
 	createEmailChangeToken,
@@ -97,22 +98,20 @@ export async function handleRegister(
 }
 
 export async function handleInvitationRegister(
-	email: string,
+	id: string,
 	password: string,
 	name: string
 ) {
 	try {
 		const hashed = await bcrypt.hash(password, 10);
 
-		const { data: user, success: userSuccess } = await createUser({
-			name,
-			email,
-			password: hashed,
-		});
-		if (!userSuccess)
+		const { email } = await updateUser(id, { name });
+		await updatePasswordHash(id, hashed);
+
+		if (!email)
 			return { success: false, message: 'Lo sentimos ha ocurrido un error' };
 
-		await activateUserAndAssociateOrders(user?.id!, email);
+		await activateUserAndAssociateOrders(id, email);
 
 		return {
 			success: true,
@@ -440,9 +439,9 @@ export async function handleInvitationEmail(token: string) {
 
 	const existingUser = await getUserByEmail(email);
 
-  if (existingUser && existingUser.emailVerified) {
-    await deleteInvitationToken(token);
-    
+	if (existingUser && existingUser.emailVerified) {
+		await deleteInvitationToken(token);
+
 		return { success: false, message: 'Este email ya tiene cuenta' };
 	}
 
@@ -451,7 +450,7 @@ export async function handleInvitationEmail(token: string) {
 	return {
 		success: true,
 		message: 'Invitación verificada',
-		data: { email, phone },
+		data: existingUser!,
 	};
 }
 

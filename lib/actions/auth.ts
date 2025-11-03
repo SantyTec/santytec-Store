@@ -155,7 +155,7 @@ export async function registerWithInvitation(
 		return { success: false, message: invitationMessage };
 
 	const result = await handleInvitationRegister(
-		invitationData.email,
+		invitationData.id,
 		password,
 		name
 	);
@@ -180,7 +180,7 @@ export async function resendVerificationEmail(
 
 	const response = await handleResendVerificationEmail(
 		validatedFields.data.email
-  );
-  
-  return response;
+	);
+
+	return response;
 }
