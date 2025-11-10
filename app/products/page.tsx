@@ -66,17 +66,17 @@ export default async function ProductsPage(props: Props) {
 
 			<div className="container px-4 py-8">
 				<div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-					<div className="lg:hidden mb-6">
+					<div className="lg:hidden mb-6 space-y-6">
+						<DownloadCatalogButton className="w-full" />
 						<Sheet>
 							<SheetTrigger asChild>
 								<Button variant="outline" className="w-full">
 									<SlidersHorizontal className="mr-2 h-4 w-4" />
-									Filtros y Descarga
+									Filtros
 								</Button>
 							</SheetTrigger>
 							<SheetContent side="left">
 								<div className="space-y-6 mt-6">
-									<DownloadCatalogButton className="w-full" />
 									<Suspense fallback={<Skeleton />}>
 										<CategoryFilter />
 									</Suspense>
