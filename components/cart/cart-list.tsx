@@ -2,7 +2,7 @@
 
 import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { syncCartToDb } from '@/lib/controller/cart';
 import { CartProduct } from '@/lib/types';
@@ -19,14 +19,21 @@ interface Props {
 export default function CartList({ isLoggedIn, initialItems }: Props) {
 	const { items, hydrateFromDB } = useCartStore((state) => state);
 	const [isMerging, setIsMerging] = useState(true);
+	const hasMerged = useRef(false);
 
 	useEffect(() => {
-		async function mergeCart() {
-			const localItems = items;
-			const dbItems = initialItems || [];
+		// Evitar ejecuciones múltiples
+		if (hasMerged.current) {
+			setIsMerging(false);
+			return;
+		}
 
+		async function mergeCart() {
 			try {
 				if (isLoggedIn) {
+					const localItems = items;
+					const dbItems = initialItems || [];
+
 					if (localItems.length > 0 && dbItems.length > 0) {
 						const merged = mergeCartItems(localItems, dbItems);
 						hydrateFromDB(merged);
@@ -40,12 +47,14 @@ export default function CartList({ isLoggedIn, initialItems }: Props) {
 			} catch (error) {
 				console.error('CART_SINCRONIZATION_ERROR', error);
 			} finally {
+				hasMerged.current = true;
 				setIsMerging(false);
 			}
 		}
 
 		mergeCart();
-	}, [isLoggedIn, hydrateFromDB, initialItems, items]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []); // Solo ejecutar una vez al montar
 
 	if (isMerging) {
 		return (
@@ -72,24 +81,9 @@ export default function CartList({ isLoggedIn, initialItems }: Props) {
 
 	return (
 		<div className="space-y-4">
-			{!items || items.length === 0 ? (
-				<div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-					<ShoppingBag className="size-24 text-muted-foreground/40 mb-6" />
-					<h1 className="text-2xl font-bold mb-2">Tu carrito está vacío</h1>
-					<p className="text-muted-foreground mb-8 max-w-md">
-						Tu próxima compra comienza aquí
-					</p>
-					<Button
-						asChild
-						size="lg"
-						className="bg-primary text-primary-foreground hover:bg-primary/90"
-					>
-						<Link href="/products">Explorar Productos</Link>
-					</Button>
-				</div>
-			) : (
-				items.map((product) => <CartCard key={product.id} product={product} />)
-			)}
+			{items.map((product) => (
+				<CartCard key={product.id} product={product} />
+			))}
 		</div>
 	);
 }
