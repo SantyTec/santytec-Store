@@ -25,19 +25,23 @@ export default function CartList({ isLoggedIn, initialItems }: Props) {
 			const localItems = items;
 			const dbItems = initialItems || [];
 
-			if (isLoggedIn) {
-				if (localItems.length > 0 && dbItems.length > 0) {
-					const merged = mergeCartItems(localItems, dbItems);
-					hydrateFromDB(merged);
-					await syncCartToDb(merged);
-				} else if (localItems.length > 0 && dbItems.length === 0) {
-					await syncCartToDb(localItems);
-				} else if (localItems.length === 0 && dbItems.length > 0) {
-					hydrateFromDB(dbItems);
+			try {
+				if (isLoggedIn) {
+					if (localItems.length > 0 && dbItems.length > 0) {
+						const merged = mergeCartItems(localItems, dbItems);
+						hydrateFromDB(merged);
+						await syncCartToDb(merged);
+					} else if (localItems.length > 0 && dbItems.length === 0) {
+						await syncCartToDb(localItems);
+					} else if (localItems.length === 0 && dbItems.length > 0) {
+						hydrateFromDB(dbItems);
+					}
 				}
+			} catch (error) {
+				console.error('CART_SINCRONIZATION_ERROR', error);
+			} finally {
+				setIsMerging(false);
 			}
-
-			setIsMerging(false);
 		}
 
 		mergeCart();
