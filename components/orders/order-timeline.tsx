@@ -3,34 +3,17 @@ import { cn } from '@/lib/utils';
 import { OrderStatus } from '@prisma/client';
 
 const steps = [
-	{ id: 'PENDING', label: 'Pendiente', icon: Clock },
-	{ id: 'CONFIRMED', label: 'Confirmado', icon: CheckCircle2 },
 	{ id: 'PREPARING', label: 'Preparando', icon: Package },
-	{ id: 'SHIPPED', label: 'Enviado', icon: Truck },
 	{ id: 'DELIVERED', label: 'Entregado', icon: CheckCircle2 },
 ];
 
 const statusIndex: Record<OrderStatus, number> = {
-	PENDING: 0,
-	CONFIRMED: 1,
-	PREPARING: 2,
-	SHIPPED: 3,
-	DELIVERED: 4,
-	CANCELLED: -1,
+	PREPARING: 0,
+	DELIVERED: 1,
 };
 
 export function OrderTimeline({ status }: { status: OrderStatus }) {
 	const currentIndex = statusIndex[status];
-
-	// Si la orden está cancelada, mostrar un estado especial
-	if (status === 'CANCELLED') {
-		return (
-			<div className="flex items-center justify-center p-4 bg-destructive/10 rounded-lg">
-				<XCircle className="h-5 w-5 text-destructive mr-2" />
-				<p className="text-sm font-medium text-destructive">Orden Cancelada</p>
-			</div>
-		);
-	}
 
 	return (
 		<div className="relative">
