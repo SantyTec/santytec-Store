@@ -41,7 +41,7 @@ model Order {
   discountAmount   Decimal     @default(0)
   finalSubtotal    Decimal     @default(0)
   isPaid           Boolean     @default(false)
-  status           OrderStatus @default(PENDING)
+  status           OrderStatus @default(PREPARING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -194,10 +194,6 @@ enum DiscountType {
 }
 
 enum OrderStatus {
-  PENDING
-  CONFIRMED
   PREPARING
-  SHIPPED
   DELIVERED
-  CANCELLED
 }
