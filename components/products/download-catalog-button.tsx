@@ -2,7 +2,7 @@
 
 import { FileDown } from 'lucide-react';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 
@@ -38,7 +38,8 @@ export function DownloadCatalogButton({ className }: { className?: string }) {
 		<Button
 			disabled={isLoading}
 			onClick={handleDownload}
-			className={`flex items-center gap-2 disabled:cursor-wait ${className}`}
+			size={"sm"}
+			className={`flex items-center bg-primary-800 gap-2 disabled:cursor-wait ${className}`}
 		>
 			<FileDown size={20} />
 			{isLoading ? 'Generando PDF...' : 'Descargar Catálogo'}

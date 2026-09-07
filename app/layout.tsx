@@ -1,14 +1,17 @@
 import { GeistSans } from 'geist/font/sans';
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
 
 import './globals.css';
 import { CartStoreProvider } from '@/providers/cart-store-provider';
 import GReCaptchaProvider from '@/providers/g-recaptcha-provider';
-import ToastProvider from '@/providers/toast-provider';
 
 import Navbar from '@/components/navbar/navbar';
 import Footer from '@/components/footer';
+import { Suspense } from 'react';
+import { NavbarSkeleton } from '@/components/skeletons';
+import { Toaster } from 'sonner';
 
 if (!process.env.FRONTEND_STORE_URL) {
 	throw new Error('FRONTEND_STORE_URL is not defined');
@@ -62,6 +65,7 @@ export const metadata: Metadata = {
 			url: '/android-chrome-512x512.png',
 		},
 	],
+	manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -74,12 +78,15 @@ export default function RootLayout({
 			<body className={`${GeistSans.variable} ${onest.variable}`}>
 				<GReCaptchaProvider>
 					<CartStoreProvider>
-						<Navbar />
-						<ToastProvider />
+						<Suspense fallback={<NavbarSkeleton />}>
+							<Navbar />
+						</Suspense>
 						{children}
+						<Toaster richColors position="top-center" />
 						<Footer />
 					</CartStoreProvider>
 				</GReCaptchaProvider>
+				<Analytics />
 			</body>
 		</html>
 	);

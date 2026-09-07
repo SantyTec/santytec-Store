@@ -11,7 +11,7 @@ export interface CartStoreProviderProps {
 }
 
 export const CartStoreProvider = ({ children }: CartStoreProviderProps) => {
-	const storeRef = useRef<StoreApi<CartStore>>();
+	const storeRef = useRef<StoreApi<CartStore> | null>(null);
 	if (!storeRef.current) {
 		storeRef.current = createCartStore(initCartStore());
 	}

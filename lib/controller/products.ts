@@ -3,29 +3,70 @@ import {
 	fetchProductsCount,
 	getAllProducts,
 	getFilteredProducts,
+	getFilteredProductsCount,
 } from '@/lib/model/products';
 import { FullProduct } from '@/lib/types';
 
-export async function getFormattedProducts(
-	page: number,
-	name: string,
-	category?: string
-) {
-	const { data: products, error } = await getFilteredProducts(
-		page,
+interface GetFormattedProductsOptions {
+	page: number;
+	name?: string;
+	categories?: string[];
+	minPrice?: number;
+	maxPrice?: number;
+	inStock?: boolean;
+}
+
+const ITEMS_PER_PAGE = 12;
+
+export async function getFormattedProducts({
+	page,
+	name,
+	categories,
+	minPrice,
+	maxPrice,
+	inStock,
+}: GetFormattedProductsOptions) {
+	const { data: products, error } = await getFilteredProducts({
+		currentPage: page,
 		name,
-		category
-	);
+		categories,
+		minPrice,
+		maxPrice,
+		inStock,
+	});
 
 	if (error) throw new Error(error);
 	if (!products) return [];
 
-	const formattedProducts: FullProduct[] = products.map((item) => ({
-		...item,
-		price: item.price.toFixed(),
-	}));
+	const formattedProducts: Array<FullProduct & { slug: string }> = products.map(
+		(item) => ({
+			...item,
+			price: item.price.toFixed(),
+		})
+	);
 
 	return formattedProducts;
+}
+
+export async function getTotalPages({
+	name,
+	categories,
+	minPrice,
+	maxPrice,
+	inStock,
+}: Omit<GetFormattedProductsOptions, 'page'>) {
+	const { data: count, error } = await getFilteredProductsCount({
+		name,
+		categories,
+		minPrice,
+		maxPrice,
+		inStock,
+	});
+
+	if (error) throw new Error(error);
+	if (!count) return 0;
+
+	return Math.ceil(count / ITEMS_PER_PAGE);
 }
 
 export async function getProductsForPDF() {
@@ -41,16 +82,6 @@ export async function getProductsForPDF() {
 	}));
 
 	return { products: formattedProducts, error: null };
-}
-
-export async function getTotalPages(itemsPerPage: number) {
-	const { data: pages, error } = await fetchProductsCount();
-
-	if (error || pages === null) throw new Error(error);
-
-	const totalPages = Math.ceil(pages / itemsPerPage);
-
-	return totalPages;
 }
 
 export async function getFeaturedProducts() {

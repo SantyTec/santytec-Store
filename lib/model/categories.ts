@@ -1,10 +1,6 @@
-import { unstable_noStore as noStore } from 'next/cache';
-
 import { prisma } from '@/lib/client';
 
 export async function fetchRootCategories() {
-	noStore();
-
 	try {
 		const categories = await prisma.category.findMany({
 			where: { parentCategoryId: null },
@@ -22,12 +18,10 @@ export async function fetchRootCategories() {
 	}
 }
 
-export async function getCategoryName(id: string) {
-	noStore();
-
+export async function getCategoryName(slug: string) {
 	try {
 		const category = await prisma.category.findUnique({
-			where: { id },
+			where: { slug },
 			select: { name: true },
 		});
 

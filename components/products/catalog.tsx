@@ -4,33 +4,57 @@ import NoResults from '@/components/no-results';
 import Pagination from '@/components/pagination';
 import ProductCard from '@/components/product-card';
 
-interface Props {
+interface CatalogProps {
 	page: number;
-	name: string;
-	category?: string;
+	name?: string;
+	categories?: string[];
+	minPrice?: number;
+	maxPrice?: number;
+	inStock?: boolean;
 }
 
-export default async function Catalog({ page, name, category }: Props) {
-	const products = await getFormattedProducts(page, name, category);
-	const pages = await getTotalPages(12);
+export default async function Catalog({
+	page,
+	name,
+	categories,
+	minPrice,
+	maxPrice,
+	inStock,
+}: CatalogProps) {
+	const products = await getFormattedProducts({
+		page,
+		name,
+		categories,
+		minPrice,
+		maxPrice,
+		inStock,
+	});
+
+	const totalPages = await getTotalPages({
+		name,
+		categories,
+		minPrice,
+		maxPrice,
+		inStock,
+  });
 
 	return (
 		<>
 			{products.length === 0 ? (
-				<main className="px-4 pb-10 sm:px-6 lg:px-8">
+				<main>
 					<NoResults />
 				</main>
 			) : (
 				<>
-					<main className="px-4 pb-10 sm:px-6 lg:px-8">
-						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+					<main>
+						<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 							{products.map((item) => (
 								<ProductCard key={item.id} product={item} />
 							))}
 						</div>
 					</main>
-					<div className="flex justify-center w-full mt-5">
-						<Pagination totalPages={pages} />
+					<div className="mt-12 flex justify-center">
+						<Pagination totalPages={totalPages} />
 					</div>
 				</>
 			)}

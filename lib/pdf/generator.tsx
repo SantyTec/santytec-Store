@@ -1,23 +1,44 @@
 import ReactPDF from '@react-pdf/renderer';
 
 import { optimizeImage, streamToBuffer } from '@/lib/pdf/utils';
-import { FullProduct } from '@/lib/types';
+import { FullProduct, ProductsByCategory, } from '@/lib/types';
 
 import { CatalogDocument } from '@/components/pdf';
+import { groupBy } from 'typedash';
+
+async function prepareProducts(products: FullProduct[]): Promise<ProductsByCategory[]> {
+	const productsWithImages = await Promise.all(
+		products.map(async (product) => ({
+			...product,
+			optimizedImageUrl: await optimizeImage(product.images[0].url),
+		}))
+	);
+
+	const groupedProducts = groupBy(
+		productsWithImages,
+		(product) => product.category.name
+	);
+
+	return Object.entries(groupedProducts).map(([categoryName, products]) => {
+		if (!products) throw new Error();
+		return { category: categoryName, products };
+	});
+}
 
 export async function generateCatalogPDF(products: FullProduct[]) {
 	try {
-		const preparedProducts = await Promise.all(
-			products.map(async (product) => ({
-				...product,
-				optimizedImageUrl: product.images[0]?.url
-					? await optimizeImage(product.images[0].url)
-					: '/placeholder.png',
-			}))
+		const optimizedCoverUrl = await optimizeImage(
+			'/santytec-catalogo.png',
+			true
 		);
 
+		const preparedProducts = await prepareProducts(products);
+
 		const stream = await ReactPDF.renderToStream(
-			<CatalogDocument products={preparedProducts} />
+			<CatalogDocument
+				products={preparedProducts}
+				optimizedCoverUrl={optimizedCoverUrl}
+			/>
 		);
 
 		return await streamToBuffer(stream);

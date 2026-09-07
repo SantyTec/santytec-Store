@@ -1,10 +1,6 @@
-import { unstable_noStore as noStore } from 'next/cache';
-
 import { prisma } from '@/lib/client';
 
 export async function getImagesByProductId(productId: string) {
-	noStore();
-
 	try {
 		const images = await prisma.image.findMany({
 			where: {

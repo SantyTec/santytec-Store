@@ -1,10 +1,6 @@
-import { unstable_noStore as noStore } from 'next/cache';
-
 import { prisma } from '@/lib/client';
 
 export async function getAllProducts() {
-	noStore();
-
 	try {
 		const products = await prisma.product.findMany({
 			include: { images: true, category: true },
@@ -21,32 +17,77 @@ export async function getAllProducts() {
 
 const ITEMS_PER_PAGE = 12;
 
-export async function getFilteredProducts(
-	currentPage: number,
-	name: string,
-	category?: string
-) {
-	noStore();
+interface FilterOptions {
+	currentPage: number;
+	name?: string;
+	categories?: string[];
+	minPrice?: number;
+	maxPrice?: number;
+	inStock?: boolean;
+}
 
+export async function getFilteredProducts({
+	currentPage,
+	name,
+	categories,
+	minPrice,
+	maxPrice,
+	inStock,
+}: FilterOptions) {
 	const skip = (currentPage - 1) * ITEMS_PER_PAGE;
 
 	try {
+		const whereConditions: any = {
+			AND: [{ isArchived: false }],
+		};
+
+		// Filtro por nombre
+		if (name && name.trim() !== '') {
+			whereConditions.AND.push({
+				name: { contains: name, mode: 'insensitive' },
+			});
+		}
+
+		// Filtro por categorías (múltiples)
+		if (categories && categories.length > 0) {
+			whereConditions.AND.push({
+				OR: categories.map((categoryId) => ({
+					categoryId: categoryId,
+				})),
+			});
+		}
+
+		// Filtro por rango de precio
+		if (minPrice !== undefined || maxPrice !== undefined) {
+			const priceCondition: any = {};
+
+			if (minPrice !== undefined) {
+				priceCondition.gte = minPrice;
+			}
+
+			if (maxPrice !== undefined) {
+				priceCondition.lte = maxPrice;
+			}
+
+			whereConditions.AND.push({
+				price: priceCondition,
+			});
+		}
+
+		// Filtro por stock
+		if (inStock === true) {
+			whereConditions.AND.push({
+				stock: { gt: 0 },
+			});
+		}
+
 		const products = await prisma.product.findMany({
-			include: { images: true, category: true },
-			orderBy: { name: 'asc' },
-			where: {
-				AND: [
-					{ OR: [{ name: { contains: name, mode: 'insensitive' } }] },
-					{
-						OR: [
-							{
-								category: { name: { contains: category, mode: 'insensitive' } },
-							},
-						],
-					},
-					{ isArchived: false },
-				],
+			include: {
+				images: true,
+				category: true,
 			},
+			orderBy: { name: 'asc' },
+			where: whereConditions,
 			take: ITEMS_PER_PAGE,
 			skip,
 		});
@@ -54,21 +95,80 @@ export async function getFilteredProducts(
 		return { data: products, error: null };
 	} catch (error) {
 		const message = 'Error al obtener los productos.';
-		console.log(message, error);
+		console.error(message, error);
+
+		return { data: null, error: message };
+	}
+}
+
+export async function getFilteredProductsCount({
+	name,
+	categories,
+	minPrice,
+	maxPrice,
+	inStock,
+}: Omit<FilterOptions, 'currentPage'>) {
+	try {
+		const whereConditions: any = {
+			AND: [{ isArchived: false }],
+		};
+
+		if (name && name.trim() !== '') {
+			whereConditions.AND.push({
+				name: { contains: name, mode: 'insensitive' },
+			});
+		}
+
+		if (categories && categories.length > 0) {
+			whereConditions.AND.push({
+				OR: categories.map((categoryId) => ({
+					categoryId: categoryId,
+				})),
+			});
+		}
+
+		if (minPrice !== undefined || maxPrice !== undefined) {
+			const priceCondition: any = {};
+
+			if (minPrice !== undefined) {
+				priceCondition.gte = minPrice;
+			}
+
+			if (maxPrice !== undefined) {
+				priceCondition.lte = maxPrice;
+			}
+
+			whereConditions.AND.push({
+				price: priceCondition,
+			});
+		}
+
+		if (inStock === true) {
+			whereConditions.AND.push({
+				stock: { gt: 0 },
+			});
+		}
+
+		const count = await prisma.product.count({
+			where: whereConditions,
+		});
+
+		return { data: count, error: null };
+	} catch (error) {
+		const message = 'Error al contar los productos.';
+		console.error(message, error);
 
 		return { data: null, error: message };
 	}
 }
 
 export async function fetchProductsCount() {
-	noStore();
-
 	try {
 		const count = await prisma.product.count();
 
 		return { data: count, error: null };
 	} catch (error) {
-		console.log(error, 'Error en la base de datos.');
+		console.error(error, 'Error en la base de datos.');
 
 		return {
 			data: null,
@@ -77,12 +177,10 @@ export async function fetchProductsCount() {
 	}
 }
 
-export async function getProduct(id: string) {
-	noStore();
-
+export async function getProduct(slug: string) {
 	try {
 		const product = await prisma.product.findUnique({
-			where: { id },
+			where: { slug },
 			include: { images: true, category: true },
 		});
 
@@ -96,8 +194,6 @@ export async function getProduct(id: string) {
 }
 
 export async function getRecommendedProducts(categoryId: string) {
-	noStore();
-
 	try {
 		const products = await prisma.product.findMany({
 			where: { categoryId, isArchived: false },
@@ -114,12 +210,10 @@ export async function getRecommendedProducts(categoryId: string) {
 	}
 }
 
-export async function getProductsByCategory(categoryId: string) {
-	noStore();
-
+export async function getProductsByCategory(slug: string) {
 	try {
 		const products = await prisma.product.findMany({
-			where: { categoryId, isArchived: false },
+			where: { category: { slug }, isArchived: false },
 			orderBy: { isFeatured: 'desc' },
 			include: { images: true, category: true },
 		});
@@ -133,8 +227,6 @@ export async function getProductsByCategory(categoryId: string) {
 }
 
 export async function fetchFeaturedProducts() {
-	noStore();
-
 	try {
 		const products = await prisma.product.findMany({
 			where: { isFeatured: true, isArchived: false },

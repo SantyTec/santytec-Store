@@ -6,7 +6,7 @@ import { FooterHeader, FooterLink } from '@/components/footer-links';
 const Footer = () => {
 	return (
 		<footer className="relative bg-secondary">
-			<div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
+			<div className="w-full max-w-(--breakpoint-xl) p-4 py-6 mx-auto lg:py-8">
 				<div className="md:flex md:justify-between">
 					<div className="mb-6 md:mb-0">
 						<Link

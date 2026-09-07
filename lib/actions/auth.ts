@@ -1,0 +1,246 @@
+'use server';
+
+import { signOut } from '@/auth';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
+import { revalidatePath } from 'next/cache';
+
+import { prisma } from '@/lib/client';
+import {
+	handleInvitationEmail,
+	handleInvitationRegister,
+	handleRegister,
+	handleResendVerificationEmail,
+} from '@/lib/controller/user';
+import {
+	LoginFormState,
+	LoginSchema,
+	RegisterFormState,
+	RegisterSchema,
+	ResendVerificationEmailFormState,
+	ResendVerificationEmailSchema,
+} from '@/lib/schemas/auth';
+import {
+	InvitationFormState,
+	InvitationSchema,
+	ResetPasswordSchema,
+} from '@/lib/schemas/user';
+import z from 'zod';
+import {
+	handleForgotPassword,
+	handleResetPassword,
+} from '@/lib/controller/token';
+
+export async function loginAction(
+	prevState: LoginFormState,
+	formData: FormData
+): Promise<LoginFormState> {
+	const data = Object.fromEntries(formData);
+
+	try {
+		const validatedFields = LoginSchema.safeParse(data);
+
+		if (!validatedFields.success) {
+			return {
+				errors: validatedFields.error.flatten().fieldErrors,
+				message: 'Datos inválidos. Por favor revisa los campos.',
+				success: false,
+			};
+		}
+
+		const { email, password } = validatedFields.data;
+
+		await signIn('credentials', {
+			email: email.toLowerCase(),
+			password,
+			redirectTo: '/',
+		});
+
+		revalidatePath('/');
+		return { success: true, message: 'Ha iniciado sesión!' };
+	} catch (error) {
+		if (error instanceof AuthError) {
+			switch (error.type) {
+				case 'CredentialsSignin':
+					return {
+						message: 'Email o contraseña incorrectos.',
+						success: false,
+					};
+				default:
+					if (error.cause?.err?.message.includes('CuentaNoVerificada')) {
+						return {
+							message:
+								'Tu cuenta está inactiva. Revisa tu email para el enlace de activación.',
+							success: false,
+						};
+					}
+					return {
+						message: 'Ocurrió un error al iniciar sesión.',
+						success: false,
+					};
+			}
+		}
+		throw error;
+	}
+}
+
+export async function forgotPasswordAction(
+	prevState: ResendVerificationEmailFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResendVerificationEmailSchema.safeParse(data);
+
+	if (!validatedFields.success) {
+		return {
+			success: false,
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			message: 'Datos inválidos. Por favor revisa los campos.',
+		};
+	}
+
+	const { email } = validatedFields.data;
+
+	const response = await handleForgotPassword(email);
+	if (!response.success) return response;
+
+	return {
+		success: true,
+		message: 'Revisa tu email para el enlace de recuperación de contraseña.',
+	};
+}
+
+export async function registerAction(
+	prevState: RegisterFormState,
+	formData: FormData
+) {
+	try {
+		const data = Object.fromEntries(formData);
+
+		const validatedFields = RegisterSchema.safeParse(data);
+
+		if (!validatedFields.success) {
+			return {
+				errors: validatedFields.error.flatten().fieldErrors,
+				message: 'Datos inválidos. Por favor revisa los campos.',
+				success: false,
+			};
+		}
+
+		const { name, email, password, phone } = validatedFields.data;
+
+		const result = await handleRegister(email, password, name, phone);
+
+		if (!result.success) {
+			return result;
+		}
+
+		return {
+			success: true,
+			message: '¡Registro exitoso! Revisa tu email para activar tu cuenta.',
+		};
+	} catch (error) {
+		console.error('Error al registrar usuario:', error);
+		return {
+			message: 'Ocurrió un error al crear tu cuenta. Intentá nuevamente.',
+			success: false,
+		};
+	}
+}
+
+export async function loginWithGoogleAction() {
+	await signIn('google', { redirectTo: '/' });
+}
+
+export async function checkEmailExists(email: string): Promise<boolean> {
+	const user = await prisma.user.findUnique({
+		where: { email: email.toLowerCase() },
+	});
+	return !!user;
+}
+
+export async function signOutAction() {
+	await signOut();
+}
+
+export async function resetPasswordAction(
+	prevState: InvitationFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResetPasswordSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			message: 'Error en el formulario',
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			data,
+		} as InvitationFormState;
+
+	const { confirmPassword, token } = validatedFields.data;
+
+	const result = await handleResetPassword(token, confirmPassword);
+
+	if (!result.success) return result;
+
+	return { success: true, message: 'Contraseña restablecida con éxito.' };
+}
+
+export async function registerWithInvitation(
+	prevState: InvitationFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = InvitationSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			message: 'Error en el formulario',
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+		};
+
+	const { name, password, token } = validatedFields.data;
+
+	const {
+		message: invitationMessage,
+		success: invitationSuccess,
+		data: invitationData,
+	} = await handleInvitationEmail(token);
+	if (!invitationSuccess || !invitationData)
+		return { success: false, message: invitationMessage };
+
+	const result = await handleInvitationRegister(
+		invitationData.id,
+		password,
+		name
+	);
+
+	return result;
+}
+
+export async function resendVerificationEmail(
+	prevState: ResendVerificationEmailFormState,
+	formData: FormData
+) {
+	const data = Object.fromEntries(formData);
+
+	const validatedFields = ResendVerificationEmailSchema.safeParse(data);
+
+	if (!validatedFields.success)
+		return {
+			success: false,
+			errors: z.flattenError(validatedFields.error).fieldErrors,
+			message: 'Datos inválidos. Por favor revisa los campos.',
+		};
+
+	const response = await handleResendVerificationEmail(
+		validatedFields.data.email
+	);
+
+	return response;
+}

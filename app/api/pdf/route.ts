@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { getProductsForPDF } from '@/lib/controller/products';
 import { generateCatalogPDF } from '@/lib/pdf/generator';
 
+export const maxDuration = 35;
+
 export async function GET() {
 	try {
 		const { products, error } = await getProductsForPDF();
@@ -11,7 +13,9 @@ export async function GET() {
 
 		const buffer = await generateCatalogPDF(products);
 
-		return new NextResponse(buffer, {
+		const arrayBuffer = buffer.buffer as ArrayBuffer;
+
+		return new NextResponse(arrayBuffer, {
 			headers: {
 				'Content-Type': 'application/pdf',
 				'Content-Disposition': 'attachment; filename=santytec-catalogo.pdf',
