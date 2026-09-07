@@ -41,6 +41,7 @@ export function RelatedProducts({ products }: Props) {
 											src={product.image || '/placeholder.svg'}
 											alt={product.name}
 											fill
+											sizes="256px"
 											className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
 										/>
 									</div>

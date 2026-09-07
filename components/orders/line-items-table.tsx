@@ -30,6 +30,7 @@ export function LineItemsTable({ items }: Props) {
 										src={item.image}
                     alt={item.name}
                     fill
+                    sizes="80px"
 										className="h-full w-full object-cover rounded-lg"
 									/>
 								) : (

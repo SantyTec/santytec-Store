@@ -28,6 +28,7 @@ export default function CarouselCard({ product, index }: Props) {
 							className="object-cover transition-transform duration-500 group-hover:scale-110"
 							priority={index < 3}
 							fill
+							sizes="280px"
 						/>
 						{outOfStock && (
 							<Badge className="absolute bg-primary top-3 right-3 gap-1 animate-gentle-pulse">
