@@ -59,6 +59,7 @@ export function NavbarClient({
 								alt="Logo Santy Tec"
 								src="/isotype.svg"
 								fill
+								sizes="64px"
 							/>
 						</div>
 					</div>
