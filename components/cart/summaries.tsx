@@ -44,7 +44,7 @@ export function DesktopSummary() {
 						size="lg"
 						className="w-full mt-6 bg-primary text-primary-foreground hover:bg-primary/90"
 					>
-						<Link href="/checkout">Proceder al Pago</Link>
+						<Link href="/checkout">Confirmar el pedido</Link>
 					</Button>
 					{/* <p className="text-xs text-center text-muted-foreground mt-4">
 					Envío gratis en todos los pedidos
@@ -80,7 +80,7 @@ export function MobileSummary() {
 							size="lg"
 							className="bg-primary text-primary-foreground hover:bg-primary/90"
 						>
-							<Link href="/checkout">Proceder al Pago</Link>
+							<Link href="/checkout">Confirmar el pedido</Link>
 						</Button>
 					</div>
 				</div>
