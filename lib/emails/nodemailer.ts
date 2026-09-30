@@ -41,12 +41,13 @@ export class Emailer {
 	}
 
 	public async sendCustomerNotification(
+		orderId: number,
 		name: string,
 		email: string,
 		orderSummary: string
 	) {
 		try {
-			await this.sendEmail(customerNotification(name, email, orderSummary));
+			await this.sendEmail(customerNotification(orderId, name, email, orderSummary));
 
 			return { success: true, error: null };
 		} catch (error) {

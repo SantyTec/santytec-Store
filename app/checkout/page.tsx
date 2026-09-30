@@ -58,7 +58,7 @@ export default async function CartPage() {
 							Confirmar Pedido
 						</h1>
 						<p className="text-muted-foreground mb-6">
-							Completa tus datos para finalizar la compra
+							Completa tus datos para confirmar el pedido. Luego nos comunicaremos con vos para coordinar la forma de pago.
 						</p>
 						<CheckoutForm user={data} />
 					</div>

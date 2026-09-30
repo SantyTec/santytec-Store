@@ -393,6 +393,7 @@ export function verificationEmail(
 }
 
 export function customerNotification(
+	orderId: number,
 	name: string,
 	email: string,
 	orderSummary: string
@@ -415,12 +416,13 @@ export function customerNotification(
     <main style="width: calc(100% - 10rem); margin: auto;">
         <section>
           <h1 style="margin-top: 0.5rem; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 600; text-align: center; color: hsl(10, 95%, 70%);">Hola ${name}</h1>
-          <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">¡Gracias por tu compra!</h2>
-          <p style="color: hsl(0, 0%, 80%);">Pedido recibido y en proceso.</p>
+          <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">¡Recibimos tu pedido!</h2>
+          <p style="color: hsl(0, 0%, 80%);">Número de pedido: <b>#${orderId}</b></p>
+          <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">Coordinar forma de pago</h2>
+          <p style="color: hsl(0, 0%, 80%);">Nos vamos a comunicar con vos por teléfono o WhatsApp para coordinar la forma de pago y el envío. Todavía no se realizó ningún cobro.</p>
           <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">Resumen de compra</h2>
           ${orderSummary}
-          <p style="margin-bottom: 0.5rem; color: hsl(0, 0%, 80%);">Nos contactaremos pronto para coordinar más detalles.</p>
-          ${emailSignature}
+                    ${emailSignature}
         </section>
     </main>
 </body>
@@ -465,7 +467,7 @@ export function adminNotification(
 				<p style="color: hsl(0, 0%, 80%);">Teléfono: <b>${phone}</b></p>
          <h2 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: hsl(10, 95%, 60%);">Resumen de orden</h2>
           ${orderSummary}
-				<a style="margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline-solid: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;" href="https://santytec-admin.vercel.app/admin">
+				<a style="margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; outline-solid: none; height: 2.5rem; padding: 0.5rem 1rem; background-color: hsl(58, 98%, 50%); color: hsl(0, 0%, 10%); text-decoration: none;" href="${process.env.ADMIN_URL || 'https://santytec-admin.vercel.app'}/admin">
 					Más Info
 				</a>
 			</section>

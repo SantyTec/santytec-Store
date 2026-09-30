@@ -63,7 +63,7 @@ export default function CheckoutForm({ user }: Props) {
 
 		if (user?.phone) formData.append('phone', user.phone);
 
-		const { success, message, errors } = await checkoutAction(
+		const { success, message, errors, orderId } = await checkoutAction(
 			prevState,
 			formData,
 			items
@@ -81,10 +81,12 @@ export default function CheckoutForm({ user }: Props) {
 			duration: 2500,
 		});
 
-		router.push('/checkout/success');
+		router.push(
+			orderId ? `/checkout/success?order=${orderId}` : '/checkout/success'
+		);
 		removeAll();
 
-		return { message, success };
+		return { message, success, orderId };
 	}
 
 	return (

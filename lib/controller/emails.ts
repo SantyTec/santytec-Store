@@ -10,6 +10,7 @@ export async function sendNotifications(
 	orderSummary: string
 ): Promise<{ success: boolean; message?: string }> {
 	const customerNotificationResult = await emailer.sendCustomerNotification(
+		orderId,
 		name,
 		email,
 		orderSummary
