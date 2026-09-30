@@ -52,10 +52,16 @@ export async function checkoutAction(
 		};
 
 		if (!data?.phone && phone) {
-			await prisma.user.update({
-				where: { id: session.user.id },
-				data: { phone },
-			});
+			// User.phone es único: si otro usuario ya tiene el número, el pedido
+			// se crea igual y simplemente no se guarda el teléfono en el perfil.
+			try {
+				await prisma.user.update({
+					where: { id: session.user.id },
+					data: { phone },
+				});
+			} catch (error) {
+				console.error('[CHECKOUT_SAVE_PHONE_ERROR]', error);
+			}
 		}
 	}
 
@@ -90,5 +96,9 @@ export async function checkoutAction(
 
 	await clearCartFromDB();
 
-	return { message: 'Su orden fue creada éxitosamente', success: true };
+	return {
+		message: 'Su orden fue creada éxitosamente',
+		success: true,
+		orderId,
+	};
 }
